@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Framework.Web.App_Start
-{
+namespace Framework.Web
+{ 
     /// <summary>
     /// 使用[NoLogin]特性时候不需要验证登录
     /// </summary>

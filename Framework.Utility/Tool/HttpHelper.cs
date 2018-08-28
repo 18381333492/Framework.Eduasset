@@ -5,25 +5,32 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using TraceLogs;
 
 namespace Framework.Utility.Tool
 {
     /// <summary>
-    /// 请求的微信接口http的封装
+    /// http请求的封装
     /// </summary>
     public class HttpHelper
     {
 
-        //public static ILogger logger = LoggerManager.Instance.GetSLogger("WeChat");
+        private static ILogger logger = LoggerManager.Instance.GetSLogger("Http");
+
+        /// <summary>
+        /// 接口地址
+        /// </summary>
+        private static readonly string sDomain = ConfigHelper.GetAppSetting("InterfaceAddress");
 
         /// <summary>
         /// Get请求
         /// </summary>
         /// <param name="sUrl">请求的url</param>
         /// <returns></returns>
-        public static string HttpGet(string sUrl)
+        public static string HttpGet(HttpParameter Parameter)
         {
             string sResult = string.Empty;
+            string sUrl = sDomain + Parameter.Serialize();
             try
             {
                 HttpWebRequest webRequest = (System.Net.HttpWebRequest)System.Net.WebRequest.Create(sUrl);
@@ -86,10 +93,10 @@ namespace Framework.Utility.Tool
         /// <param name="sUrl">请求的链接</param>
         /// <param name="PostData">请求的参数</param>
         /// <returns></returns>
-        public static string HttpPost(string sUrl, string PostData)
+        public static string HttpPost(HttpParameter Parameter, string PostData)
         {
-            byte[] bPostData = System.Text.Encoding.UTF8.GetBytes(PostData);
             string sResult = string.Empty;
+            string sUrl = sDomain + Parameter.Serialize();
             try
             {
                 HttpWebRequest webRequest = (System.Net.HttpWebRequest)System.Net.WebRequest.Create(sUrl);
@@ -97,6 +104,7 @@ namespace Framework.Utility.Tool
                 webRequest.Timeout = 30000;
                 webRequest.Method = "POST";
                 webRequest.Headers.Add("Accept-Encoding", "gzip, deflate");
+                byte[] bPostData = System.Text.Encoding.UTF8.GetBytes(PostData);
                 if (bPostData != null)
                 {
                     Stream postDataStream = webRequest.GetRequestStream();
@@ -150,5 +158,37 @@ namespace Framework.Utility.Tool
             logger.Info("返回的结果:" + sResult);
             return sResult;
         }
+    }
+
+    public class HttpParameter
+    {
+        /// <summary>
+        /// 请求的方法名称
+        /// </summary>
+        public string method
+        {
+            get; set;
+        }
+
+        public Dictionary<string, object> ArgsArray
+        {
+            get; set;
+        }
+
+        /// <summary>
+        /// 序列化参数
+        /// </summary>
+        /// <returns></returns>
+        public string Serialize()
+        {
+            StringBuilder sArgsStr = new StringBuilder();
+            sArgsStr.AppendFormat("?method={0}", this.method);
+            foreach (var key in ArgsArray.Keys)
+            {
+                sArgsStr.AppendFormat("&{0}={1}", key, ArgsArray[key]);
+            }
+            return sArgsStr.ToString();
+        }
+
     }
 }

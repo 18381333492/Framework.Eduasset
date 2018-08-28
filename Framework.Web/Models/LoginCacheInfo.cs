@@ -24,7 +24,7 @@ namespace Framework.Web
         /// <summary>
         /// 角色类型
         /// </summary>
-        public int RoleType { get; set; }
+        public RoleType RoleType { get; set; }
 
         /// <summary>
         /// 学校编码
@@ -35,5 +35,10 @@ namespace Framework.Web
         /// 学校名称
         /// </summary>
         public string OrgName { get; set; }
+
+        /// <summary>
+        /// 用户密码
+        /// </summary>
+        public string Password { get; set; }
     }
 }
