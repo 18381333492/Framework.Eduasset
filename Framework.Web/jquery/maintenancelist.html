@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <!--x5屏幕模式-->
+    <meta name="x5-page-mode" content="app" />
+    <!--input被点击时半透明灰色背景-->
+    <title>login</title>
+    <!-- head 中 -->
+
+    <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm.min.css">
+    <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm-extend.min.css">
+</head>
+<style>
+    .bar{
+        background:-moz-linear-gradient(left,#2e8cbf,#3fbfe6);/*Mozilla*/
+        background:-webkit-gradient(linear,0 50%,100% 50%,from(#2e8cbf),to(#3fbfe6));/*Old gradient for webkit*/
+        background:-webkit-linear-gradient(left,#2e8cbf,#3fbfe6);/*new gradient for Webkit*/
+        background:-o-linear-gradient(left,#2e8cbf,#3fbfe6); /*Opera11*/
+        color: white;
+    }
+    .bar-nav img{
+        width: 15px;
+        position: relative;
+        margin-right: 8px;
+        top:1px;
+    }
+    .bar-nav a{
+        color: white;
+        line-height: 2.2rem;
+    }
+    .content-block{
+        margin-top:0rem;
+        padding: 0;
+    }
+
+    .card{
+        padding:5px 0;
+        box-shadow: none;
+        margin: 0;
+    }
+    .card:nth-child(2n){
+        background-color: #f8f8f8;
+    }
+    .card-header{
+        border: 0;
+    }
+    .card-footer:before{
+        background:none;
+    }
+    .card-header:after{
+        background:none;
+    }
+    .card-footer, .card-header{
+        min-height: initial;
+        padding: .1rem .75rem;
+    }
+    .search_time{
+        background:-moz-linear-gradient(left,#2e8cbf,#3fbfe6);/*Mozilla*/
+        background:-webkit-gradient(linear,0 50%,100% 50%,from(#2e8cbf),to(#3fbfe6));/*Old gradient for webkit*/
+        background:-webkit-linear-gradient(left,#2e8cbf,#3fbfe6);/*new gradient for Webkit*/
+        background:-o-linear-gradient(left,#2e8cbf,#3fbfe6); /*Opera11*/
+        color: white;
+        height: 2.2rem;
+        line-height: 2.2rem;
+        padding-left: .5rem;
+        }
+    .search_time img{
+        width: 15px;
+        position: relative;
+        margin-right: 8px;
+        top:1px;
+    }
+    .search_time a{
+        color: white;
+    }
+    .footter{
+        background:-moz-linear-gradient(left,#2e8cbf,#3fbfe6);/*Mozilla*/
+        background:-webkit-gradient(linear,0 50%,100% 50%,from(#2e8cbf),to(#3fbfe6));/*Old gradient for webkit*/
+        background:-webkit-linear-gradient(left,#2e8cbf,#3fbfe6);/*new gradient for Webkit*/
+        background:-o-linear-gradient(left,#2e8cbf,#3fbfe6); /*Opera11*/
+        text-align: center;
+        color: white;
+        height: 2.2rem;
+        line-height: 2.2rem;
+        position: fixed;
+        width: 100%;
+        bottom: 0;
+    }
+    .footter img{
+        width: 15px;
+        margin-right: 10px;
+    }
+    .footter a{
+        color: white;
+    }
+</style>
+<body >
+<div class="page-group">
+    <!-- 单个page ,第一个.page默认被展示-->
+    <div class="page">
+        <!--<header class="bar bar-nav">-->
+        <header class="bar bar-nav">
+            <img src="img/list_icon.png" /><a>进行中保修单</a>
+        </header>
+        <!-- 这里是页面内容区 -->
+        <div class="content">
+            <div class="content-block">
+                <div class="list">
+                    <div class="card">
+                        <div class="card-header">今天 15:20<img src="img/time_icon.png" height="20" width="20"/></div>
+                        <div class="card-footer">
+                            <span>投影仪不能开机</span>
+                            <span>成都十五中学</span>
+                            <span>等待响应</span>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">今天 15:20<img src="img/timeing_icon.png" height="20" width="20"/></div>
+                        <div class="card-footer">
+                            <span>投影仪不能开机</span>
+                            <span>成都十五中学</span>
+                            <span>执行中</span>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">今天 15:20<img src="img/timeing_icon.png" height="20" width="20"/></div>
+                        <div class="card-footer">
+                            <span>投影仪不能开机</span>
+                            <span>成都十五中学</span>
+                            <span>等待响应</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="search_time">
+                    <img src="img/end_icon.png"/><a>已结束保修单</a>
+                </div>
+                <div class="list">
+                    <div class="card">
+                        <div class="card-header">今天 15:20<img src="img/time_icon.png" height="20" width="20"/></div>
+                        <div class="card-footer">
+                            <span>投影仪不能开机</span>
+                            <span>成都十五中学</span>
+                            <span>等待响应</span>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">今天 15:20<img src="img/timeing_icon.png" height="20" width="20"/></div>
+                        <div class="card-footer">
+                            <span>投影仪不能开机</span>
+                            <span>成都十五中学</span>
+                            <span>执行中</span>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">今天 15:20<img src="img/timeing_icon.png" height="20" width="20"/></div>
+                        <div class="card-footer">
+                            <span>投影仪不能开机</span>
+                            <span>成都十五中学</span>
+                            <span>等待响应</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="footter">
+                   <a href="addlist.html"><img src="img/add_icon.png"/>新建保修单</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
+<script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
+<script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm-extend.min.js' charset='utf-8'></script>
+<!--<script src="js/pubilc.js"></script>-->
+<script>
+
+</script>
+</body>
+</html>

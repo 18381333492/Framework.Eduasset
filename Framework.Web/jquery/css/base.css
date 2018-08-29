@@ -1,0 +1,108 @@
+.xxred {
+    border: 1px solid red !important;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    width: 100%;
+    height: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    min-height: 100%;
+    font-size: 12px;
+    /*padding-bottom: 0.46rem;*/
+    color: #333;
+    background: #fff;
+}
+
+::-webkit-search-cancel-button{
+    display: none;
+}
+
+/*//去除ul,ol默认样式*/
+ol, ul {
+      list-style: none;
+  }
+
+/*//默认去掉button,input的外边框*/
+button, input {
+      outline: none;
+      border: none;
+  }
+
+/*//去除h标签默认样式*/
+  h1, h2, h3, h4, h5, h6 {
+      font-size: inherit;
+      font-weight: normal;
+  }
+
+/*//去除a标签默认样式*/
+  a:hover, a:visited, a:link, a:active {
+      text-decoration: none;
+  }
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+img {
+    outline: 0;
+    border: 0;
+}
+
+.fl {
+    float: left;
+}
+
+.fr {
+    float: right;
+}
+
+/*清除浮动*/
+.clear::after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 0;
+    visibility: hidden;
+    clear: both;
+}
+
+/*隐藏掉我们模型的checkbox*/
+.my_protocol{
+    float: left;
+    margin-left: 10%;
+    margin-top: 20px;
+    color: white;
+    font-size: .14rem;
+    margin-bottom: 20px;
+}
+.my_protocol .input_agreement_protocol {
+    appearance: none;
+    -webkit-appearance: none;
+    outline: none;
+    display: none;
+}
+/*未选中时*/
+.my_protocol .input_agreement_protocol+span {
+    width: 16px;
+    height: 16px;
+    background-color: red;
+    display: inline-block;
+    background: url(../img/icon_checkbox.png) no-repeat;
+    background-position-x: 0px;
+    background-position-y: -25px;
+    position: relative;
+    top: 3px;
+}
+/*选中checkbox时,修改背景图片的位置*/
+.my_protocol .input_agreement_protocol:checked+span {
+    background-position: 0 0px
+}
+
+

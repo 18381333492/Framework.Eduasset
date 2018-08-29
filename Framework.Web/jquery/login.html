@@ -1,0 +1,117 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <!--x5屏幕模式-->
+    <meta name="x5-page-mode" content="app" />
+    <!--input被点击时半透明灰色背景-->
+    <title>login</title>
+    <link href="css/base.css" rel="stylesheet">
+    <!-- head 中 -->
+    <link rel="stylesheet" href="css/weui.min.css">
+</head>
+<body>
+    <div class="login_bg">
+        <div class="center">
+            <p class="title">数学资产管理云平台</p>
+            <p class="Etitle">Teaching Asset Manage</p>
+            <div class="code_input">
+                <div class="codepass">
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd">
+                            <label class="weui-label">
+                                <img src="img/user_icon.png" />
+                            </label>
+                        </div>
+                        <div class="weui-cell__bd">
+                            <input class="weui-input"  placeholder="请输入账号">
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd">
+                            <label class="weui-label">
+                                <img src="img/pass_icon.png" />
+                            </label>
+                        </div>
+                        <div class="weui-cell__bd">
+                            <input class="weui-input"  placeholder="请输入账号">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <label class="my_protocol clear">
+                <input class="input_agreement_protocol" type="checkbox" />
+                <span></span>
+                <span>记住密码</span>
+            </label>
+            <a  class="weui-btn weui-btn_primary login_btn">提交</a>
+        </div>
+    </div>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery-weui.min.js"></script>
+    <script src="js/pubilc.js"></script>
+
+</body>
+
+<style  lang="scss">
+    .login_bg{
+        background: url('img/login_bg.png');
+        width: 100%;
+        height:100vh;
+        background-size: cover;
+    }
+    .center{
+        /*color: white;*/
+        text-align: center;
+        padding-top: 75%;
+    }
+    .title{
+        font-size: .23rem;
+        color: white;
+    }
+    .Etitle{
+        color: white;
+        margin-bottom: 15px;
+        font-size: .14rem;
+        margin-top:5px;
+    }
+    .code_input{
+        background-color: white;
+        margin:  0 10%;
+        padding: 10px;
+        border-radius: 5px;
+    }
+    .code_input input{
+        border: none;
+        font-size: .15rem;
+    }
+    .weui-label img{
+        width: 15px;
+        height: auto;
+        position: relative;
+        top:2px
+    }
+    .weui-label{
+        width: 50px;
+    }
+    .weui-cell{
+        padding: 8px 5px;
+    }
+    .login_btn{
+        background-color: #5ec4ef;
+        width: 80%;
+        margin-left: 10%;
+        margin-top: 40px;
+        font-size: .16rem;
+    }
+    .login_btn:active{
+        background-color: #43a7d2!important;
+        width: 80%;
+        margin-left: 10%;
+        margin-top: 40px;
+    }
+
+
+</style>
+</html>
