@@ -7,8 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 using TraceLogs;
 
-namespace Framework.Utility.Tool
-{
+namespace Framework.Utility
+{ 
     /// <summary>
     /// http请求的封装
     /// </summary>
@@ -27,15 +27,16 @@ namespace Framework.Utility.Tool
         /// </summary>
         /// <param name="sUrl">请求的url</param>
         /// <returns></returns>
-        public static string HttpGet(HttpParameter Parameter)
+        public static HttpResult HttpGet(HttpParameter Parameter)
         {
+            HttpResult Respone = new HttpResult();
             string sResult = string.Empty;
             string sUrl = sDomain + Parameter.Serialize();
             try
             {
                 HttpWebRequest webRequest = (System.Net.HttpWebRequest)System.Net.WebRequest.Create(sUrl);
                 webRequest.ProtocolVersion = HttpVersion.Version10;
-                webRequest.Timeout = 30000;
+                webRequest.Timeout = 3000;
                 webRequest.Method = WebRequestMethods.Http.Get;
                 webRequest.Headers.Add("Accept-Encoding", "gzip, deflate");
 
@@ -76,6 +77,7 @@ namespace Framework.Utility.Tool
                         }
                     }
                 }
+                Respone = JsonHelper.Deserialize<HttpResult>(sResult);
             }
             catch (Exception ex)
             {
@@ -83,8 +85,8 @@ namespace Framework.Utility.Tool
                 logger.Fatal(ex);
             }
             logger.Info("请求的Url:" + sUrl);
-            logger.Info("返回的结果:" + sResult);
-            return sResult;
+            logger.Info("返回的结果:" + sResult);  
+            return Respone;
         }
 
         /// <summary>
@@ -101,7 +103,7 @@ namespace Framework.Utility.Tool
             {
                 HttpWebRequest webRequest = (System.Net.HttpWebRequest)System.Net.WebRequest.Create(sUrl);
                 webRequest.ProtocolVersion = HttpVersion.Version10;
-                webRequest.Timeout = 30000;
+                webRequest.Timeout = 3000;
                 webRequest.Method = "POST";
                 webRequest.Headers.Add("Accept-Encoding", "gzip, deflate");
                 byte[] bPostData = System.Text.Encoding.UTF8.GetBytes(PostData);
@@ -165,16 +167,13 @@ namespace Framework.Utility.Tool
         /// <summary>
         /// 请求的方法名称
         /// </summary>
-        public string method
-        {
-            get; set;
-        }
+        public string method;
 
-        public Dictionary<string, object> ArgsArray
-        {
-            get; set;
-        }
-
+        /// <summary>
+        /// 参数集合
+        /// </summary>
+        public Dictionary<string, object> ArgsArray = new Dictionary<string, object>();
+      
         /// <summary>
         /// 序列化参数
         /// </summary>
@@ -190,5 +189,33 @@ namespace Framework.Utility.Tool
             return sArgsStr.ToString();
         }
 
+    }
+
+
+    public class HttpResult
+    {
+        /// <summary>
+        /// 返回的数据结果
+        /// </summary>
+        public object Data
+        {
+            get;set;
+        }
+
+        /// <summary>
+        /// 0代表失败，1代表成功
+        /// </summary>
+        public int Code
+        {
+            get; set;
+        } = 0;
+
+        /// <summary>
+        /// 消息字符串
+        /// </summary>
+        public string Msg
+        {
+            get;set;
+        }
     }
 }

@@ -26,6 +26,22 @@ namespace Framework.Web.Controllers
             }
             else
             {
+                Parameter.method = "Login";
+                Parameter.ArgsArray.Add("userName", userName);
+                Parameter.ArgsArray.Add("psd", psd);
+                var respone=HttpHelper.HttpGet(Parameter);
+                if (respone.Code == 1)
+                {//登录成功
+                    LoginStatus = JsonHelper.Deserialize<LoginCacheInfo>(JsonHelper.ToJsonString(respone.Data));
+                    LoginStatus.Password = psd;
+                    //缓存用户信息
+                    Session[SessionKey] = LoginStatus;
+                    result.success = true;
+                }
+                else
+                {
+                    result.info = respone.Msg;
+                }
                 return Json(result);
             }
         }

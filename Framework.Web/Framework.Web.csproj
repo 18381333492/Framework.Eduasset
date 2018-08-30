@@ -141,14 +141,47 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\img\add_icon.png" />
+    <Content Include="Content\img\bottom_icon.png" />
+    <Content Include="Content\img\bottom_icon1.png" />
+    <Content Include="Content\img\bottom_icon2.png" />
+    <Content Include="Content\img\end_icon.png" />
+    <Content Include="Content\img\icon_checkbox.png" />
+    <Content Include="Content\img\list_icon.png" />
+    <Content Include="Content\img\login_bg.png" />
+    <Content Include="Content\img\pass_icon.png" />
+    <Content Include="Content\img\tijiao_icon.png" />
+    <Content Include="Content\img\timeing_icon.png" />
+    <Content Include="Content\img\time_icon.png" />
+    <Content Include="Content\img\user_icon.png" />
+    <Content Include="Content\img\头部_返回按钮.png" />
+    <Content Include="Content\img\底部切换按钮_历史任务.png" />
+    <Content Include="Content\img\底部切换按钮_审批.png" />
+    <Content Include="Content\img\底部切换按钮_我的任务.png" />
+    <Content Include="Content\img\底部切换按钮_报修单.png" />
+    <Content Include="Content\img\底部切换按钮_统计报表.png" />
+    <Content Include="Content\img\底部切换按钮_维修工单.png" />
+    <Content Include="Content\img\底部单独按钮_响应.png" />
+    <Content Include="Content\img\底部单独按钮_审批.png" />
+    <Content Include="Content\img\底部单独按钮_撤回.png" />
+    <Content Include="Content\img\底部单独按钮_新建.png" />
+    <Content Include="Content\img\搜索框_下拉菜单.png" />
+    <Content Include="Content\img\搜索框_放大镜.png" />
+    <Content Include="Content\img\搜索框_日历.png" />
+    <Content Include="Content\img\维修状态_结束.png" />
+    <Content Include="Content\img\表单内_下拉菜单.png" />
+    <Content Include="Content\img\表单内_删除.png" />
+    <Content Include="Content\img\表单内_增加抄送.png" />
+    <Content Include="Content\img\表单内_新增图片.png" />
+    <Content Include="Content\img\表单内_日历.png" />
     <Content Include="index.html" />
     <Content Include="jquery\.idea\misc.xml" />
     <Content Include="jquery\.idea\modules.xml" />
     <Content Include="jquery\.idea\workspace.xml" />
     <Content Include="jquery\addlist.html" />
-    <Content Include="jquery\css\base.css" />
+    <Content Include="Content\css\base.css" />
     <Content Include="jquery\css\jquery-weui.min.css" />
-    <Content Include="jquery\css\weui.min.css" />
+    <Content Include="Content\css\weui.min.css" />
     <Content Include="jquery\img\add_icon.png" />
     <Content Include="jquery\img\bottom_icon.png" />
     <Content Include="jquery\img\bottom_icon1.png" />
@@ -184,7 +217,8 @@
     <Content Include="jquery\img\表单内_日历.png" />
     <Content Include="jquery\js\jquery-weui.min.js" />
     <Content Include="jquery\js\jquery.min.js" />
-    <Content Include="jquery\js\pubilc.js" />
+    <Content Include="Scripts\jquery.min.js" />
+    <Content Include="Scripts\pubilc.js" />
     <Content Include="jquery\login.html" />
     <Content Include="jquery\maintenancelist.html" />
     <Content Include="jquery\Repair.html" />
@@ -193,6 +227,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Scripts\common.client.js" />
+    <None Include="Scripts\_references.js" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
@@ -200,9 +235,9 @@
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="jquery\.idea\jquery.iml" />
     <Content Include="Views\User\Login.cshtml" />
+    <Content Include="Views\Shared\_Login.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -211,13 +246,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\Site.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Scripts\jquery-1.10.2.js" />
-    <Content Include="Scripts\jquery-1.10.2.min.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
