@@ -111,35 +111,40 @@
 </body>
 <script type="text/javascript">
     $(function () {
-        var userInfo = client.localStorage.getStorage("userinfo");
-        if (userInfo) {
-            $('input[name=userName]').val(userInfo.userName);     
-            if (userInfo.psd) {
-                $('input[name=psd]').val(userInfo.psd);
-                $('input[name=rember]').prop("checked", true);
+        try {
+            var userInfo = client.localStorage.getStorage("userinfo");
+            if (userInfo) {
+                $('input[name=userName]').val(userInfo.userName);
+                if (userInfo.psd) {
+                    $('input[name=psd]').val(userInfo.psd);
+                    $('input[name=rember]').prop("checked", true);
+                }
             }
-        }
-        //绑定登录事件
-        $('.login_btn').on("click", function () {
-            var userName = $.trim($('input[name=userName]').val());
-            var psd = $.trim($('input[name=psd]').val());
-            //是否记住密码
-            var rember = $('input[name=rember]').prop("checked");
-            client.ajax.postRequest("/User/Login", { userName: userName, psd: psd }, function (r) {
-                if (rember) {
-                    //需要记住密码
-                    client.localStorage.setStorage("userinfo",{ userName: userName, psd: psd });
-                }
-                else {
-                    client.localStorage.setStorage("userinfo",{ userName: userName, psd: null });
-                }
-                if (r.data == 2) {
-                    location.href = "/Form/Teacher";
-                }
-                //alert("登录成功");
-            });      
-        });
+            //绑定登录事件
+            $('.login_btn').on("click", function () {
+                var userName = $.trim($('input[name=userName]').val());
+                var psd = $.trim($('input[name=psd]').val());
+                //是否记住密码
+                var rember = $('input[name=rember]').prop("checked");
+                client.ajax.postRequest("/User/Login", { userName: userName, psd: psd }, function (r) {
+                    if (rember) {
+                        //需要记住密码
+                        client.localStorage.setStorage("userinfo", { userName: userName, psd: psd });
+                    }
+                    else {
+                        client.localStorage.setStorage("userinfo", { userName: userName, psd: null });
+                    }
+                    if (r.data == 2) {
+                        location.href = "/Form/Teacher";
+                    }
+                    //alert("登录成功");
+                });
+            });
 
+        } catch (e) {
+            alert(e.message)
+        }
+      
     });
 </script>
 

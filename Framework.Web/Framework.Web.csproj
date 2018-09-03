@@ -231,6 +231,7 @@
     <Content Include="jquery\js\jquery-weui.min.js" />
     <Content Include="jquery\js\jquery.min.js" />
     <Content Include="jquery\maintenancelist1.html" />
+    <Content Include="Scripts\jweixin-1.2.0.js" />
     <Content Include="Scripts\slidepage.js" />
     <Content Include="Scripts\jquery.min.js" />
     <Content Include="Scripts\pubilc.js" />
@@ -247,6 +248,7 @@
     <Content Include="iconfont\iconfont.woff" />
     <None Include="Scripts\_references.js" />
     <Content Include="Scripts\template-web.js" />
+    <Content Include="Scripts\wxhelper.js" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
@@ -280,6 +282,7 @@
     <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Controllers\FormController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Controllers\WeChatController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -294,11 +297,16 @@
     <Folder Include="App_Data\" />
     <Folder Include="jquery\.idea\inspectionProfiles\" />
     <Folder Include="Views\Default\" />
+    <Folder Include="Views\WeChat\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Framework.Utility\Framework.Utility.csproj">
       <Project>{5FAD1D8D-0E3F-4074-B821-5EA27FF6EC1F}</Project>
       <Name>Framework.Utility</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Framework.WeChat\Framework.WeChat.csproj">
+      <Project>{958A4EA7-35EA-4EBD-BB75-B81F659B6754}</Project>
+      <Name>Framework.WeChat</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

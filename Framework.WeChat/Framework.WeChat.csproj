@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{958A4EA7-35EA-4EBD-BB75-B81F659B6754}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Framework.WeChat</RootNamespace>
+    <AssemblyName>Framework.WeChat</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="ThoughtWorks.QRCode, Version=1.0.4778.30637, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ThoughtWorks.QRCode.1.1.0\lib\ThoughtWorks.QRCode.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="TraceLogs">
+      <HintPath>..\Framework.Utility\Dll\TraceLogs.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CreateAutoMenu\CreateAutoMenuRespone.cs" />
+    <Compile Include="CreateAutoMenu\CreateAutoMenuModel.cs" />
+    <Compile Include="CreateAutoMenu\CreateAutoMenuRequest.cs" />
+    <Compile Include="GetAccessToken\GetAccessTokenModel.cs" />
+    <Compile Include="GetAccessToken\GetAccessTokenRequest.cs" />
+    <Compile Include="GetAccessToken\GetAccessTokenRespone.cs" />
+    <Compile Include="GetJsApiAccessToken\GetJsApiAccessTokenModel.cs" />
+    <Compile Include="GetJsApiAccessToken\GetJsApiAccessTokenRequest.cs" />
+    <Compile Include="GetJsApiAccessToken\GetJsApiAccessTokenRespone.cs" />
+    <Compile Include="GetOpenIdByPageAuthorize\GetOpenIdByPageAuthorizeModel.cs" />
+    <Compile Include="GetOpenIdByPageAuthorize\GetOpenIdByPageAuthorizeRequest.cs" />
+    <Compile Include="GetOpenIdByPageAuthorize\GetOpenIdByPageAuthorizeRespone.cs" />
+    <Compile Include="GetWeChatUserInfoByPageAuthorize\GetWeChatUserInfoByPageAuthorizeModel.cs" />
+    <Compile Include="GetWeChatUserInfoByPageAuthorize\GetWeChatUserInfoByPageAuthorizeRequest.cs" />
+    <Compile Include="GetWeChatUserInfoByPageAuthorize\GetWeChatUserInfoByPageAuthorizeRespone.cs" />
+    <Compile Include="GetWeChatUserInfo\GetWeChatUserInfoModel.cs" />
+    <Compile Include="GetWeChatUserInfo\GetWeChatUserInfoRequest.cs" />
+    <Compile Include="GetWeChatUserInfo\GetWeChatUserInfoRespone.cs" />
+    <Compile Include="Tool\WeChatHelper.cs" />
+    <Compile Include="Tool\XmlHelper.cs" />
+    <Compile Include="WeChatMessage\Action\ActioningRequest.cs" />
+    <Compile Include="WeChatMessage\Action\ActioningRespone.cs" />
+    <Compile Include="WeChatMessage\Action\IAction.cs" />
+    <Compile Include="WeChatMessage\Attribute\CDATAAttribute.cs" />
+    <Compile Include="WeChatMessage\Model\IRMessage.cs" />
+    <Compile Include="WeChatMessage\Enums\MsgType.cs" />
+    <Compile Include="WeChatMessage\Enums\EventType.cs" />
+    <Compile Include="WeChatMessage\EventModel\LocationEvent.cs" />
+    <Compile Include="WeChatMessage\EventModel\ClickEvent.cs" />
+    <Compile Include="WeChatMessage\MessageModel\ImageMessage.cs" />
+    <Compile Include="WeChatMessage\MessageModel\LinkMessage.cs" />
+    <Compile Include="WeChatMessage\MessageModel\LocationMessage.cs" />
+    <Compile Include="WeChatMessage\MessageModel\TextMessage.cs" />
+    <Compile Include="WeChatMessage\MessageModel\VideoMessage.cs" />
+    <Compile Include="WeChatMessage\MessageModel\VoiceMessage.cs" />
+    <Compile Include="WeChatMessage\EventModel\SubscribeEvent.cs" />
+    <Compile Include="WeChatMessage\EventModel\UnSubscribeEvent.cs" />
+    <Compile Include="WeChatMessage\EventModel\ViewEvent.cs" />
+    <Compile Include="WeChatMessage\Model\ISMessage.cs" />
+    <Compile Include="WeChatMessage\ResponeModel\item.cs" />
+    <Compile Include="WeChatMessage\ResponeModel\NewsRespone.cs" />
+    <Compile Include="WeChatMessage\ResponeModel\TextRespone.cs" />
+    <Compile Include="WeChatPay\WeChatPayBase\WeChatPayType.cs" />
+    <Compile Include="WeChatPay\WeChatPayBase\IWeChatPayRequest.cs" />
+    <Compile Include="WeChatPay\WeChatPayBase\WeChatPayHelper.cs" />
+    <Compile Include="WeChatPay\WeChatPayByEnterprise\WeChatPayByEnterpriseModel.cs" />
+    <Compile Include="WeChatPay\WeChatPayByEnterprise\WeChatPayByEnterpriseRequest.cs" />
+    <Compile Include="WeChatPay\WeChatPayByEnterprise\WeChatPayByEnterpriseRespone.cs" />
+    <Compile Include="WeChatPay\WeChatPayByJs\WeChatPayByJsModel.cs" />
+    <Compile Include="WeChatPay\WeChatPayByJs\WeChatPayByJsRequest.cs" />
+    <Compile Include="WeChatPay\WeChatPayByJs\WeChatPayByJsRespone.cs" />
+    <Compile Include="WeChatPay\WeChatPayByScan\WeChatPayByScanRespone.cs" />
+    <Compile Include="WeChatPay\WeChatPayByScan\WeChatPayByScanModel.cs" />
+    <Compile Include="WeChatPay\WeChatPayByScan\WeChatPayByScanRequest.cs" />
+    <Compile Include="WeChatPay\WeChatPayBase\WeChatPayModel.cs" />
+    <Compile Include="WeChatPay\WeChatPayBase\WeChatPayRespone.cs" />
+    <Compile Include="WeChatPay\WeChatPayQuery\WeChatPayQueryModel.cs" />
+    <Compile Include="WeChatPay\WeChatPayQuery\WeChatPayQueryRequest.cs" />
+    <Compile Include="WeChatPay\WeChatPayQuery\WeChatPayQueryRespone.cs" />
+    <Compile Include="WeChatPay\WeChatPayRefund\WeChatPayRefundRequest.cs" />
+    <Compile Include="WeChatPay\WeChatPayRefund\WeChatPayRefundRespone.cs" />
+    <Compile Include="WeChatPay\WeChatPayRefund\WeChatPayRefundModel.cs" />
+    <Compile Include="WeChat\IWeChatRequest.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SendTemplateInfo\SendTemplateInfoModel.cs" />
+    <Compile Include="SendTemplateInfo\SendTemplateInfoRequest.cs" />
+    <Compile Include="SendTemplateInfo\SendTemplateInfoRespone.cs" />
+    <Compile Include="Tool\WeChatHttpHelper.cs" />
+    <Compile Include="WeChat\WeChatModel.cs" />
+    <Compile Include="WeChat\WeChatRequest.cs" />
+    <Compile Include="WeChat\WeChatRespone.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Framework.Utility\Framework.Utility.csproj">
+      <Project>{4b049747-077e-4f53-af22-f828d8afe291}</Project>
+      <Name>Framework.Utility</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
