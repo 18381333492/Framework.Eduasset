@@ -133,7 +133,10 @@
                 else {
                     client.localStorage.setStorage("userinfo",{ userName: userName, psd: null });
                 }
-                alert("登录成功");
+                if (r.data == 2) {
+                    location.href = "/Form/Teacher";
+                }
+                //alert("登录成功");
             });      
         });
 

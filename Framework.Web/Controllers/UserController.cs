@@ -37,6 +37,7 @@ namespace Framework.Web.Controllers
                     //缓存用户信息
                     Session[SessionKey] = LoginStatus;
                     result.success = true;
+                    result.data =(int)LoginStatus.RoleType;
                 }
                 else
                 {

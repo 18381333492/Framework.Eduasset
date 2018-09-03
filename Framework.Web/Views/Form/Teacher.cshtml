@@ -1,0 +1,342 @@
+﻿
+@{
+    ViewBag.Title = "保修首页";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .bar-tab .tab-item .icon ~ .tab-label {
+        color: white;
+    }
+
+    .icon-home:before {
+        content: none;
+    }
+
+    .buttons-row .button.active {
+        background: -moz-linear-gradient(left, #2e8cbf, #3fbfe6); /*Mozilla*/
+        background: -webkit-gradient(linear, 0 50%, 100% 50%, from(#2e8cbf), to(#3fbfe6)); /*Old gradient for webkit*/
+        background: -webkit-linear-gradient(left, #2e8cbf, #3fbfe6); /*new gradient for Webkit*/
+        background: -o-linear-gradient(left, #2e8cbf, #3fbfe6); /*Opera11*/
+        border: none;
+        border-radius: 0;
+    }
+
+    .buttons-row .button {
+        background: -moz-linear-gradient(left, white, #ededed); /*Mozilla*/
+        background: -webkit-gradient(linear, 0 50%, 100% 50%, from(#fff), to(#ededed)); /*Old gradient for webkit*/
+        background: -webkit-linear-gradient(left, #fff, #ededed); /*new gradient for Webkit*/
+        background: -o-linear-gradient(left, #fff, #ededed); /*Opera11*/
+        border: none;
+        color: #333;
+    }
+
+    .buttons-row .button {
+        height: 2.2rem;
+        line-height: 2.2rem;
+    }
+
+    .content-block {
+        margin-top: 2.9rem;
+        padding: 0;
+    }
+
+    .select_box {
+        float: left;
+        width: 35%;
+        border: 1px solid #b4b4b4;
+        border-radius: .25rem;
+        height: 1.4rem;
+        line-height: 1.4rem;
+        margin-left: 5px;
+        padding: 0 2px;
+        font-size: .14rem;
+        background-color: #f8f8f8;
+    }
+
+    .search_box {
+        width: 27%;
+        float: left;
+        font-size: .14rem;
+    }
+
+    .search-input input {
+        background-color: #f8f8f8;
+        font-size: .14rem;
+    }
+
+    .see_box {
+        display: inline-block;
+        font-size: .14rem;
+        margin-left: 5px;
+        background-color: #288bc3;
+        color: white;
+        padding: 0 0.7rem;
+    }
+
+    .title_box {
+        margin: 0px 5px 15px 5px;
+    }
+
+    .card {
+        padding: 5px 0;
+        box-shadow: none;
+        margin: 0;
+    }
+
+        .card:nth-child(2n) {
+            background-color: #f8f8f8;
+        }
+
+    .card-header {
+        border: 0;
+    }
+
+    .card-footer:before {
+        background: none;
+    }
+
+    .card-header:after {
+        background: none;
+    }
+
+    .card-footer, .card-header {
+        min-height: initial;
+        padding: .1rem .75rem;
+    }
+
+    .list {
+        margin:3rem 0
+    }
+
+    .bar {
+        background: -moz-linear-gradient(left, #2e8cbf, #3fbfe6); /*Mozilla*/
+        background: -webkit-gradient(linear, 0 50%, 100% 50%, from(#2e8cbf), to(#3fbfe6)); /*Old gradient for webkit*/
+        background: -webkit-linear-gradient(left, #2e8cbf, #3fbfe6); /*new gradient for Webkit*/
+        background: -o-linear-gradient(left, #2e8cbf, #3fbfe6); /*Opera11*/
+        color: white;
+    }
+
+    .bar-nav img {
+        width: 15px;
+        position: relative;
+        margin-right: 8px;
+        top: 1px;
+    }
+
+    .bar-nav a {
+        color: white;
+        line-height: 2.2rem;
+    }
+
+    .content-block {
+        margin-top: 0rem;
+        padding: 0;
+    }
+
+    .card {
+        padding: 5px 0;
+        box-shadow: none;
+        margin: 0;
+    }
+
+    .card:nth-child(2n) {
+        background-color: #f8f8f8;
+    }
+
+    .card-header {
+        border: 0;
+    }
+
+    .card-footer:before {
+        background: none;
+    }
+
+    .card-header:after {
+        background: none;
+    }
+
+    .card-footer, .card-header {
+        min-height: initial;
+        padding: .1rem .75rem;
+    }
+
+    .search_time img {
+        width: 15px;
+        position: relative;
+        margin-right: 8px;
+        top: 1px;
+    }
+
+    .search_time a {
+        color: white;
+    }
+
+    .footter {
+        background: -moz-linear-gradient(left, #2e8cbf, #3fbfe6); /*Mozilla*/
+        background: -webkit-gradient(linear, 0 50%, 100% 50%, from(#2e8cbf), to(#3fbfe6)); /*Old gradient for webkit*/
+        background: -webkit-linear-gradient(left, #2e8cbf, #3fbfe6); /*new gradient for Webkit*/
+        background: -o-linear-gradient(left, #2e8cbf, #3fbfe6); /*Opera11*/
+        text-align: center;
+        color: white;
+        height: 2.2rem;
+        line-height: 2.2rem;
+        position: fixed;
+        width: 100%;
+        bottom: 0;
+    }
+
+        .footter img {
+            width: 15px;
+            margin-right: 10px;
+        }
+
+        .footter a {
+            color: white;
+        }
+
+    .hide {
+        display: none;
+    }
+    .buttons-row, .buttons-tab {
+            flex-wrap: nowrap;
+            top: 0;
+            width: 100%;
+            position: fixed;
+            height: .44rem;
+            z-index: 3;
+      
+    }
+        .buttons-row .button:first-child {
+            border-left-width: 0px;
+                border-left-style: solid;
+                border-radius:0
+        }
+
+</style>
+<body style="overflow:auto">
+        <!-- 单个page ,第一个.page默认被展示-->
+<div class="buttons-row clear">
+    <a class="tab-link button active">进行中保修单</a>
+    <a class="tab-link button">已结束保修单</a>
+</div>
+<!--</header>-->
+<!-- 这里是页面内容区 -->
+    <!--进行中保单-->
+    <div class="content_list list forming">
+        <div style="text-align:center;display:none" class="no_tip">
+             <i style="font-size:20px;" class="iconfont icon-wushuju"></i><span></span>
+        </div>
+    </div>
+    <!--已经结束保单-->
+    <div class="content_list list hide">
+        <div class="title_box">
+            <div class="big_select_box">
+                <input type="text" id="startDate" class="select_box" />
+                <span style="float: left;margin-left: 5px">-</span>
+                <input type="text" id="endDate" class="select_box" />
+            </div>
+            <a class="button see_box">查询</a>
+        </div>
+        <!--已经结束保单-->
+        <div class="formend">
+            <div style="text-align:center;display:none" class="no_tip">
+                <i style="font-size:20px;" class="iconfont icon-wushuju"></i><span></span>
+            </div>
+        </div>
+       </div>
+        <div class="footter">
+            <a href="addlist.html"><img src="~/Content/img/add_icon.png" />新建保修单</a>
+        </div>
+</body>
+<script id="formingList" type="text/html">
+    {{each list item index}}
+        <div class="card">
+            <div class="card-header">{{item.FaultDate}}<img src="~/Content/img/timeing_icon.png" height="20" width="20" /></div>
+            <div class="card-footer">
+                <span>{{item.FaultName}}</span>
+                <span>{{item.OrgName}}</span>
+                <span>执行中</span>
+            </div>
+        </div>
+    {{/each}}
+</script>
+<script id="formendList" type="text/html">
+    {{each list item index}}
+    <div class="card">
+        <div class="card-header">{{item.FaultDate}}<img src="~/Content/img/timeend_icon.png" height="20" width="20" /></div>
+        <div class="card-footer">
+            <span>{{item.FaultName}}</span>
+            <span>{{item.OrgName}}</span>
+            <span>结束</span>
+        </div>
+    </div>
+    {{/each}}
+</script>
+<script type="text/javascript">
+    $(function () {
+       
+        domin.bingEvent();
+        domin.loadingData();
+    });
+    
+    var domin = (function (obj) { return obj; }(new function () {
+
+        var slideing = new slidepage();//保修数据滑动加载
+        var slideend = new slidepage();//结束数据滑动加载
+
+        var Isloadend = false;//是否加载了保修结束订单
+
+        //事件绑定
+        function bingEvent() {
+            //tab的切换
+            $('.tab-link').on("click", function () {
+                $(this).addClass("active").siblings().removeClass("active");
+                var index = $(this).index();
+                $('.content_list').addClass("hide");
+                $('.content_list').eq(index).removeClass("hide");
+                if (index == 1 && Isloadend == false) {
+                    Isloadend = true;
+                    //加载保修结束订单
+                    domin.loadendData();
+                }              
+            });
+
+            ////时间控件的绑定
+            //$("#startDate,#endDate").datetimePicker({});
+        }
+
+        //加载进行中报修订单
+        function loadingData() {
+            slideing.pageParameter.page = 1;
+            slideing.pageParameter.rows = 10;
+            slideing.pageParameter.tipId = '.forming';
+            slideing.pageParameter.tip = "暂无进行中的保修单";
+            slideing.pageParameter.callback = function (r) {
+                var html = template("formingList", { list: r.rows });
+                $('.forming').append(html);
+            }
+            slideing.initslide();
+        }
+
+        //加载保修结束订单
+        function loadendData() {
+            slideend.pageParameter.page = 1;
+            slideend.pageParameter.rows = 10;
+            slideend.pageParameter.tipId = '.formend';
+            slideend.pageParameter.tip = "暂无结束的保修单";
+            slideend.pageParameter.callback = function (r) {
+                var html = template("formendList", { list: r.rows });
+                $('.formend').append(html);
+            }
+            slideend.initslide();
+        }
+
+        return {
+            bingEvent: bingEvent,
+            loadingData: loadingData,
+            loadendData: loadendData
+        }
+
+    }));
+  
+</script>

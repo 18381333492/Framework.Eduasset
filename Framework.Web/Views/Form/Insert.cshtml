@@ -1,0 +1,423 @@
+﻿
+@{
+    ViewBag.Title = "新建保修单";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    body {
+        background-color: white;
+    }
+
+    .heard.bar {
+        background: -moz-linear-gradient(left,#2e8cbf,#3fbfe6); /*Mozilla*/
+        background: -webkit-gradient(linear,0 50%,100% 50%,from(#2e8cbf),to(#3fbfe6)); /*Old gradient for webkit*/
+        background: -webkit-linear-gradient(left,#2e8cbf,#3fbfe6); /*new gradient for Webkit*/
+        background: -o-linear-gradient(left,#2e8cbf,#3fbfe6); /*Opera11*/
+        color: white;
+    }
+
+    .heard .title {
+        color: white;
+    }
+
+    .bar .icon {
+        color: white;
+    }
+
+    .list-block .item-inner:after {
+        background: none;
+    }
+
+    .list-block ul:before {
+        background: none;
+    }
+
+    .list-block {
+        margin: 0;
+    }
+
+        .list-block .item-title.label {
+            text-align: left;
+            width: 28%;
+            font-size: .7rem;
+            color: #333;
+        }
+
+        .list-block .item-input {
+            border: 1px solid #b4b4b4;
+            border-radius: .25rem;
+            height: 1.4rem;
+            line-height: 1.4rem;
+            margin-left: 5px;
+            padding: 0 2px;
+            font-size: .14rem;
+            background-color: #fff;
+        }
+
+        .list-block input[type=text], .list-block input[type=password], .list-block input[type=email], .list-block input[type=tel], .list-block input[type=url], .list-block input[type=date], .list-block input[type=datetime-local], .list-block input[type=time], .list-block input[type=number], .list-block input[type=search], .list-block select, .list-block textarea {
+            height: 1.4rem;
+            line-height: 1.4rem;
+            font-size: .25rem;
+            color: #333;
+        }
+
+        .list-block .item-inner:after {
+            background: none;
+        }
+
+    .list-block {
+        background-color: white;
+    }
+
+        .list-block ul {
+            margin: 0 3%;
+            border-bottom: 1px dashed #888;
+        }
+
+    .add_box {
+        background: -moz-linear-gradient(left,#2e8cbf,#3fbfe6); /*Mozilla*/
+        background: -webkit-gradient(linear,0 50%,100% 50%,from(#2e8cbf),to(#3fbfe6)); /*Old gradient for webkit*/
+        background: -webkit-linear-gradient(left,#2e8cbf,#3fbfe6); /*new gradient for Webkit*/
+        background: -o-linear-gradient(left,#2e8cbf,#3fbfe6); /*Opera11*/
+        font-size: .14rem;
+        border: none;
+        height: 2rem;
+        line-height: 2rem;
+        color: white;
+        width: 62%;
+        border-radius: 5px;
+        margin-left: 34%;
+    }
+
+    .email_box {
+        font-size: .14rem;
+        margin-left: 30%;
+        margin-top: 5px;
+    }
+
+        .email_box img {
+            width: 1rem;
+            height: auto;
+            position: relative;
+            top: 5px;
+        }
+
+    .footter {
+        background: -moz-linear-gradient(left,#2e8cbf,#3fbfe6); /*Mozilla*/
+        background: -webkit-gradient(linear,0 50%,100% 50%,from(#2e8cbf),to(#3fbfe6)); /*Old gradient for webkit*/
+        background: -webkit-linear-gradient(left,#2e8cbf,#3fbfe6); /*new gradient for Webkit*/
+        background: -o-linear-gradient(left,#2e8cbf,#3fbfe6); /*Opera11*/
+        text-align: center;
+        color: white;
+        height: 2.2rem;
+        line-height: 2.2rem;
+        position: fixed;
+        width: 100%;
+        bottom: 0;
+    }
+
+        .footter img {
+            width: 15px;
+            margin-right: 10px;
+        }
+
+        .footter a {
+            color: white;
+        }
+
+    .textarea_box {
+        position: relative;
+        width: 100%;
+        border: 1px solid #b4b4b4;
+        margin-bottom: 3px;
+        border-radius: .25rem;
+    }
+
+        .textarea_box textarea {
+            height: 4rem;
+            width: 100%;
+            margin: 0px 5px 10px;
+            line-height: 1rem;
+        }
+
+    .list-block ul ul {
+        padding-left: 0px;
+    }
+
+    .textarea_box ul {
+        padding: 0 10px;
+    }
+
+        .textarea_box ul li {
+            width: 1.6rem;
+            /*float: left;*/
+        }
+
+    .textarea_box .img {
+        width: 1.5rem;
+        height: 1.5rem;
+        border-radius: 5px;
+        object-fit: cover;
+        margin-right: 3px;
+        position: relative;
+    }
+
+    .textarea_box .del {
+        position: absolute;
+        top: -8px;
+        right: -6px;
+    }
+
+    .list-block ul li.last {
+        margin-bottom: 3rem;
+    }
+</style>
+<body>
+    <header class="bar bar-nav heard">
+        <a class="icon icon-left pull-left"></a>
+        <h1 class="title">标题</h1>
+    </header>
+    <div class="content">
+        <div class="list-block">
+            <ul>
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-email"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">学校名称</div>
+                            <div class="item-input">
+                                <input type="text" id='picker' class="select_box" />
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-email"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">门牌号</div>
+                            <div class="item-input">
+                                <input type="text" id='picker1' class="select_box" />
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-name"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">班级</div>
+                            <div class="item-input">
+                                <input type="text" placeholder="Your name">
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="list-block">
+            <ul>
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-email"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">报修时间</div>
+                            <div class="item-input">
+                                <input type="text" id='datetime-picker' class="select_box" />
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-name"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">报修人</div>
+                            <div class="item-input">
+                                <input type="text" placeholder="Your name">
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <!-- Date -->
+            </ul>
+        </div>
+        <div class="list-block">
+            <ul>
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-email"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">设备类型</div>
+                            <div class="item-input">
+                                <input type="text" id='picker2' class="select_box" />
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-name"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">设备名称</div>
+                            <div class="item-input">
+                                <input type="text" id='picker3' class="select_box" />
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-email"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">位置</div>
+                            <div class="item-input">
+                                <input type="text" placeholder="位置">
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <!-- Date -->
+            </ul>
+        </div>
+        <div class="list-block">
+            <ul>
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon icon-form-email"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">维修单位</div>
+                            <div class="item-input">
+                                <input type="text" id='picker4' class="select_box" />
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="item-content ">
+                        <div class="item-media"><i class="icon icon-form-email"></i></div>
+                        <div class="item-inner clear">
+                            <div class="item-title label">故障描述</div>
+                            <div class="textarea_box">
+                                <textarea></textarea>
+                                <div class="clear">
+                                    <ul class="clear">
+                                        <li class="clear">
+                                            <img src="~/Content/img/login_bg.png" class="img" />
+                                            <img src="~/Content/img/del.png" class="del">
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="last">
+                    <button class="add_box">增加报修</button>
+                    <p class="email_box">
+                        抄送人：张三（2414769392@qq.com）
+                        <img src="~/Content/img/Eadd_icon.png" height="32" width="32" />
+                    </p>
+                </li>
+            </ul>
+        </div>
+        <div class="footter">
+            <a href="addlist.html"><img src="~/Content/img/tijiao_icon.png" />提交</a>
+        </div>
+    </div>
+    <script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
+    <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
+    <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm-extend.min.js' charset='utf-8'></script>
+    <script>
+        $("#picker").picker({
+            toolbarTemplate: '<header class="bar bar-nav">\
+  <button class="button button-link pull-left">按钮</button>\
+  <button class="button button-link pull-right close-picker">确定</button>\
+  <h1 class="title">标题</h1>\
+  </header>',
+            cols: [
+                {
+                    textAlign: 'center',
+                    values: ['iPhone 4', 'iPhone 4S', 'iPhone 5', 'iPhone 5S', 'iPhone 6', 'iPhone 6 Plus', 'iPad 2', 'iPad Retina', 'iPad Air', 'iPad mini', 'iPad mini 2', 'iPad mini 3']
+                }
+            ]
+
+        });
+        $("#picker1").picker({
+            toolbarTemplate: '<header class="bar bar-nav">\
+  <button class="button button-link pull-left">按钮</button>\
+  <button class="button button-link pull-right close-picker">确定</button>\
+  <h1 class="title">标题</h1>\
+  </header>',
+            cols: [
+                {
+                    textAlign: 'center',
+                    values: ['iPhone 4', 'iPhone 4S', 'iPhone 5', 'iPhone 5S', 'iPhone 6', 'iPhone 6 Plus', 'iPad 2', 'iPad Retina', 'iPad Air', 'iPad mini', 'iPad mini 2', 'iPad mini 3']
+                }
+            ]
+
+        });
+
+        $("#picker2").picker({
+            toolbarTemplate: '<header class="bar bar-nav">\
+  <button class="button button-link pull-left">按钮</button>\
+  <button class="button button-link pull-right close-picker">确定</button>\
+  <h1 class="title">标题</h1>\
+  </header>',
+            cols: [
+                {
+                    textAlign: 'center',
+                    values: ['iPhone 4', 'iPhone 4S', 'iPhone 5', 'iPhone 5S', 'iPhone 6', 'iPhone 6 Plus', 'iPad 2', 'iPad Retina', 'iPad Air', 'iPad mini', 'iPad mini 2', 'iPad mini 3']
+                }
+            ]
+
+        });
+
+        $("#picker3").picker({
+            toolbarTemplate: '<header class="bar bar-nav">\
+  <button class="button button-link pull-left">按钮</button>\
+  <button class="button button-link pull-right close-picker">确定</button>\
+  <h1 class="title">标题</h1>\
+  </header>',
+            cols: [
+                {
+                    textAlign: 'center',
+                    values: ['iPhone 4', 'iPhone 4S', 'iPhone 5', 'iPhone 5S', 'iPhone 6', 'iPhone 6 Plus', 'iPad 2', 'iPad Retina', 'iPad Air', 'iPad mini', 'iPad mini 2', 'iPad mini 3']
+                }
+            ]
+
+        });
+        $("#picker4").picker({
+            toolbarTemplate: '<header class="bar bar-nav">\
+  <button class="button button-link pull-left">按钮</button>\
+  <button class="button button-link pull-right close-picker">确定</button>\
+  <h1 class="title">标题</h1>\
+  </header>',
+            cols: [
+                {
+                    textAlign: 'center',
+                    values: ['iPhone 4', 'iPhone 4S', 'iPhone 5', 'iPhone 5S', 'iPhone 6', 'iPhone 6 Plus', 'iPad 2', 'iPad Retina', 'iPad Air', 'iPad mini', 'iPad mini 2', 'iPad mini 3']
+                }
+            ]
+
+        });
+        $("#picker5").picker({
+            toolbarTemplate: '<header class="bar bar-nav">\
+  <button class="button button-link pull-left">按钮</button>\
+  <button class="button button-link pull-right close-picker">确定</button>\
+  <h1 class="title">标题</h1>\
+  </header>',
+            cols: [
+                {
+                    textAlign: 'center',
+                    values: ['iPhone 4', 'iPhone 4S', 'iPhone 5', 'iPhone 5S', 'iPhone 6', 'iPhone 6 Plus', 'iPad 2', 'iPad Retina', 'iPad Air', 'iPad mini', 'iPad mini 2', 'iPad mini 3']
+                }
+            ]
+
+        });
+        $("#datetime-picker").datetimePicker({
+            value: ['1985', '12', '04', '9', '34']
+        });
+    </script>
+</body>
+

@@ -1,0 +1,320 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+    <!--x5屏幕模式-->
+    <meta name="x5-page-mode" content="app"/>
+    <!--input被点击时半透明灰色背景-->
+    <title>login</title>
+    <!-- head 中 -->
+    <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm.min.css">
+    <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm-extend.min.css">
+</head>
+<style>
+    .bar-tab .tab-item .icon ~ .tab-label {
+        color: white;
+    }
+
+    .icon-home:before {
+        content: none;
+    }
+
+    .buttons-row .button.active {
+        background: -moz-linear-gradient(left, #2e8cbf, #3fbfe6); /*Mozilla*/
+        background: -webkit-gradient(linear, 0 50%, 100% 50%, from(#2e8cbf), to(#3fbfe6)); /*Old gradient for webkit*/
+        background: -webkit-linear-gradient(left, #2e8cbf, #3fbfe6); /*new gradient for Webkit*/
+        background: -o-linear-gradient(left, #2e8cbf, #3fbfe6); /*Opera11*/
+        border: none;
+        border-radius: 0;
+    }
+
+    .buttons-row .button {
+        background: -moz-linear-gradient(left, white, #ededed); /*Mozilla*/
+        background: -webkit-gradient(linear, 0 50%, 100% 50%, from(#fff), to(#ededed)); /*Old gradient for webkit*/
+        background: -webkit-linear-gradient(left, #fff, #ededed); /*new gradient for Webkit*/
+        background: -o-linear-gradient(left, #fff, #ededed); /*Opera11*/
+        border: none;
+        color: #333;
+    }
+
+    .buttons-row .button {
+        height: 2.2rem;
+        line-height: 2.2rem;
+    }
+
+    .content-block {
+        margin-top: 2.9rem;
+        padding: 0;
+    }
+
+    .select_box {
+        float: left;
+        width: 27%;
+        border: 1px solid #b4b4b4;
+        border-radius: .25rem;
+        height: 1.4rem;
+        line-height: 1.4rem;
+        margin-left: 5px;
+        padding: 0 2px;
+        font-size: .14rem;
+        background-color: #f8f8f8;
+    }
+
+    .search_box {
+        width: 27%;
+        float: left;
+        font-size: .14rem
+    }
+
+    .search-input input {
+        background-color: #f8f8f8;
+        font-size: .14rem;
+    }
+
+    .see_box {
+        display: inline-block;
+        font-size: .14rem;
+        margin-left: 5px;
+        background-color: #288bc3;
+        color: white;
+        padding: 0 0.7rem
+    }
+
+    .title_box {
+        margin: 10px 5px 0 5px;
+    }
+
+    .card {
+        padding: 5px 0;
+        box-shadow: none;
+        margin: 0;
+    }
+
+    .card:nth-child(2n) {
+        background-color: #f8f8f8;
+    }
+
+    .card-header {
+        border: 0;
+    }
+
+    .card-footer:before {
+        background: none;
+    }
+
+    .card-header:after {
+        background: none;
+    }
+
+    .card-footer, .card-header {
+        min-height: initial;
+        padding: .1rem .75rem;
+
+    }
+
+    .list {
+        margin-top: 10px;
+    }
+
+    .bar {
+        background: -moz-linear-gradient(left, #2e8cbf, #3fbfe6); /*Mozilla*/
+        background: -webkit-gradient(linear, 0 50%, 100% 50%, from(#2e8cbf), to(#3fbfe6)); /*Old gradient for webkit*/
+        background: -webkit-linear-gradient(left, #2e8cbf, #3fbfe6); /*new gradient for Webkit*/
+        background: -o-linear-gradient(left, #2e8cbf, #3fbfe6); /*Opera11*/
+        color: white;
+    }
+
+    .bar-nav img {
+        width: 15px;
+        position: relative;
+        margin-right: 8px;
+        top: 1px;
+    }
+
+    .bar-nav a {
+        color: white;
+        line-height: 2.2rem;
+    }
+
+    .content-block {
+        margin-top: 0rem;
+        padding: 0;
+    }
+
+    .card {
+        padding: 5px 0;
+        box-shadow: none;
+        margin: 0;
+    }
+
+    .card:nth-child(2n) {
+        background-color: #f8f8f8;
+    }
+
+    .card-header {
+        border: 0;
+    }
+
+    .card-footer:before {
+        background: none;
+    }
+
+    .card-header:after {
+        background: none;
+    }
+
+    .card-footer, .card-header {
+        min-height: initial;
+        padding: .1rem .75rem;
+    }
+
+    .search_time img {
+        width: 15px;
+        position: relative;
+        margin-right: 8px;
+        top: 1px;
+    }
+
+    .search_time a {
+        color: white;
+    }
+
+    .footter {
+        background: -moz-linear-gradient(left, #2e8cbf, #3fbfe6); /*Mozilla*/
+        background: -webkit-gradient(linear, 0 50%, 100% 50%, from(#2e8cbf), to(#3fbfe6)); /*Old gradient for webkit*/
+        background: -webkit-linear-gradient(left, #2e8cbf, #3fbfe6); /*new gradient for Webkit*/
+        background: -o-linear-gradient(left, #2e8cbf, #3fbfe6); /*Opera11*/
+        text-align: center;
+        color: white;
+        height: 2.2rem;
+        line-height: 2.2rem;
+        position: fixed;
+        width: 100%;
+        bottom: 0;
+    }
+
+    .footter img {
+        width: 15px;
+        margin-right: 10px;
+    }
+
+    .footter a {
+        color: white;
+    }
+    .hide{
+        display: none;
+    }
+</style>
+<body>
+<div class="page-group">
+    <!-- 单个page ,第一个.page默认被展示-->
+    <div class="page">
+        <!--<header class="bar bar-nav">-->
+        <div class="buttons-row">
+            <a href="#tab1" class="tab-link button active">进行中保修单</a>
+            <a href="#tab2" class="tab-link button">已结束保修单</a>
+        </div>
+        <!--</header>-->
+        <!-- 这里是页面内容区 -->
+        <div class="content-block ">
+            <div class="list hide">
+                <div class="card">
+                    <div class="card-header">今天 15:20<img src="img/time_icon.png" height="20" width="20"/></div>
+                    <div class="card-footer">
+                        <span>投影仪不能开机</span>
+                        <span>成都十五中学</span>
+                        <span>等待响应</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">今天 15:20<img src="img/timeing_icon.png" height="20" width="20"/></div>
+                    <div class="card-footer">
+                        <span>投影仪不能开机</span>
+                        <span>成都十五中学</span>
+                        <span>执行中</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">今天 15:20<img src="img/timeing_icon.png" height="20" width="20"/></div>
+                    <div class="card-footer">
+                        <span>投影仪不能开机</span>
+                        <span>成都十五中学</span>
+                        <span>等待响应</span>
+                    </div>
+                </div>
+            </div>
+
+            <!--已经结束保单-->
+            <div >
+                <div class="title_box">
+                    <div class="big_select_box">
+                        <input type="text" id='datetime-picker' class="select_box"/>
+                        <span style="float: left;margin-left: 5px">-</span>
+                        <input type="text" id='datetime-picker1' class="select_box"/>
+                    </div>
+                    <a href="#" class="button see_box">查询</a>
+                </div>
+                <div class="list">
+                    <div class="card">
+                        <div class="card-header">今天 15:20<img src="img/ending_icon.png" height="20" width="20"/></div>
+                        <div class="card-footer">
+                            <span>投影仪不能开机</span>
+                            <span>成都十五中学</span>
+                            <span>等待响应</span>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">今天 15:20<img src="img/ending_icon.png" height="20" width="20"/></div>
+                        <div class="card-footer">
+                            <span>投影仪不能开机</span>
+                            <span>成都十五中学</span>
+                            <span>执行中</span>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">今天 15:20<img src="img/ending_icon.png" height="20" width="20"/></div>
+                        <div class="card-footer">
+                            <span>投影仪不能开机</span>
+                            <span>成都十五中学</span>
+                            <span>等待响应</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footter">
+                <a href="addlist.html"><img src="img/add_icon.png"/>新建保修单</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
+<script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
+<script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm-extend.min.js' charset='utf-8'></script>
+<script>
+    $("#picker").picker({
+        toolbarTemplate: '<header class="bar bar-nav">\
+  <button class="button button-link pull-left">按钮</button>\
+  <button class="button button-link pull-right close-picker">确定</button>\
+  <h1 class="title">标题</h1>\
+  </header>',
+        cols: [
+            {
+                textAlign: 'center',
+                values: ['iPhone 4', 'iPhone 4S', 'iPhone 5', 'iPhone 5S', 'iPhone 6', 'iPhone 6 Plus', 'iPad 2', 'iPad Retina', 'iPad Air', 'iPad mini', 'iPad mini 2', 'iPad mini 3']
+            }
+        ]
+
+    });
+    $("#datetime-picker").datetimePicker({
+        value: ['1985', '12', '04', '9', '34']
+    });
+    $("#datetime-picker1").datetimePicker({
+        value: ['1985', '12', '04', '9', '34']
+    });
+    $('.buttons-row').click(function () {
+
+    })
+</script>
+</body>
+</html>

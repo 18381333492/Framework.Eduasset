@@ -145,12 +145,15 @@
     <Content Include="Content\img\bottom_icon.png" />
     <Content Include="Content\img\bottom_icon1.png" />
     <Content Include="Content\img\bottom_icon2.png" />
+    <Content Include="Content\img\del.png" />
+    <Content Include="Content\img\Eadd_icon.png" />
     <Content Include="Content\img\end_icon.png" />
     <Content Include="Content\img\icon_checkbox.png" />
     <Content Include="Content\img\list_icon.png" />
     <Content Include="Content\img\login_bg.png" />
     <Content Include="Content\img\pass_icon.png" />
     <Content Include="Content\img\tijiao_icon.png" />
+    <Content Include="Content\img\timeend_icon.png" />
     <Content Include="Content\img\timeing_icon.png" />
     <Content Include="Content\img\time_icon.png" />
     <Content Include="Content\img\user_icon.png" />
@@ -174,24 +177,34 @@
     <Content Include="Content\img\表单内_增加抄送.png" />
     <Content Include="Content\img\表单内_新增图片.png" />
     <Content Include="Content\img\表单内_日历.png" />
-    <Content Include="index.html" />
+    <Content Include="iconfont\demo.css" />
+    <Content Include="iconfont\demo_fontclass.html" />
+    <Content Include="iconfont\demo_symbol.html" />
+    <Content Include="iconfont\demo_unicode.html" />
+    <Content Include="iconfont\iconfont.css" />
+    <Content Include="iconfont\iconfont.js" />
+    <Content Include="iconfont\iconfont.svg" />
     <Content Include="jquery\.idea\misc.xml" />
     <Content Include="jquery\.idea\modules.xml" />
     <Content Include="jquery\.idea\workspace.xml" />
     <Content Include="jquery\addlist.html" />
     <Content Include="Content\css\base.css" />
+    <Content Include="jquery\addlist1.html" />
     <Content Include="jquery\css\jquery-weui.min.css" />
     <Content Include="Content\css\weui.min.css" />
     <Content Include="jquery\img\add_icon.png" />
     <Content Include="jquery\img\bottom_icon.png" />
     <Content Include="jquery\img\bottom_icon1.png" />
     <Content Include="jquery\img\bottom_icon2.png" />
+    <Content Include="jquery\img\del.png" />
+    <Content Include="jquery\img\Eadd_icon.png" />
     <Content Include="jquery\img\end_icon.png" />
     <Content Include="jquery\img\icon_checkbox.png" />
     <Content Include="jquery\img\list_icon.png" />
     <Content Include="jquery\img\login_bg.png" />
     <Content Include="jquery\img\pass_icon.png" />
     <Content Include="jquery\img\tijiao_icon.png" />
+    <Content Include="jquery\img\timeend_icon.png" />
     <Content Include="jquery\img\timeing_icon.png" />
     <Content Include="jquery\img\time_icon.png" />
     <Content Include="jquery\img\user_icon.png" />
@@ -217,6 +230,8 @@
     <Content Include="jquery\img\表单内_日历.png" />
     <Content Include="jquery\js\jquery-weui.min.js" />
     <Content Include="jquery\js\jquery.min.js" />
+    <Content Include="jquery\maintenancelist1.html" />
+    <Content Include="Scripts\slidepage.js" />
     <Content Include="Scripts\jquery.min.js" />
     <Content Include="Scripts\pubilc.js" />
     <Content Include="jquery\login.html" />
@@ -227,7 +242,11 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Scripts\common.client.js" />
+    <Content Include="iconfont\iconfont.eot" />
+    <Content Include="iconfont\iconfont.ttf" />
+    <Content Include="iconfont\iconfont.woff" />
     <None Include="Scripts\_references.js" />
+    <Content Include="Scripts\template-web.js" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
@@ -238,6 +257,8 @@
     <Content Include="jquery\.idea\jquery.iml" />
     <Content Include="Views\User\Login.cshtml" />
     <Content Include="Views\Shared\_Login.cshtml" />
+    <Content Include="Views\Form\Teacher.cshtml" />
+    <Content Include="Views\Form\Insert.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -257,10 +278,12 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\DefaultController.cs" />
+    <Compile Include="Controllers\FormController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\PageInfo.cs" />
     <Compile Include="Models\LoginCacheInfo.cs" />
     <Compile Include="Models\MethodType.cs" />
     <Compile Include="Models\ResponeResult.cs" />

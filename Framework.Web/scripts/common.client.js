@@ -223,7 +223,7 @@
 
         /*前端ajax的封装*/
         function ajax() {
-
+            
             //ajax的get请求
             function getRequest(url, params, success, fail, async) {
                 ajaxRequest(url, params, success, fail, async, "GET");
@@ -267,7 +267,7 @@
 
             return {
                 getRequest: getRequest,
-                postRequest: postRequest
+                postRequest: postRequest,
             }
         }
 
