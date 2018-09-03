@@ -95,10 +95,12 @@ namespace Framework.Utility
         /// <param name="sUrl">请求的链接</param>
         /// <param name="PostData">请求的参数</param>
         /// <returns></returns>
-        public static string HttpPost(HttpParameter Parameter, string PostData)
+        public static HttpResult HttpPost(HttpParameter Parameter)
         {
+            HttpResult Respone = new HttpResult();
             string sResult = string.Empty;
             string sUrl = sDomain + Parameter.Serialize();
+            string PostData = Parameter.SerializeJson();
             try
             {
                 HttpWebRequest webRequest = (System.Net.HttpWebRequest)System.Net.WebRequest.Create(sUrl);
@@ -150,6 +152,7 @@ namespace Framework.Utility
                         }
                     }
                 }
+                Respone = JsonHelper.Deserialize<HttpResult>(sResult);
             }
             catch (Exception ex)
             {
@@ -158,7 +161,7 @@ namespace Framework.Utility
             }
             logger.Info("请求的Url:" + sUrl);
             logger.Info("返回的结果:" + sResult);
-            return sResult;
+            return Respone;
         }
     }
 
@@ -173,7 +176,7 @@ namespace Framework.Utility
         /// 参数集合
         /// </summary>
         public Dictionary<string, object> ArgsArray = new Dictionary<string, object>();
-      
+
         /// <summary>
         /// 序列化参数
         /// </summary>
@@ -189,6 +192,14 @@ namespace Framework.Utility
             return sArgsStr.ToString();
         }
 
+        /// <summary>
+        /// POST的提交的序列化
+        /// </summary>
+        /// <returns></returns>
+        public string SerializeJson()
+        {
+            return string.Empty;
+        }
     }
 
 
