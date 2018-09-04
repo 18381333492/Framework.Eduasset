@@ -29,12 +29,18 @@ function slidepage() {
 
     //滑动请求
     function slideRequest() {
+        if (option.page == 1) {
+            $.showLoading("正在加载");
+        }
         $.ajax({
             url: option.url,
             type: 'POST',
             dataType: 'json',
             data: option.params + '&page=' + option.page + '&rows=' + option.rows,
             success: function (r) {
+                if (option.page == 1) {
+                    $.hideLoading();
+                }
                 if (r.success) {
                     var data = JSON.parse(r.data);
                     if (data.rows.length > 0) {

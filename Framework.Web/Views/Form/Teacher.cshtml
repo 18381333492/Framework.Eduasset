@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <style>
-    .bar-tab .tab-item .icon ~ .tab-label {
+    .bar-tab .tab-item .icon .tab-label {
         color: white;
     }
 
@@ -245,7 +245,7 @@
         </div>
        </div>
         <div class="footter">
-            <a href="addlist.html"><img src="~/Content/img/add_icon.png" />新建保修单</a>
+            <a><img src="~/Content/img/add_icon.png" />新建保修单</a>
         </div>
 </body>
 <script id="formingList" type="text/html">
@@ -316,14 +316,6 @@
                     //加载保修结束订单
                     domin.loadendData();
                 }              
-            });
-
-            //调用扫一扫新建保修单事件绑定
-            $('.footter').on("click", function () {
-                WeChat.scanQRCode(function (r) {
-                    //返回结果
-                    alert(r);
-                });
             });
 
             ////时间控件的绑定

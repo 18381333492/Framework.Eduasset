@@ -63,7 +63,7 @@ namespace Framework.WeChat
             }
             else
             {
-                if (DateTime.Parse(model.dDate) > DateTime.Now)
+                if (Convert.ToDateTime(model.dDate) > DateTime.Now)
                     return model.sAccessToken;
                 else
                 {

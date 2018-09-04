@@ -45,26 +45,14 @@ namespace Framework.Web.Controllers
 
 
         /// <summary>
-        /// 老师添加保修单
+        /// 添加报修单
         /// </summary>
         /// <returns></returns>
-        public ActionResult Insert(string deviceCode)
+        public ActionResult Insert()
         {
             if (!Request.IsAjaxRequest())
             {
-                Parameter.method = "GetDeviceInfoByCode";//通过二维码获取设备信息
-                Parameter.ArgsArray.Add("deviceCode", deviceCode);
-                var respone=HttpHelper.HttpGet(Parameter);
-                if (respone.Code == 1)
-                {
-                    dynamic deviceInfo=JsonHelper.Deserialize<dynamic>(JsonHelper.ToJsonString(respone.Data));
-                    return View(deviceInfo);
-                }
-                else
-                {
-                    result.info = "设备信息错误";
-                    return View(result);
-                }
+                return View();
             }
             else
             {
@@ -93,5 +81,52 @@ namespace Framework.Web.Controllers
                 return Json(result);
             }
         }
+
+
+        /// <summary>
+        /// 根据设备编号获取设备信息
+        /// </summary>
+        /// <param name="deviceCode"></param>
+        /// <returns></returns>
+        public ActionResult GetDeviceInfoByCode(string deviceCode = "0207111010144007")
+        {
+            Parameter.method = "GetDeviceInfoByCode";//通过二维码获取设备信息
+            Parameter.ArgsArray.Add("deviceCode", deviceCode);
+            var respone = HttpHelper.HttpGet(Parameter);
+            if (respone.Code == 1)
+            {
+                result.success = true;
+                result.data = new
+                {
+                    deviceInfo =JsonHelper.ToJsonString(respone.Data),
+                    RealName = LoginStatus.RealName               
+                };
+            }
+            else
+            {
+                result.success = false;
+                result.info = "设备信息获取失败";     
+            }
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+                   
+        /// <summary>
+        /// 根据机构编码获取门牌号列表
+        /// </summary>
+        /// <param name="OrgCode"></param>
+        /// <returns></returns>
+        public ActionResult GetHouseListByOrgCode(string OrgCode)
+        {
+            Parameter.method = "GetHouseListByOrgCode";
+            Parameter.ArgsArray.Add("OrgCode", OrgCode);
+            var respone = HttpHelper.HttpGet(Parameter);
+            if (respone.Code == 1)
+            {
+                result.success = true;
+            }
+            else
+                result.info = "获取数据失败";
+            return Json(result,JsonRequestBehavior.AllowGet);
+        }               
     }
 }

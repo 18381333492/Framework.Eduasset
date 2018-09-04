@@ -3,3 +3,4 @@
 /// <reference path="template-web.js" />
 /// <reference path="slidepage.js" />
 /// <reference path="wxhelper.js" />
+/// <reference path="jquery-weui.min.js" />
