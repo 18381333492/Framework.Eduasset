@@ -178,12 +178,9 @@
     <Content Include="Content\img\表单内_新增图片.png" />
     <Content Include="Content\img\表单内_日历.png" />
     <Content Include="Content\css\jquery-weui.min.css" />
+    <Content Include="jquery\img\upload_img.png" />
     <Content Include="Scripts\jquery-weui.min.js" />
     <Content Include="Content\css\weui.min.css" />
-    <Content Include="iconfont\demo.css" />
-    <Content Include="iconfont\demo_fontclass.html" />
-    <Content Include="iconfont\demo_symbol.html" />
-    <Content Include="iconfont\demo_unicode.html" />
     <Content Include="iconfont\iconfont.css" />
     <Content Include="iconfont\iconfont.js" />
     <Content Include="iconfont\iconfont.svg" />

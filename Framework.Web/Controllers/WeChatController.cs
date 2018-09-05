@@ -23,6 +23,7 @@ namespace Framework.Web.Controllers
         // GET: WeChat
         private static readonly string sAppId = ConfigHelper.GetAppSetting("sAppId");
         private static readonly string sAppSecret = ConfigHelper.GetAppSetting("sAppSecret");
+        private static readonly string ImageUrl = ConfigHelper.GetAppSetting("ImageUrl");
 
         /// <summary>
         /// 获取微信配置信息
@@ -65,58 +66,58 @@ namespace Framework.Web.Controllers
         /// 上传图片
         /// </summary>
         /// <returns></returns>
-        public ActionResult UploadImage(string serverId)
+        public ActionResult UploadImage(string serverIds)
         {
-            WeChatModel model = new WeChatModel();
-            model.sAppId = sAppId;
-            model.sAppSecret = sAppSecret;
-            string sRequestUrl = "https://api.weixin.qq.com/cgi-bin/media/get?access_token={0}&media_id={1}";
-            sRequestUrl = string.Format(sRequestUrl, model.sAccessToken, serverId);
-            /************************************微信服务器上下载图片************************************/
-            HttpWebRequest webRequest = (System.Net.HttpWebRequest)System.Net.WebRequest.Create(sRequestUrl);
-            webRequest.ProtocolVersion = HttpVersion.Version10;
-            webRequest.Timeout = 3000;
-            webRequest.Method = WebRequestMethods.Http.Get;
-            webRequest.Headers.Add("Accept-Encoding", "gzip, deflate");
-            HttpWebResponse webResponse = (System.Net.HttpWebResponse)webRequest.GetResponse();
-            Stream streamReceive = webResponse.GetResponseStream();
-
-            //响应流转内存流
-            MemoryStream memoryStream = StreamToMemoryStream(streamReceive);
-            string baseStr = Convert.ToBase64String(memoryStream.ToArray());
-            //获取图片后缀名
-            string format = string.Empty;
-            Image image = Bitmap.FromStream(memoryStream);
-            var ImageFormats = GetImageFormats();
-            foreach (var pair in ImageFormats)
+            var ImageList =new List<object>();  //返回的图片的Url
+            List<string> serverIdArray = serverIds.Split(',').ToList();
+            foreach (var serverId in serverIdArray)
             {
-                if (pair.Value.Guid == image.RawFormat.Guid)
+                WeChatModel model = new WeChatModel();
+                model.sAppId = sAppId;
+                model.sAppSecret = sAppSecret;
+                string sRequestUrl = "https://api.weixin.qq.com/cgi-bin/media/get?access_token={0}&media_id={1}";
+                sRequestUrl = string.Format(sRequestUrl, model.sAccessToken, serverId);
+                /************************************微信服务器上下载图片************************************/
+                HttpWebRequest webRequest = (System.Net.HttpWebRequest)System.Net.WebRequest.Create(sRequestUrl);
+                webRequest.ProtocolVersion = HttpVersion.Version10;
+                webRequest.Timeout = 3000;
+                webRequest.Method = WebRequestMethods.Http.Get;
+                webRequest.Headers.Add("Accept-Encoding", "gzip, deflate");
+                HttpWebResponse webResponse = (System.Net.HttpWebResponse)webRequest.GetResponse();
+                Stream streamReceive = webResponse.GetResponseStream();
+
+                //响应流转内存流
+                MemoryStream memoryStream = StreamToMemoryStream(streamReceive);
+                string baseStr = Convert.ToBase64String(memoryStream.ToArray());
+                //获取图片后缀名
+                string format = string.Empty;
+                Image image = Bitmap.FromStream(memoryStream);
+                var ImageFormats = GetImageFormats();
+                foreach (var pair in ImageFormats)
                 {
-                    format = pair.Key;
-                    break;
+                    if (pair.Value.Guid == image.RawFormat.Guid)
+                    {
+                        format = pair.Key;
+                        break;
+                    }
+                }
+                //上传图片到服务器
+                Parameter.method = "UploadPicture";
+                JArray ImageArray = new JArray();
+                ImageArray.Add(new JObject(new JProperty("picName", GuidHelper.GuidTo16String() + format),
+                                           new JProperty("picCoding", baseStr.Replace("+", "%2b"))));
+                string sBody = string.Format("moduleName=保修单&picCodingList={0}", ImageArray.ToString());
+                var response = HttpHelper.HttpPost(Parameter, sBody);
+                if (response.Code == 1)
+                {
+                    string PicPath =Convert.ToString(JsonHelper.Deserialize<JArray>(JsonHelper.ToJsonString(response.Data))[0]["PicPath"]);
+                    string sUrl = ImageUrl + PicPath;
+                    ImageList.Add(sUrl);
                 }
             }
-
-            //上传图片到服务器
-            Parameter.method = "UploadPicture";
-            JArray ImageArray = new JArray();
-            ImageArray.Add(new JObject(new JProperty("picName", GuidHelper.GuidTo16String() + format),
-                                       new JProperty("picCoding", baseStr.Replace("+","%2b"))));
-            Parameter.ArgsArray.Add("moduleName", "保修单");
-            Parameter.ArgsArray.Add("picCodingList", ImageArray);
-            var response = HttpHelper.HttpPost(Parameter);
-            if (response.Code == 1)
-            {
-                result.success = true;
-                result.data = response.Data;
-            }
-            else
-            {
-                result.success = false;
-                result.info = "图片上传失败";
-            }
+            result.success = true;
+            result.data = ImageList;
             return Json(result);
-
         }
 
         /// <summary>

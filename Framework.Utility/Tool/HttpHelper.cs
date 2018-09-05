@@ -95,12 +95,11 @@ namespace Framework.Utility
         /// <param name="sUrl">请求的链接</param>
         /// <param name="PostData">请求的参数</param>
         /// <returns></returns>
-        public static HttpResult HttpPost(HttpParameter Parameter)
+        public static HttpResult HttpPost(HttpParameter Parameter,string PostData)
         {
             HttpResult Respone = new HttpResult();
             string sResult = string.Empty;
             string sUrl = sDomain + Parameter.Serialize();
-            string PostData = Parameter.SerializeJson();
             try
             {
                 HttpWebRequest webRequest = (System.Net.HttpWebRequest)System.Net.WebRequest.Create(sUrl);
@@ -108,6 +107,7 @@ namespace Framework.Utility
                 webRequest.Timeout = 3000;
                 webRequest.Method = "POST";
                 webRequest.Headers.Add("Accept-Encoding", "gzip, deflate");
+                webRequest.ContentType = "application/x-www-form-urlencoded";
                 byte[] bPostData = System.Text.Encoding.UTF8.GetBytes(PostData);
                 if (bPostData != null)
                 {
@@ -190,15 +190,6 @@ namespace Framework.Utility
                 sArgsStr.AppendFormat("&{0}={1}", key, ArgsArray[key]);
             }
             return sArgsStr.ToString();
-        }
-
-        /// <summary>
-        /// POST的提交的序列化
-        /// </summary>
-        /// <returns></returns>
-        public string SerializeJson()
-        {
-            return string.Empty;
         }
     }
 

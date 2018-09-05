@@ -68,7 +68,7 @@ namespace Framework.Web.Controllers
                 Parameter.ArgsArray.Add("FaultDesc", Request["FaultDesc"]);
                 Parameter.ArgsArray.Add("ApplyerName", LoginStatus.RealName);
                 //Parameter.ArgsArray.Add("FaultPicPath1", Request["FaultPicPath1"]);
-                var respone= HttpHelper.HttpPost(Parameter);
+                var respone= HttpHelper.HttpPost(Parameter,string.Empty);
                 if(respone.Code == 1)
                 {
                     result.success = true;
@@ -118,15 +118,39 @@ namespace Framework.Web.Controllers
         public ActionResult GetHouseListByOrgCode(string OrgCode)
         {
             Parameter.method = "GetHouseListByOrgCode";
-            Parameter.ArgsArray.Add("OrgCode", OrgCode);
+            Parameter.ArgsArray.Add("orgCode", OrgCode);
             var respone = HttpHelper.HttpGet(Parameter);
             if (respone.Code == 1)
             {
+                result.data =JsonHelper.ToJsonString(respone.Data);
                 result.success = true;
             }
             else
                 result.info = "获取数据失败";
             return Json(result,JsonRequestBehavior.AllowGet);
-        }               
+        }
+
+
+        /// <summary>
+        /// 根据学校代码和门牌号获取设备列表
+        /// </summary>
+        /// <param name="OrgCode"></param>
+        /// <param name="HouseNo"></param>
+        /// <returns></returns>
+        public ActionResult GetDeviceListByOrgCodeAndHouseNo(string OrgCode,string HouseNo)
+        {
+            Parameter.method = "GetDeviceListByOrgCodeAndHouseNo";
+            Parameter.ArgsArray.Add("orgCode", OrgCode);
+            Parameter.ArgsArray.Add("houseNo", HouseNo);
+            var respone = HttpHelper.HttpGet(Parameter);
+            if (respone.Code == 1)
+            {
+                result.data = JsonHelper.ToJsonString(respone.Data);
+                result.success = true;
+            }
+            else
+                result.info = "获取设备失败";
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
     }
 }
