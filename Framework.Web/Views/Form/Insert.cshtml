@@ -177,7 +177,7 @@
     <header class="bar bar-nav heard">
         <a class="icon icon-left pull-left"></a>
         <h1 class="title">新建保修单</h1>
-        @*<i class="icon icon-saoyisao"></i>*@
+        <a id="codeScan" class="icon icon-left iconfont icon-saoyisao" style="float:right;font-size:1.3rem"></a>
     </header>
     <div class="content">
         <form id="commit_form">
@@ -308,12 +308,23 @@
             <div class="list-block">
                 <ul>
                     <li>
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-email"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title label">故障现象</div>
+                                <div class="item-input">
+                                    <input type="text" name="FaultName" class="select_box" />
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
                         <div class="item-content ">
                             <div class="item-media"><i class="icon icon-form-email"></i></div>
                             <div class="item-inner clear">
                                 <div class="item-title label">故障描述</div>
                                 <div class="textarea_box">
-                                    <textarea></textarea>
+                                    <textarea name="FaultDesc"></textarea>
                                     <div class="clear">
                                         <img id="addImage" src="~/jquery/img/upload_img.png" class="img" />
                                         @*<img src="~/Content/img/login_bg.png" class="img" />*@
@@ -367,7 +378,7 @@
         domin.bingEvent();
         domin.initControl();
         domin.loadWeChatConfig();//加载微信配置  
-        domin.GetDeviceInfoByCode();
+       // domin.GetDeviceInfoByCode();
     });
 
     var domin = (function (obj) { return obj; }(new function () {
@@ -407,7 +418,7 @@
                 var imageList = r.data;
                 var html = [];
                 $(imageList).each(function (index,url) {
-                    html.push('<img src="' + url + '" class="img" />');
+                    html.push('<img src="' + url + '" class="img upload_img" />');
                 });
                 $(html.join('')).insertBefore("#addImage");
             });
@@ -440,8 +451,20 @@
         //事件绑定
         function bingEvent() {
 
+            //扫一扫事件绑定
+            $('#codeScan').on("click", function () {
+                WeChat.scanQRCode(function (res) {
+                    var deviceCode = res.resultStr;//获取扫描的设备编号
+                    if (deviceCode) {
+                        GetDeviceInfoByCode(deviceCode);
+                    }
+                });
+            });
+
             //点击选择图片
             $('#addImage').on("click", function () {
+                 localIds = [];//清空数组
+                 serverIds = [];//清空数组
                 if ($('.img').length < 5) {
                     var count =5-$('.img').length;//还能上传的图片张数
                     WeChat.chooseImage(count, function (r) {
@@ -456,12 +479,24 @@
 
             //提交保修单
             $('.footter').on("click", function () {
-                var params = $('#commit_form').serialize();
+                $.showLoading("正在提交");
+                var params = client.form.parseJson($('#commit_form'));
+                params.DeviceCode = deviceInfo.DeviceCode;//设备资产编号
+                var images = $('.upload_img');
+                var ImageUrlStr = [];
+                $(images).each(function (index, element) {
+                    ImageUrlStr.push($(element).attr("src"));
+                });
+                params.ImageUrlStr = ImageUrlStr.join();
                 client.ajax.postRequest("/Form/Insert", params, function (r) {
+                    $.hideLoading();
                     $.toast("保修成功");
                     setTimeout(function () {
                         location.href = "/Form/Teacher";
                     },500)
+                }, function (r) {
+                    $.hideLoading();
+                    $.toast(r.info, "text");
                 });
             });
 
@@ -488,7 +523,9 @@
 
         //获取设备信息
         function GetDeviceInfoByCode(deviceCode) {
+            $.showLoading("加载中...");
             client.ajax.getRequest("/Form/GetDeviceInfoByCode", { deviceCode: deviceCode }, function (r) {
+                $.hideLoading();
                 deviceInfo = JSON.parse(r.data.deviceInfo);
                 var RealName = r.data.RealName;
                 $('input[name=ClassName]').val(deviceInfo.ClassName);
@@ -496,6 +533,9 @@
 
                 initHouseList(); //初始化门牌号下拉列表
                 initDeviceList();//初始化设备列表和设备类型
+            }, function (r) {
+                $.hideLoading();
+                $.toast(r.info, "text");
             });
         }
 

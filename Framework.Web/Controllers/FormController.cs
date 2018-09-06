@@ -4,13 +4,15 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Framework.Utility;
+using System.Text;
+using Newtonsoft.Json.Linq;
 
 namespace Framework.Web.Controllers
 {
     public class FormController : BaseController
     {
         // GET: Form
-        
+        private static readonly string ImageUrl = ConfigHelper.GetAppSetting("ImageUrl");
         /// <summary>
         /// 老师保修单列表
         /// </summary>
@@ -48,7 +50,7 @@ namespace Framework.Web.Controllers
         /// 添加报修单
         /// </summary>
         /// <returns></returns>
-        public ActionResult Insert()
+        public ActionResult Insert(string ImageUrlStr)
         {
             if (!Request.IsAjaxRequest())
             {
@@ -57,18 +59,28 @@ namespace Framework.Web.Controllers
             else
             {
                 Parameter.method = "SaveRepairApply";//提交保修单
-                Parameter.ArgsArray.Add("DeviceCode", Request["deviceCode"]);
-                Parameter.ArgsArray.Add("ClassName", Request["ClassName"]);
-                Parameter.ArgsArray.Add("HouseNo", Request["HouseNo"]);
-                Parameter.ArgsArray.Add("StorePlace", Request["StorePlace"]);
-                Parameter.ArgsArray.Add("Linkman", Request["Linkman"]);
-                Parameter.ArgsArray.Add("ContactNumber", Request["ContactNumber"]);
-                Parameter.ArgsArray.Add("FaultDate", Request["FaultDate"]);
-                Parameter.ArgsArray.Add("FaultName", Request["FaultName"]);
-                Parameter.ArgsArray.Add("FaultDesc", Request["FaultDesc"]);
-                Parameter.ArgsArray.Add("ApplyerName", LoginStatus.RealName);
-                //Parameter.ArgsArray.Add("FaultPicPath1", Request["FaultPicPath1"]);
-                var respone= HttpHelper.HttpPost(Parameter,string.Empty);
+                JObject Body = new JObject(new JProperty("DeviceCode", Request["deviceCode"]),
+                                           new JProperty("ClassName", Request["ClassName"]),
+                                           new JProperty("HouseNo", Request["HouseNo"]),
+                                           new JProperty("StorePlace", Request["StorePlace"]),
+                                           new JProperty("Linkman", Request["Linkman"]),
+                                           new JProperty("ContactNumber", Request["ContactNumber"]),
+                                           new JProperty("FaultDate", Request["FaultDate"]),
+                                           new JProperty("FaultName", Request["FaultName"]),
+                                           new JProperty("FaultDesc", Request["FaultDesc"]),
+                                           new JProperty("ApplyerName", LoginStatus.RealName),
+                                           new JProperty("RequireStartDate", Request["RequireStartDate"]),
+                                           new JProperty("RequireEndDate", Request["RequireEndDate"]));
+                if (!string.IsNullOrEmpty(ImageUrlStr))
+                { //添加保修图片Url
+                    var list = ImageUrlStr.Split(',').ToList();
+                    for (var i = 1; i <= list.Count; i++)
+                    {
+                        Body.Add(new JProperty(string.Format("FaultPicPath{0}",i), list[i - 1].Replace(ImageUrl,"")));
+                    }
+                }
+                string sBody = string.Format("submitDatas={0}", Body.ToString());
+                var respone= HttpHelper.HttpPost(Parameter, sBody);
                 if(respone.Code == 1)
                 {
                     result.success = true;
@@ -76,10 +88,19 @@ namespace Framework.Web.Controllers
                 }
                 else
                 {
-                    result.info = respone.Msg;
+                    result.info ="保修失败";
                 }
                 return Json(result);
             }
+        }
+
+        /// <summary>
+        /// 查看保修单详情
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Detail()
+        {
+            return View();
         }
 
 

@@ -251,7 +251,7 @@
 <script id="formingList" type="text/html">
     {{each list item index}}
         <div class="card">
-            <div class="card-header">{{item.FaultDate}}<img src="~/Content/img/timeing_icon.png" height="20" width="20" /></div>
+            <div class="card-header">{{item.FaultDate}}<img src="/Content/img/timeing_icon.png" height="20" width="20" /></div>
             <div class="card-footer">
                 <span>{{item.FaultName}}</span>
                 <span>{{item.OrgName}}</span>
@@ -263,7 +263,7 @@
 <script id="formendList" type="text/html">
     {{each list item index}}
     <div class="card">
-        <div class="card-header">{{item.FaultDate}}<img src="~/Content/img/timeend_icon.png" height="20" width="20" /></div>
+        <div class="card-header">{{item.FaultDate}}<img src="/Content/img/timeend_icon.png" height="20" width="20" /></div>
         <div class="card-footer">
             <span>{{item.FaultName}}</span>
             <span>{{item.OrgName}}</span>
@@ -272,11 +272,8 @@
     </div>
     {{/each}}
 </script>
-<script src="~/Scripts/jweixin-1.2.0.js"></script>
-<script src="~/Scripts/wxhelper.js"></script>
 <script type="text/javascript">
     $(function () {
-        domin.loadWeChatConfig();
         domin.bingEvent();
         domin.loadingData();
     });
@@ -286,22 +283,6 @@
         var slideing = new slidepage();//保修数据滑动加载
         var slideend = new slidepage();//结束数据滑动加载
         var Isloadend = false;//是否加载了保修结束订单
-        var WeChat = new wxhelper();
-
-        //注入微信配置
-        function loadWeChatConfig() {
-            client.ajax.getRequest("/WeChat/GetWeChatConfig", null, function (r) {
-                //获取微信配置
-                var appId = r.data.appId;
-                var timestamp = r.data.timestamp;
-                var nonceStr = r.data.noncestr;
-                var signature = r.data.signature;
-                WeChat.config(appId, timestamp, nonceStr, signature);
-            }, function (r) {
-                alert(r.info);
-            });
-        }
-
 
         //事件绑定
         function bingEvent() {
@@ -316,6 +297,11 @@
                     //加载保修结束订单
                     domin.loadendData();
                 }              
+            });
+
+            //添加保修跳转
+            $('.footter').on("click", function () {
+                location.href = "/Form/Insert";
             });
 
             ////时间控件的绑定
@@ -351,8 +337,7 @@
         return {
             bingEvent: bingEvent,
             loadingData: loadingData,
-            loadendData: loadendData,
-            loadWeChatConfig:loadWeChatConfig
+            loadendData: loadendData
         }
 
     }));
