@@ -50,36 +50,22 @@ namespace Framework.Web.Controllers
         /// 添加报修单
         /// </summary>
         /// <returns></returns>
-        public ActionResult Insert(string ImageUrlStr)
+        public ActionResult Insert(string submitDatas)
         {
             if (!Request.IsAjaxRequest())
             {
-                return View();
+                return View(LoginStatus);
             }
             else
             {
-                Parameter.method = "SaveRepairApply";//提交保修单
-                JObject Body = new JObject(new JProperty("DeviceCode", Request["deviceCode"]),
-                                           new JProperty("ClassName", Request["ClassName"]),
-                                           new JProperty("HouseNo", Request["HouseNo"]),
-                                           new JProperty("StorePlace", Request["StorePlace"]),
-                                           new JProperty("Linkman", Request["Linkman"]),
-                                           new JProperty("ContactNumber", Request["ContactNumber"]),
-                                           new JProperty("FaultDate", Request["FaultDate"]),
-                                           new JProperty("FaultName", Request["FaultName"]),
-                                           new JProperty("FaultDesc", Request["FaultDesc"]),
-                                           new JProperty("ApplyerName", LoginStatus.RealName),
-                                           new JProperty("RequireStartDate", Request["RequireStartDate"]),
-                                           new JProperty("RequireEndDate", Request["RequireEndDate"]));
-                if (!string.IsNullOrEmpty(ImageUrlStr))
-                { //添加保修图片Url
-                    var list = ImageUrlStr.Split(',').ToList();
-                    for (var i = 1; i <= list.Count; i++)
-                    {
-                        Body.Add(new JProperty(string.Format("FaultPicPath{0}",i), list[i - 1].Replace(ImageUrl,"")));
-                    }
+                if (string.IsNullOrEmpty(submitDatas))
+                {
+                    result.info = "参数错误";
+                    return Json(result);
                 }
-                string sBody = string.Format("submitDatas={0}", Body.ToString());
+                Parameter.method = "SaveRepairApply";//提交保修单
+                submitDatas = submitDatas.Replace(ImageUrl, string.Empty);
+                string sBody = string.Format("submitDatas={0}", submitDatas);
                 var respone= HttpHelper.HttpPost(Parameter, sBody);
                 if(respone.Code == 1)
                 {
