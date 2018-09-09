@@ -221,11 +221,9 @@
     <Content Include="jquery\img\搜索框_下拉菜单.png" />
     <Content Include="jquery\img\搜索框_放大镜.png" />
     <Content Include="jquery\img\搜索框_日历.png" />
-    <Content Include="jquery\img\维修状态_结束.png" />
     <Content Include="jquery\img\表单内_下拉菜单.png" />
     <Content Include="jquery\img\表单内_删除.png" />
     <Content Include="jquery\img\表单内_增加抄送.png" />
-    <Content Include="jquery\img\表单内_新增图片.png" />
     <Content Include="jquery\img\表单内_日历.png" />
     <Content Include="jquery\js\jquery-weui.min.js" />
     <Content Include="jquery\js\jquery.min.js" />
@@ -245,6 +243,7 @@
     <Content Include="iconfont\iconfont.eot" />
     <Content Include="iconfont\iconfont.ttf" />
     <Content Include="iconfont\iconfont.woff" />
+    <None Include="Properties\PublishProfiles\Eduasset.pubxml" />
     <None Include="Scripts\_references.js" />
     <Content Include="Scripts\template-web.js" />
     <Content Include="Scripts\wxhelper.js" />

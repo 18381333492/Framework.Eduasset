@@ -211,6 +211,40 @@
                 border-left-style: solid;
                 border-radius:0
         }
+    .weui-btn_mini {
+            display: inline-block;
+            padding: 0 1.32em;
+            line-height: 2;
+            font-size: 13px;
+    
+    }
+    .weui-btn:after {
+           content: " ";
+        width: 200%;
+        height: 200%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        border: none;
+    }
+    .weui-btn {
+        position: relative;
+        display: block;
+         margin-left: 0; 
+         margin-right: 0; 
+        padding-left: 14px;
+        padding-right: 14px;
+        box-sizing: border-box;
+        font-size: 18px;
+        text-align: center;
+        text-decoration: none;
+        line-height:2;
+        border-radius: 5px;
+        -webkit-tap-highlight-color: rgba(0,0,0,0);
+        overflow: hidden;
+        border: 1px solid #cacaca;
+        font-size:.13rem
+    }
 
 </style>
 <body style="overflow:auto">
@@ -231,9 +265,9 @@
     <div class="content_list list hide">
         <div class="title_box">
             <div class="big_select_box">
-                <input type="text" id="startDate" class="select_box" />
+                <input type="text" name="startDate" class="select_box" />
                 <span style="float: left;margin-left: 5px">-</span>
-                <input type="text" id="endDate" class="select_box" />
+                <input type="text" name="endDate" class="select_box" />
             </div>
             <a class="button see_box">查询</a>
         </div>
@@ -251,11 +285,40 @@
 <script id="formingList" type="text/html">
     {{each list item index}}
         <div class="card">
-            <div class="card-header">{{item.FaultDate}}<img src="/Content/img/timeing_icon.png" height="20" width="20" /></div>
-            <div class="card-footer">
+            <div class="card-footer"><span>{{item.FaultDate}}</span></div>
+            <div class="card-header">
                 <span>{{item.FaultName}}</span>
-                <span>{{item.OrgName}}</span>
-                <span>执行中</span>
+                {{if item.RepairApplyState==0}}
+                <img src="/Content/img/time_icon.png" height="20" width="20" />
+                {{else}}
+                <img src="/Content/img/timeing_icon.png" height="20" width="20" />
+                {{/if}}
+            </div>
+            <div class="card-footer">
+                <span>{{item.IntegratorName}}</span>
+                {{if item.RepairApplyState==0}}
+                <span style="display:inline-block;float:right">待响应</span>
+                {{/if}}
+                {{if item.RepairApplyState==1}}
+                <span style="display:inline-block;float:right">执行中</span>
+                {{/if}}
+                {{if item.RepairApplyState==2}}
+                <span style="display:inline-block;float:right">已响应</span>
+                {{/if}}
+                {{if item.RepairApplyState==5}}
+                <span style="display:inline-block;float:right">待评价</span>
+                {{/if}}
+            </div>
+            <div class="card-footer">
+                <span>到场时间:{{item.DispatchDate}}</span>
+                <span>
+                    {{if item.RepairApplyState==0||item.RepairApplyState==1}}
+                    <a class="button see_box">查看进度</a>
+                    {{else}}
+                    <a class="button see_box">应急措施</a>
+                    <a class="button see_box">查看进度</a>
+                    {{/if}}
+                </span>
             </div>
         </div>
     {{/each}}
@@ -266,7 +329,7 @@
         <div class="card-header">{{item.FaultDate}}<img src="/Content/img/timeend_icon.png" height="20" width="20" /></div>
         <div class="card-footer">
             <span>{{item.FaultName}}</span>
-            <span>{{item.OrgName}}</span>
+            <span>{{item.IntegratorName}}</span>
             <span>结束</span>
         </div>
     </div>
@@ -275,6 +338,7 @@
 <script type="text/javascript">
     $(function () {
         domin.bingEvent();
+        domin.initControl();
         domin.loadingData();
     });
     
@@ -308,8 +372,15 @@
             //$("#startDate,#endDate").datetimePicker({});
         }
 
+        //初始化时间控件
+        function initControl() {
+            $("input[name=startDate]").datetimePicker();
+            $("input[name=endDate]").datetimePicker();
+        }
+
         //加载进行中报修订单
         function loadingData() {
+            slideing.pageParameter.params = "state=0";
             slideing.pageParameter.page = 1;
             slideing.pageParameter.rows = 10;
             slideing.pageParameter.tipId = '.forming';
@@ -323,6 +394,7 @@
 
         //加载保修结束订单
         function loadendData() {
+            slideend.pageParameter.params = "state=1";
             slideend.pageParameter.page = 1;
             slideend.pageParameter.rows = 10;
             slideend.pageParameter.tipId = '.formend';
@@ -336,6 +408,7 @@
 
         return {
             bingEvent: bingEvent,
+            initControl:initControl,
             loadingData: loadingData,
             loadendData: loadendData
         }
