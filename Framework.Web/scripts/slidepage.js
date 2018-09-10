@@ -64,7 +64,8 @@ function slidepage() {
 
     return {
         pageParameter: option,
-        initslide: initslide
+        initslide: initslide,
+        slideRequest: slideRequest
 
     }
 }

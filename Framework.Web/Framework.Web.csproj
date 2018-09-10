@@ -179,6 +179,7 @@
     <Content Include="Content\img\表单内_日历.png" />
     <Content Include="Content\css\jquery-weui.min.css" />
     <Content Include="jquery\img\upload_img.png" />
+    <Content Include="Scripts\back.js" />
     <Content Include="Scripts\jquery-weui.min.js" />
     <Content Include="Content\css\weui.min.css" />
     <Content Include="iconfont\iconfont.css" />
@@ -260,6 +261,15 @@
     <Content Include="Views\Form\Teacher.cshtml" />
     <Content Include="Views\Form\Insert.cshtml" />
     <Content Include="Views\Form\Detail.cshtml" />
+    <Content Include="Views\Form\Repair.cshtml" />
+    <Content Include="Views\WorkOrder\Index.cshtml" />
+    <Content Include="Views\Shared\_RepairUnitBar.cshtml" />
+    <Content Include="Views\WorkOrder\Detail.cshtml" />
+    <Content Include="Views\Form\RepairMan.cshtml" />
+    <Content Include="Views\Shared\_RepairManBar.cshtml" />
+    <Content Include="Views\WorkOrder\Insert.cshtml" />
+    <Content Include="Views\WorkOrder\Manager.cshtml" />
+    <Content Include="Views\Shared\_RepairManagerBar.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -282,6 +292,7 @@
     <Compile Include="Controllers\FormController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\WeChatController.cs" />
+    <Compile Include="Controllers\WorkOrderController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

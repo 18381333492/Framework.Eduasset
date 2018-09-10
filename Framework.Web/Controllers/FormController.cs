@@ -17,32 +17,61 @@ namespace Framework.Web.Controllers
         /// 老师保修单列表
         /// </summary>
         /// <returns></returns>
-        public ActionResult Teacher(PageInfo pageInfo,string startDate,string endDate,int state=0)
+        public ActionResult Teacher()
         {
-            if (!Request.IsAjaxRequest())
+            return View();
+        }
+
+        /// <summary>
+        /// 维修单位报修单列表
+        /// </summary>
+        /// <param name="pageInfo"></param>
+        /// <returns></returns>
+        public ActionResult Repair()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// 维修人员的任务
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult RepairMan()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// 分页获取报修单列表
+        /// </summary>
+        /// <param name="pageInfo"></param>
+        /// <param name="startDate"></param>
+        /// <param name="endDate"></param>
+        /// <param name="state"></param>
+        /// <returns></returns>
+        public ActionResult GetRepairApplyList(PageInfo pageInfo, string startDate, string endDate,string repairApplyState, int state = 0)
+        {
+            Parameter.method = "GetRepairApplyList";//分页获取保修单
+            Parameter.ArgsArray.Add("page", pageInfo.page);
+            Parameter.ArgsArray.Add("rows", pageInfo.rows);
+            Parameter.ArgsArray.Add("state", state);
+            if (!string.IsNullOrEmpty(repairApplyState))
             {
-                return View();
+                Parameter.ArgsArray.Add("repairApplyState", repairApplyState);
             }
-            else
+            //时间的过滤查询
+            if (!string.IsNullOrEmpty(startDate))
+                Parameter.ArgsArray.Add("startDate", startDate);
+            if (!string.IsNullOrEmpty(endDate))
+                Parameter.ArgsArray.Add("endDate", endDate);
+            var respone = HttpHelper.HttpGet(Parameter);
+            if (respone.Code == 1)
             {
-                Parameter.method = "GetRepairApplyList";//分页获取保修单
-                Parameter.ArgsArray.Add("page", pageInfo.page);
-                Parameter.ArgsArray.Add("rows", pageInfo.rows);
-                Parameter.ArgsArray.Add("state", state);
-                //时间的过滤查询
-                if (!string.IsNullOrEmpty(startDate)) 
-                    Parameter.ArgsArray.Add("startDate", startDate);
-                if (!string.IsNullOrEmpty(endDate))
-                    Parameter.ArgsArray.Add("endDate", endDate);
-                var respone=HttpHelper.HttpGet(Parameter);
-                if (respone.Code == 1)
-                {
-                    result.success = true;
-                    result.data =JsonHelper.ToJsonString(respone.Data);
-                }
-                result.info = respone.Msg;
-                return Json(result);
-            } 
+                result.success = true;
+                result.data = JsonHelper.ToJsonString(respone.Data);
+            }
+            result.info = respone.Msg;
+            return Json(result);
         }
 
 
@@ -66,29 +95,90 @@ namespace Framework.Web.Controllers
                 Parameter.method = "SaveRepairApply";//提交保修单
                 submitDatas = submitDatas.Replace(ImageUrl, string.Empty);
                 string sBody = string.Format("submitDatas={0}", submitDatas);
-                var respone= HttpHelper.HttpPost(Parameter, sBody);
-                if(respone.Code == 1)
+                var respone = HttpHelper.HttpPost(Parameter, sBody);
+                if (respone.Code == 1)
                 {
                     result.success = true;
                     result.info = "保修成功";
                 }
                 else
                 {
-                    result.info ="保修失败";
+                    result.info = "保修失败";
                 }
                 return Json(result);
             }
         }
 
         /// <summary>
-        /// 查看保修单详情
+        /// 报修单撤销
         /// </summary>
+        /// <param name="submitDatas"></param>
         /// <returns></returns>
-        public ActionResult Detail()
+        public ActionResult CancelRepairApply(string submitDatas)
         {
-            return View();
+            Parameter.method = "CancelRepairApply";//提交保修单
+            JObject job = JsonHelper.Deserialize<JObject>(submitDatas);
+            job.Add(new JProperty("CancelerName", LoginStatus.RealName));
+            string sBody = string.Format("submitDatas={0}", job.ToString());
+            var respone = HttpHelper.HttpPost(Parameter, sBody);
+            if (respone.Code == 1)
+            {
+                result.success = true;
+                result.info = "撤销成功";
+            }
+            else
+            {
+                result.info = "撤销失败";
+            }
+            return Json(result);
         }
 
+        /// <summary>
+        /// 响应保修单
+        /// </summary>
+        /// <param name="submitDatas"></param>
+        /// <returns></returns>
+        public ActionResult ResponseRepairApply(string submitDatas)
+        {
+            Parameter.method = "ResponseRepairApply";//提交保修单
+            JObject job = JsonHelper.Deserialize<JObject>(submitDatas);
+            job.Add(new JProperty("ResponserName", LoginStatus.RealName));
+            string sBody = string.Format("submitDatas={0}", job.ToString());
+            var respone = HttpHelper.HttpPost(Parameter, sBody);
+            if (respone.Code == 1)
+            {
+                result.success = true;
+                result.info = "响应成功";
+            }
+            else
+            {
+                result.info = "响应失败";
+            }
+            return Json(result);
+        }
+
+        /// <summary>
+        /// 查看保修单详情
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <returns></returns>
+        public ActionResult Detail(string ID)
+        {
+            Parameter.method = "GetRepairApplyInfoByID";  //获取单条报修单信息
+            Parameter.ArgsArray.Add("ID", ID);
+            var respone = HttpHelper.HttpGet(Parameter);
+            if (respone.Code == 1)
+            {
+               ViewBag.ImageUrl = ImageUrl;
+               ViewBag.RoleType = LoginStatus.RoleType;
+               dynamic FormInfo=(dynamic)respone.Data;
+               return View(FormInfo);
+            }
+            else
+            {
+                return Json(result);
+            }
+        }
 
         /// <summary>
         /// 根据设备编号获取设备信息
@@ -157,6 +247,26 @@ namespace Framework.Web.Controllers
             }
             else
                 result.info = "获取设备失败";
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// 根据维修单位代码获取维修人员列表
+        /// </summary>
+        /// <param name="integratorCode"></param>
+        /// <returns></returns>
+        public ActionResult GetServicePersonListByIntegratorCode()
+        {
+            Parameter.method = "GetServicePersonListByIntegratorCode";
+            Parameter.ArgsArray.Add("integratorCode", LoginStatus.OrgCode);
+            var respone = HttpHelper.HttpGet(Parameter);
+            if (respone.Code == 1)
+            {
+                result.data = JsonHelper.ToJsonString(respone.Data);
+                result.success = true;
+            }
+            else
+                result.info = "获取数据失败";
             return Json(result, JsonRequestBehavior.AllowGet);
         }
     }

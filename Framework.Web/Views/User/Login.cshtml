@@ -105,13 +105,14 @@
                 <span></span>
                 <span>记住密码</span>
             </label>
-            <a class="weui-btn weui-btn_primary login_btn">提交</a>
+            <a class="weui-btn weui-btn_primary login_btn">登录</a>
         </div>
     </div>
 </body>
 <script type="text/javascript">
     $(function () {
         try {
+            var state = true;
             var userInfo = client.localStorage.getStorage("userinfo");
             if (userInfo) {
                 $('input[name=userName]').val(userInfo.userName);
@@ -126,19 +127,39 @@
                 var psd = $.trim($('input[name=psd]').val());
                 //是否记住密码
                 var rember = $('input[name=rember]').prop("checked");
-                client.ajax.postRequest("/User/Login", { userName: userName, psd: psd }, function (r) {
-                    if (rember) {
-                        //需要记住密码
-                        client.localStorage.setStorage("userinfo", { userName: userName, psd: psd });
-                    }
-                    else {
-                        client.localStorage.setStorage("userinfo", { userName: userName, psd: null });
-                    }
-                    if (r.data == 2) {
-                        location.href = "/Form/Teacher";
-                    }
-                    //alert("登录成功");
-                });
+                if (state) {
+                    state = false;
+                    $('.login_btn').text("登录中...");
+                    client.ajax.postRequest("/User/Login", { userName: userName, psd: psd }, function (r) {
+                        $('.login_btn').text("登录成功,即将跳转");
+                        if (rember) {
+                            //需要记住密码
+                            client.localStorage.setStorage("userinfo", { userName: userName, psd: psd });
+                        }
+                        else {
+                            client.localStorage.setStorage("userinfo", { userName: userName, psd: null });
+                        }
+                        setTimeout(function () {
+                            state = true;
+                            if (r.data == 4) {//老师
+                                location.href = "/Form/Teacher";
+                            }
+                            if (r.data == 1) {//维修单位
+                                location.href = "/Form/Repair";
+                            }
+                            if (r.data == 2) {//维修人员
+                                location.href = "/Form/RepairMan";
+                            }
+                            if (r.data == 3) {//学校领导
+                                location.href = "/WorkOrder/Manager";
+                            }
+                        }, 500);
+                    }, function (r) {
+                        alert(r.info);
+                        $('.login_btn').text("登录");
+                        state = true;
+                    });
+                }
             });
 
         } catch (e) {

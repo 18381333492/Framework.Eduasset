@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "查看保修单";
+    ViewBag.Title = "查看工单";
     Layout = "~/Views/Shared/_Layout.cshtml";
     RoleType roleType = (RoleType)ViewBag.RoleType;
 }
@@ -225,7 +225,7 @@
                             <div class="item-inner">
                                 <div class="item-title label">报修时间</div>
                                 <div class="item-input">
-                                    <input type="text" name="FaultDate"  readonly value="@Model.FaultDate" />
+                                    <input type="text" name="FaultDate" readonly value="@Model.FaultDate" />
                                 </div>
                             </div>
                         </div>
@@ -296,7 +296,7 @@
                             <div class="item-inner">
                                 <div class="item-title label">维修单位</div>
                                 <div class="item-input">
-                                    <input type="text" name="IntegratorName" readonly  value="@Model.IntegratorName"/>
+                                    <input type="text" name="IntegratorName" readonly value="@Model.IntegratorName" />
                                 </div>
                             </div>
                         </div>
@@ -307,7 +307,7 @@
                             <div class="item-inner">
                                 <div class="item-title label">故障现象</div>
                                 <div class="item-input">
-                                    <input type="text" name="FaultName" readonly   value="@Model.FaultName"/>
+                                    <input type="text" name="FaultName" readonly value="@Model.FaultName" />
                                 </div>
                             </div>
                         </div>
@@ -366,53 +366,11 @@
                 </ul>
             </div>
         </form>
-        @if (roleType == RoleType.RepairUnit)
-        {
-            <div class="footter" data-RoleType="@((int)RoleType.RepairUnit)">
-                <a><img src="~/Content/img/tijiao_icon.png" />响应</a>
-            </div>
-        }
-        @if (roleType == RoleType.School&& Model.RepairApplyState==0)
-        {
-            <div class="footter" data-RoleType="@((int)RoleType.School)">
-                <a><img src="~/Content/img/tijiao_icon.png" />撤回</a>
-            </div>
-        }   
-        @if (roleType == RoleType.School && Model.RepairApplyState == 5)
-        {
-            <div class="footter" data-RoleType="@((int)RoleType.School)">
-                <a><img src="~/Content/img/tijiao_icon.png" />提交</a>
-            </div>
-        }   
     </div>
     <input id="RecordID" type="hidden" value="@Model.RecordID" />
 </body>
 <script type="text/javascript">
     $(function () {
-        $('.footter').on("click", function () {
-            var ID = $('#RecordID').val();
-            var RoleType = $(this).attr("data-RoleType");
-            if (RoleType == 1) {
-                //响应
-            }
-            if (RoleType == 4) {
-                $.confirm({
-                    title: '提示',
-                    text: '确定撤回？',
-                    onOK: function (input) {
-                        var submitDatas = {};
-                        submitDatas.ID = ID;
-                        client.ajax.postRequest("/Form/CancelRepairApply", { submitDatas: JSON.stringify(submitDatas) }, function (r) {
-                            $.toast("撤回成功");
-                            setTimeout(function () {
-                                location.href = "/Form/Teacher";
-                            },1000);
-                        }, function (r) {
-                            $.toast(r.info, "text");
-                        });
-                    }
-                });
-            }
-        });
+     
     });
 </script>

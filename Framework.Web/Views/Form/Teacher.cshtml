@@ -250,8 +250,8 @@
 <body style="overflow:auto">
         <!-- 单个page ,第一个.page默认被展示-->
 <div class="buttons-row clear">
-    <a class="tab-link button active">进行中保修单</a>
-    <a class="tab-link button">已结束保修单</a>
+    <a class="tab-link button active">进行中</a>
+    <a class="tab-link button">已结束</a>
 </div>
 <!--</header>-->
 <!-- 这里是页面内容区 -->
@@ -269,7 +269,7 @@
                 <span style="float: left;margin-left: 5px">-</span>
                 <input type="text" name="endDate" class="select_box" />
             </div>
-            <a class="button see_box">查询</a>
+            <a class="button see_box search">查询</a>
         </div>
         <!--已经结束保单-->
         <div class="formend">
@@ -284,7 +284,7 @@
 </body>
 <script id="formingList" type="text/html">
     {{each list item index}}
-        <div class="card">
+        <div class="card" data-ID="{{item.RecordID}}" data-RepairApplyState="{{item.RepairApplyState}}">
             <div class="card-footer"><span>{{item.FaultDate}}</span></div>
             <div class="card-header">
                 <span>{{item.FaultName}}</span>
@@ -302,7 +302,7 @@
                 {{if item.RepairApplyState==1}}
                 <span style="display:inline-block;float:right">执行中</span>
                 {{/if}}
-                {{if item.RepairApplyState==2}}
+                {{if item.RepairApplyState>=2&&item.RepairApplyState<5}}
                 <span style="display:inline-block;float:right">已响应</span>
                 {{/if}}
                 {{if item.RepairApplyState==5}}
@@ -313,10 +313,15 @@
                 <span>到场时间:{{item.DispatchDate}}</span>
                 <span>
                     {{if item.RepairApplyState==0||item.RepairApplyState==1}}
-                    <a class="button see_box">查看进度</a>
-                    {{else}}
-                    <a class="button see_box">应急措施</a>
-                    <a class="button see_box">查看进度</a>
+                        <a class="button see_box progress">查看进度</a>
+                    {{/if}}
+                    {{if item.RepairApplyState>=2&&item.RepairApplyState<5}}
+                        <a class="button see_box">应急措施</a>
+                        <a class="button see_box">查看进度</a>
+                    {{/if}}
+                    {{if item.RepairApplyState==5}}
+                        <a class="button see_box parse_form">服务评价</a>
+                        <a class="button see_box">查看进度</a>
                     {{/if}}
                 </span>
             </div>
@@ -325,15 +330,76 @@
 </script>
 <script id="formendList" type="text/html">
     {{each list item index}}
-    <div class="card">
-        <div class="card-header">{{item.FaultDate}}<img src="/Content/img/timeend_icon.png" height="20" width="20" /></div>
-        <div class="card-footer">
+    <div class="card" data-ID="{{item.RecordID}}">
+        <div class="card-footer"><span>{{item.FaultDate}}</span></div>
+        <div class="card-header">
             <span>{{item.FaultName}}</span>
+            <img src="/Content/img/timeend_icon.png" height="20" width="20" />
+        </div>
+        <div class="card-footer">
             <span>{{item.IntegratorName}}</span>
-            <span>结束</span>
+            <span style="display:inline-block;float:right">已结束</span>
+        </div>
+        <div class="card-footer">
+            <span>到场时间:{{item.DispatchDate}}</span>
+            <span>
+                <a class="button see_box">进度记录</a>
+            </span>
         </div>
     </div>
     {{/each}}
+</script>
+<script  id="FormProgress" type="text/html">
+    <div>
+        {{if item.RepairApplyState>=4}}
+            <!--报修单审批-->
+            <p>
+                <span>{{item.ApproveDate}}</span>
+                <span>{{item.IntegratorName}}</span>
+                <span>{{item.ApproveName}}</span>
+            </p>
+        {{/if}}
+        {{if item.RepairApplyState>=3}}
+            <!--报修单撤回-->
+            <p>
+                <span>{{item.CancelDate}}</span>
+                {{if item.roleType!=4}}
+                <span>{{item.OrgName}}</span>
+                {{/if}}
+                <span>{{item.CancelerName}}</span>      
+            </p>
+        {{/if}}
+        {{if item.RepairApplyState>=2}}
+            <!--派工信息-->
+            <p>
+                <span>{{item.DispatchDate}}</span>
+                <span>{{item.IntegratorName}}派工</span>
+                <span>{{item.ServiceHeaderName}}</span>
+                <span>{{item.ServiceHeaderContactNumber}}</span>
+                <span>{{item.PlanStartDate}}到达</span>
+            </p>
+        {{/if}}
+        {{if item.RepairApplyState>=1}}
+            <!--响应信息-->
+            <p>
+                <span>{{item.ResponseDate}}</span>
+                {{if item.roleType!=1}}
+                <span>{{item.IntegratorName}}</span>
+                {{/if}}
+                <span>{{item.ResponserName}}</span>
+            </p>
+        {{/if}}
+        {{if item.RepairApplyState>=0}}
+            <!--创建信息-->
+            <p>
+                <span>{{item.ApplyDate}}</span>
+                {{if item.roleType!=4}}
+                 <span>{{item.OrgName}}</span>
+                {{/if}}
+                <span>{{item.ApplyerName}}</span>
+            </p>
+        {{/if}}
+    </div>
 </script>
 <script type="text/javascript">
     $(function () {
@@ -363,13 +429,21 @@
                 }              
             });
 
+            //根据时间查询保修单
+            $('.search').on("click", function () {
+                $('.formend .card').remove();
+                var startDate = $('input[name=startDate]').val();
+                var endDate = $('input[name=endDate]').val();
+                slideend.pageParameter.page = 1;
+                slideend.pageParameter.params = "startDate=" + startDate + "&endDate=" + endDate;
+                slideend.slideRequest();
+            });
+
             //添加保修跳转
             $('.footter').on("click", function () {
                 location.href = "/Form/Insert";
             });
 
-            ////时间控件的绑定
-            //$("#startDate,#endDate").datetimePicker({});
         }
 
         //初始化时间控件
@@ -378,8 +452,43 @@
             $("input[name=endDate]").datetimePicker();
         }
 
+        //绑定详情事件
+        function bingElement() {
+            ////绑定详情事件
+            //$('.card').off("click").on("click", function () {
+            //    var RecordID = $(this).attr("data-ID");
+            //    location.href = "/Form/Detail?ID=" + RecordID;
+            //});
+
+            ////服务评价
+            //$('.parse_form').off("click").on("click", function () {
+            //    var RecordID = $(this).parents(".card").attr("data-ID");
+            //    location.href = "/Form/Detail?ID=" + RecordID;
+            //});
+
+            //查看进度
+            $('.progress').off("click").on("click", function (r) {
+                var RecordID = $(this).parents(".card").attr("data-ID");
+                var RepairApplyState=$(this).parents(".card").attr("data-RepairApplyState");//报修单状态
+                client.ajax.getRequest("/WorkOrder/GetInfoById", { ID: RecordID }, function (r) {
+                    var info = JSON.parse(r.data.info);
+                    info.roleType = r.data.roleType;
+                    info.RepairApplyState = RepairApplyState;
+                    var html = template("FormProgress", { item: info });
+                });
+                $.modal({
+                    title: " ",
+                    text: html,
+                    buttons: [
+                      { text: "确定", className: "default" },
+                    ]
+                });
+            });
+        }
+
         //加载进行中报修订单
         function loadingData() {
+            slideing.pageParameter.url = "/Form/GetRepairApplyList";
             slideing.pageParameter.params = "state=0";
             slideing.pageParameter.page = 1;
             slideing.pageParameter.rows = 10;
@@ -388,12 +497,14 @@
             slideing.pageParameter.callback = function (r) {
                 var html = template("formingList", { list: r.rows });
                 $('.forming').append(html);
+                bingElement();
             }
             slideing.initslide();
         }
 
         //加载保修结束订单
         function loadendData() {
+            slideend.pageParameter.url = "/Form/GetRepairApplyList";
             slideend.pageParameter.params = "state=1";
             slideend.pageParameter.page = 1;
             slideend.pageParameter.rows = 10;
@@ -402,6 +513,7 @@
             slideend.pageParameter.callback = function (r) {
                 var html = template("formendList", { list: r.rows });
                 $('.formend').append(html);
+                bingElement();
             }
             slideend.initslide();
         }

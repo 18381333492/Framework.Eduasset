@@ -1,0 +1,337 @@
+﻿
+@{
+    ViewBag.Title = "维修单位保修单";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .bar-tab {
+        background: -moz-linear-gradient(left,#2e8cbf,#3fbfe6); /*Mozilla*/
+        background: -webkit-gradient(linear,0 50%,100% 50%,from(#2e8cbf),to(#3fbfe6)); /*Old gradient for webkit*/
+        background: -webkit-linear-gradient(left,#2e8cbf,#3fbfe6); /*new gradient for Webkit*/
+        background: -o-linear-gradient(left,#2e8cbf,#3fbfe6); /*Opera11*/
+    }
+
+        .bar-tab .tab-item .icon ~ .tab-label {
+            color: white;
+        }
+
+    .icon-home:before {
+        content: none;
+    }
+
+    .buttons-row .button.active {
+        background: -moz-linear-gradient(left,#2e8cbf,#3fbfe6); /*Mozilla*/
+        background: -webkit-gradient(linear,0 50%,100% 50%,from(#2e8cbf),to(#3fbfe6)); /*Old gradient for webkit*/
+        background: -webkit-linear-gradient(left,#2e8cbf,#3fbfe6); /*new gradient for Webkit*/
+        background: -o-linear-gradient(left,#2e8cbf,#3fbfe6); /*Opera11*/
+        border: none;
+        border-radius: 0;
+    }
+
+    .buttons-row .button {
+        background: -moz-linear-gradient(left,white,#ededed); /*Mozilla*/
+        background: -webkit-gradient(linear,0 50%,100% 50%,from(#fff),to(#ededed)); /*Old gradient for webkit*/
+        background: -webkit-linear-gradient(left,#fff,#ededed); /*new gradient for Webkit*/
+        background: -o-linear-gradient(left,#fff,#ededed); /*Opera11*/
+        border: none;
+        color: #333;
+    }
+
+    .buttons-row .button {
+        height: 2.2rem;
+        line-height: 2.2rem;
+    }
+
+    .content-block {
+        margin:0;
+        padding: 0;
+    }
+    .select_box {
+        float: left;
+        width: 27%;
+        border: 1px solid #b4b4b4;
+        border-radius: .25rem;
+        height: 1.4rem;
+        line-height: 1.4rem;
+        margin-left: 5px;
+        padding: 0 2px;
+        font-size: .14rem;
+        background-color: #f8f8f8;
+    }
+
+    .search_box {
+        width: 27%;
+        float: left;
+        font-size: .14rem;
+    }
+
+    .search-input input {
+        background-color: #f8f8f8;
+        font-size: .14rem;
+    }
+
+    .see_box {
+        display: inline-block;
+        font-size: .14rem;
+        margin-left: 5px;
+        background-color: #288bc3;
+        color: white;
+        padding: 0 0.7rem;
+    }
+
+    .title_box {
+        margin: 0 5px;
+    }
+
+    .card {
+        padding: 5px 0;
+        box-shadow: none;
+        margin: 0;
+    }
+
+    .card:nth-child(2n) {
+        background-color: #f8f8f8;
+    }
+
+    .card-header {
+        border: 0;
+    }
+
+    .card-footer:before {
+        background: none;
+    }
+
+    .card-header:after {
+        background: none;
+    }
+
+    .card-footer, .card-header {
+        min-height: initial;
+        padding: .1rem .75rem;
+    }
+</style>
+<body>
+@Html.Partial("~/Views/Shared/_RepairUnitBar.cshtml")
+<!-- 这里是页面内容区 -->
+<div class="content">
+    <div class="content-block">
+        <div class="list formlist">
+            <div style="text-align:center;display:none" class="no_tip">
+                <i style="font-size:20px;" class="iconfont icon-wushuju"></i><span></span>
+            </div>
+        </div>
+    </div>
+</div>
+<!--响应弹出框-->
+<div id="responeModal" style="display:none">
+    <form id="responeform">
+        <p>
+            <label><input type="radio" name="DealType" value="0" checked />派人</label>
+            <label><input type="radio" name="DealType" value="1" />排除建议</label>
+        </p>
+        <p>
+            <span>维修建议</span>
+            <textarea name="ResponseOpinion"></textarea>
+        </p>
+        <p>
+            <span>维修人员</span>
+            <select style="width:150px;" name="ServiceHeaderId"></select>
+        </p>
+        <p>
+            <span>联系电话:</span>
+            <input type="text" name="ServiceHeaderContactNumber" style="width:150px;border:1px solid #cacaca" />
+        </p>
+        <p>
+            <span>预计开始时间:</span>
+            <input type="text" name="PlanStartDate" style="width:150px;border:1px solid #cacaca" />
+        </p>
+        <p>
+            <span>预计结束时间:</span>
+            <input type="text" name="PlanEndDate" style="width:150px;border:1px solid #cacaca" />
+        </p>
+    </form>
+</div>
+</body>
+<script id="formList" type="text/html">
+    {{each list item index}}
+    <div class="card">
+        <div class="card-footer"><span>{{item.FaultDate}}</span></div>
+        <div class="card-footer">
+            <span>{{item.OrgName}}{{item.HouseNo}}</span>
+        </div>
+        <div class="card-header">
+            <span>{{item.FaultName}}</span>
+        </div>
+        <div class="card-footer">
+            <span style="color:red">已等待:{{getInervaldate(item.ApplyDate)}}</span>
+            <span>
+                <a class="button see_box respond" data-ID="{{item.RecordID}}">响应</a>
+            </span>
+        </div>
+    </div>
+    {{/each}}
+</script>
+
+<div id="responeModal">
+       <p>
+        <label><input type="radio" name="DealType" />派人</label>
+        <label><input type="radio" name="DealType" />排除建议</label>
+       </p> 
+       <p>
+           <span>维修人员</span>
+           <select style="width:150px;" name="ServiceHeaderId">
+               <option>李三</option>
+               <option>张四</option>
+           </select>
+       </p>
+       <p>
+           <span>联系电话:</span>
+           <input type="text" name="ServiceHeaderContactNumber" style="width:150px;border:1px solid #cacaca" />
+       </p>
+        <p>
+            <span>预计到达时间:</span>
+            <input type="text" name="PlanStartDate" style="width:150px;border:1px solid #cacaca" />
+        </p>
+    </div>
+
+<script type="text/javascript">
+    $(function () {
+        domin.loadformList();
+        domin.GetServicePersonListByIntegratorCode();
+    });
+
+    var domin = (function (obj) { return obj; }(new function () {
+
+        var slideing = new slidepage();//保修数据滑动加载
+        var ServicePersonArray = [];//维修人员数据
+        var formId;//保修单的ID
+        template.defaults.imports.getInervaldate = function (faultDate) {
+            //获取两个时间差       
+                var stime = Date.parse(new Date(faultDate));
+                var etime = Date.parse(new Date());
+                var usedTime = etime - stime;  //两个时间戳相差的毫秒数
+                var days = Math.floor(usedTime / (24 * 3600 * 1000));
+                //计算出小时数
+                var leave1 = usedTime % (24 * 3600 * 1000);    //计算天数后剩余的毫秒数
+                var hours = Math.floor(leave1 / (3600 * 1000));
+                //计算相差分钟数
+                var leave2 = leave1 % (3600 * 1000);        //计算小时数后剩余的毫秒数
+                var minutes = Math.floor(leave2 / (60 * 1000));
+                if (days >= 0) {
+                    var time = days + "天" + hours + "小时" + minutes + "分钟";
+                }
+                else {
+                    if (hours > 0) {
+                        var time = hours + "小时" + minutes + "分钟";
+                    }
+                    else {
+                        var time =minutes + "分钟";
+                    }
+                }
+                return time;
+        }
+
+        //事件绑定
+        function bingEvent() {
+            //响应事件绑定
+            $('.respond').off("click").on("click", function (r) {
+                formId = $(this).attr("data-ID");//获取ID
+                var html = $('#responeModal').html();
+                $.modal({
+                    title:' ',
+                    text: html,
+                    buttons: [
+                      { text: "确定", onClick: function () { ResponeForm()} },
+                      { text: "取消", className: "default" },
+                    ]
+                });
+                //时间插件的绑定
+                $("input[name=PlanStartDate]").datetimePicker();
+                $("input[name=PlanEndDate]").datetimePicker();  
+                //绑定切换
+                $('select[name=ServiceHeaderId]').change(function () {
+                    var value = $(this).val();
+                    var ContactNumber = GetContactNumber(value).ContactNumber;
+                    $("input[name=ServiceHeaderContactNumber]").val(ContactNumber);
+                });
+                //设置默认联系方式
+                var defaultvalue = $('select[name=ServiceHeaderId]').val();
+                var ContactNumber = GetContactNumber(defaultvalue).ContactNumber;
+                $("input[name=ServiceHeaderContactNumber]").val(ContactNumber);
+            });
+        }
+
+        //获取维修人员列表
+        function GetServicePersonListByIntegratorCode() {
+            client.ajax.getRequest("/Form/GetServicePersonListByIntegratorCode", null, function (r) {
+                ServicePersonArray = JSON.parse(r.data);
+                var html = [];
+                $(ServicePersonArray).each(function () {
+                    html.push('<option value="' + this.RecordID + '">' + this.RealName + '</option>');
+                });
+                $('select[name=ServiceHeaderId]').html(html.join(''));
+            });
+        }
+
+        //根据维修人员ID获取维修人员信息
+        function GetContactNumber(ID) {
+            var person = {}
+            $(ServicePersonArray).each(function (index, item) {
+                if (item.RecordID == ID) {
+                    person = item;
+                    return false;
+                }
+            });
+            return person;
+        }
+
+        //加载维修单位的保修单
+        function loadformList() {
+            slideing.pageParameter.url = "/Form/GetRepairApplyList";
+            slideing.pageParameter.params = "state=0";
+            slideing.pageParameter.page = 1;
+            slideing.pageParameter.rows = 10;
+            slideing.pageParameter.tip = "暂无保修单";
+            slideing.pageParameter.callback = function (r) {
+                var html = template("formList", { list: r.rows });
+                $('.formlist').append(html);
+                bingEvent();
+            }
+            slideing.initslide();
+        }
+
+        //响应报修单
+        function ResponeForm() {
+            debugger
+            submitDatas = {};
+            var param = client.form.parseJson($('#responeform'));
+            submitDatas.ID = formId;//维修单ID
+            submitDatas.DealType = param.DealType;
+            if (submitDatas.DealType == 0) {
+                submitDatas.ServiceHeaderId = param.ServiceHeaderId;
+                submitDatas.ServiceHeaderName = GetContactNumber(param.ServiceHeaderId).RealName;
+                submitDatas.ServiceHeaderContactNumber = param.ServiceHeaderContactNumber;
+                submitDatas.PlanStartDate = param.PlanStartDate;
+                submitDatas.PlanEndDate = param.PlanEndDate;
+            }
+            else {
+                submitDatas.ResponseOpinion = param.ResponseOpinion;//建议
+            }
+            $.hideLoading("响应中...");
+            client.ajax.postRequest("/Form/ResponseRepairApply", { submitDatas: JSON.stringify(submitDatas) }, function (r) {
+                $.hideLoading();
+                $.toast("响应成功");
+            }, function (r) {
+                $.hideLoading();
+                $.toast(r.info, "text");
+            });
+        }
+
+        return {
+            bingEvent: bingEvent,
+            loadformList: loadformList,
+            GetServicePersonListByIntegratorCode: GetServicePersonListByIntegratorCode
+        }
+
+    }));
+</script>
