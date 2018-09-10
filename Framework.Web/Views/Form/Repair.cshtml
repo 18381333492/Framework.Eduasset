@@ -109,6 +109,9 @@
         min-height: initial;
         padding: .1rem .75rem;
     }
+    .responeform p{
+        margin-top:10px;
+    }
 </style>
 <body>
 @Html.Partial("~/Views/Shared/_RepairUnitBar.cshtml")
@@ -122,9 +125,28 @@
         </div>
     </div>
 </div>
-<!--响应弹出框-->
-<div id="responeModal" style="display:none">
-    <form id="responeform">
+</body>
+<script id="formList" type="text/html">
+    {{each list item index}}
+    <div class="card" data-ID="{{item.RecordID}}">
+        <div class="card-footer"><span>{{item.FaultDate}}</span></div>
+        <div class="card-footer">
+            <span>{{item.OrgName}}{{item.HouseNo}}</span>
+        </div>
+        <div class="card-header">
+            <span>{{item.FaultName}}</span>
+        </div>
+        <div class="card-footer">
+            <span style="color:red">已等待:{{getInervaldate(item.ApplyDate)}}</span>
+            <span>
+                <a class="button see_box respond" data-ID="{{item.RecordID}}">响应</a>
+            </span>
+        </div>
+    </div>
+    {{/each}}
+</script>
+<script type="text/html" id="responeModal">
+    <form class="responeform">
         <p>
             <label><input type="radio" name="DealType" value="0" checked />派人</label>
             <label><input type="radio" name="DealType" value="1" />排除建议</label>
@@ -150,49 +172,7 @@
             <input type="text" name="PlanEndDate" style="width:150px;border:1px solid #cacaca" />
         </p>
     </form>
-</div>
-</body>
-<script id="formList" type="text/html">
-    {{each list item index}}
-    <div class="card">
-        <div class="card-footer"><span>{{item.FaultDate}}</span></div>
-        <div class="card-footer">
-            <span>{{item.OrgName}}{{item.HouseNo}}</span>
-        </div>
-        <div class="card-header">
-            <span>{{item.FaultName}}</span>
-        </div>
-        <div class="card-footer">
-            <span style="color:red">已等待:{{getInervaldate(item.ApplyDate)}}</span>
-            <span>
-                <a class="button see_box respond" data-ID="{{item.RecordID}}">响应</a>
-            </span>
-        </div>
-    </div>
-    {{/each}}
 </script>
-
-<div id="responeModal">
-       <p>
-        <label><input type="radio" name="DealType" />派人</label>
-        <label><input type="radio" name="DealType" />排除建议</label>
-       </p> 
-       <p>
-           <span>维修人员</span>
-           <select style="width:150px;" name="ServiceHeaderId">
-               <option>李三</option>
-               <option>张四</option>
-           </select>
-       </p>
-       <p>
-           <span>联系电话:</span>
-           <input type="text" name="ServiceHeaderContactNumber" style="width:150px;border:1px solid #cacaca" />
-       </p>
-        <p>
-            <span>预计到达时间:</span>
-            <input type="text" name="PlanStartDate" style="width:150px;border:1px solid #cacaca" />
-        </p>
-    </div>
 
 <script type="text/javascript">
     $(function () {
@@ -233,10 +213,17 @@
 
         //事件绑定
         function bingEvent() {
+            //跳转详情
+            $('.card').on("click", function () {
+                var RecordID = $(this).attr("data-ID");
+                location.href = "/Form/Detail?ID=" + RecordID;
+            });
+
             //响应事件绑定
-            $('.respond').off("click").on("click", function (r) {
+            $('.respond').off("click").on("click", function (event) {
+                event.stopPropagation();
                 formId = $(this).attr("data-ID");//获取ID
-                var html = $('#responeModal').html();
+                var html = template("responeModal", null)();  
                 $.modal({
                     title:' ',
                     text: html,
@@ -288,7 +275,7 @@
         //加载维修单位的保修单
         function loadformList() {
             slideing.pageParameter.url = "/Form/GetRepairApplyList";
-            slideing.pageParameter.params = "state=0";
+            slideing.pageParameter.params = "RepairApplyState=0";
             slideing.pageParameter.page = 1;
             slideing.pageParameter.rows = 10;
             slideing.pageParameter.tip = "暂无保修单";
@@ -302,7 +289,6 @@
 
         //响应报修单
         function ResponeForm() {
-            debugger
             submitDatas = {};
             var param = client.form.parseJson($('#responeform'));
             submitDatas.ID = formId;//维修单ID

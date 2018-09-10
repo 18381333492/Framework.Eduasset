@@ -317,11 +317,11 @@
                     {{/if}}
                     {{if item.RepairApplyState>=2&&item.RepairApplyState<5}}
                         <a class="button see_box">应急措施</a>
-                        <a class="button see_box">查看进度</a>
+                        <a class="button see_box progress">查看进度</a>
                     {{/if}}
                     {{if item.RepairApplyState==5}}
                         <a class="button see_box parse_form">服务评价</a>
-                        <a class="button see_box">查看进度</a>
+                        <a class="button see_box progress">查看进度</a>
                     {{/if}}
                 </span>
             </div>
@@ -350,7 +350,7 @@
     {{/each}}
 </script>
 <script  id="FormProgress" type="text/html">
-    <div>
+    <div style="text-align:left;font-size:12px;">
         {{if item.RepairApplyState>=4}}
             <!--报修单审批-->
             <p>
@@ -387,6 +387,7 @@
                 <span>{{item.IntegratorName}}</span>
                 {{/if}}
                 <span>{{item.ResponserName}}</span>
+                <span>响应</span>
             </p>
         {{/if}}
         {{if item.RepairApplyState>=0}}
@@ -454,34 +455,37 @@
 
         //绑定详情事件
         function bingElement() {
-            ////绑定详情事件
-            //$('.card').off("click").on("click", function () {
-            //    var RecordID = $(this).attr("data-ID");
-            //    location.href = "/Form/Detail?ID=" + RecordID;
-            //});
+            //绑定详情事件
+            $('.card').off("click").on("click", function () {
+                var RecordID = $(this).attr("data-ID");
+                location.href = "/Form/Detail?ID=" + RecordID;
+            });
 
-            ////服务评价
-            //$('.parse_form').off("click").on("click", function () {
-            //    var RecordID = $(this).parents(".card").attr("data-ID");
-            //    location.href = "/Form/Detail?ID=" + RecordID;
-            //});
+            //服务评价
+            $('.parse_form').off("click").on("click", function (event) {
+                event.stopPropagation();
+                var RecordID = $(this).parents(".card").attr("data-ID");
+                location.href = "/Form/Detail?ID=" + RecordID;
+            });
 
             //查看进度
-            $('.progress').off("click").on("click", function (r) {
+            $('.progress').off("click").on("click", function (event) {
+                event.stopPropagation();
                 var RecordID = $(this).parents(".card").attr("data-ID");
-                var RepairApplyState=$(this).parents(".card").attr("data-RepairApplyState");//报修单状态
-                client.ajax.getRequest("/WorkOrder/GetInfoById", { ID: RecordID }, function (r) {
+                var RepairApplyState = $(this).parents(".card").attr("data-RepairApplyState");//报修单状态
+                var sUrl = RepairApplyState < 3 ? "/Form/GetInfoById" : "/WorkOrder/GetInfoById";
+                client.ajax.getRequest(sUrl, { ID: RecordID }, function (r) {
                     var info = JSON.parse(r.data.info);
                     info.roleType = r.data.roleType;
                     info.RepairApplyState = RepairApplyState;
                     var html = template("FormProgress", { item: info });
-                });
-                $.modal({
-                    title: " ",
-                    text: html,
-                    buttons: [
-                      { text: "确定", className: "default" },
-                    ]
+                    $.modal({
+                        title: " ",
+                        text: html,
+                        buttons: [
+                          { text: "确定", className: "default" },
+                        ]
+                    });
                 });
             });
         }

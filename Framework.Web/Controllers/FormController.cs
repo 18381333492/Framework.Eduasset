@@ -181,6 +181,32 @@ namespace Framework.Web.Controllers
         }
 
         /// <summary>
+        /// 根据ID获取保修单信息
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult GetInfoById(string ID)
+        {
+            Parameter.method = "GetRepairApplyInfoByID";  //获取单条工单信息
+            Parameter.ArgsArray.Add("ID", ID);
+            var respone = HttpHelper.HttpGet(Parameter);
+            if (respone.Code == 1)
+            {
+                result.success = true;
+                result.data = new
+                {
+                    info = JsonHelper.ToJsonString(respone.Data),
+                    roleType = (int)LoginStatus.RoleType
+                };
+            }
+            else
+            {
+                result.success = false;
+                result.info = "获取数据失败";
+            }
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
         /// 根据设备编号获取设备信息
         /// </summary>
         /// <param name="deviceCode"></param>

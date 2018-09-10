@@ -129,20 +129,13 @@
     <div class="card" data-ID="{{item.RecordID}}">
         <div class="card-footer"><span>{{item.FaultDate}}</span></div>
         <div class="card-footer">
-            <span>{{item.OrgName}}{{item.HouseNo}}</span>
-            <span>{{item.OrgName}}{{item.HouseNo}}</span>
+            <span>{{item.IntegratorName}}-{{item.DispatcherName}}</span>
         </div>
         <div class="card-header">
             <span>{{item.FaultName}}</span>
         </div>
         <div class="card-footer">
-            <span style="color:red">到场时间:</span>
-        </div>
-        <div class="card-footer">
-            <span style="color:red">处理时间:</span>
-            <span>
-                <a class="button see_box respond" data-ID="{{item.RecordID}}">创建工单</a>
-            </span>
+            <span style="color:red">已等待:{{getInervaldate(item.DealDate)}}</span>
         </div>
     </div>
     {{/each}}
@@ -156,6 +149,32 @@
 
         var slideing = new slidepage();//保修数据滑动加载
 
+        template.defaults.imports.getInervaldate = function (faultDate) {
+            //获取两个时间差       
+            var stime = Date.parse(new Date(faultDate));
+            var etime = Date.parse(new Date());
+            var usedTime = etime - stime;  //两个时间戳相差的毫秒数
+            var days = Math.floor(usedTime / (24 * 3600 * 1000));
+            //计算出小时数
+            var leave1 = usedTime % (24 * 3600 * 1000);    //计算天数后剩余的毫秒数
+            var hours = Math.floor(leave1 / (3600 * 1000));
+            //计算相差分钟数
+            var leave2 = leave1 % (3600 * 1000);        //计算小时数后剩余的毫秒数
+            var minutes = Math.floor(leave2 / (60 * 1000));
+            if (days >= 0) {
+                var time = days + "天" + hours + "小时" + minutes + "分钟";
+            }
+            else {
+                if (hours > 0) {
+                    var time = hours + "小时" + minutes + "分钟";
+                }
+                else {
+                    var time = minutes + "分钟";
+                }
+            }
+            return time;
+        }
+
         //事件绑定
         function bingEvent() {
             $('.card').off("click").on("click", function (r) {
@@ -167,7 +186,7 @@
         //加载待审批的工单数据列表
         function loadWorkOrderData() {
             slideing.pageParameter.url = "/WorkOrder/GetWorkOrderList";
-            slideing.pageParameter.params = "state=0";
+            slideing.pageParameter.params = "workOrderState=0";
             slideing.pageParameter.page = 1;
             slideing.pageParameter.rows = 10;
             slideing.pageParameter.tip = "暂无待审批的工单";
