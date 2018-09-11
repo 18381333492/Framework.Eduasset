@@ -180,6 +180,7 @@
     <Content Include="Content\css\jquery-weui.min.css" />
     <Content Include="jquery\img\upload_img.png" />
     <Content Include="Scripts\back.js" />
+    <Content Include="Scripts\highcharts.js" />
     <Content Include="Scripts\jquery-weui.min.js" />
     <Content Include="Content\css\weui.min.css" />
     <Content Include="iconfont\iconfont.css" />
@@ -270,6 +271,9 @@
     <Content Include="Views\WorkOrder\Insert.cshtml" />
     <Content Include="Views\WorkOrder\Manager.cshtml" />
     <Content Include="Views\Shared\_RepairManagerBar.cshtml" />
+    <Content Include="Views\WorkOrder\DirectlyInsert.cshtml" />
+    <Content Include="Views\WorkOrder\History.cshtml" />
+    <Content Include="Views\WorkOrder\Count.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

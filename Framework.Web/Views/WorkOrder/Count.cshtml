@@ -1,0 +1,69 @@
+﻿
+@{
+    ViewBag.Title = "工单统计";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<body>
+    <div id="container" style="width:100%"></div>
+</body>
+<script src="~/Scripts/highcharts.js"></script>
+<script type="text/javascript">
+    $(function () {
+
+        client.ajax.getRequest("/WorkOrder/GetWorkOrderStateCount", null, function (r) {
+            debugger
+            var countInfo = JSON.parse(r);
+        });
+
+        function InitHighcharts() {
+            var chart = Highcharts.chart('container', {
+                title: {
+                    text: '工单统计'
+                },
+                tooltip: {
+                    headerFormat: '{series.name}<br>',
+                    pointFormat: '{point.name}: <b>{point.percentage:.1f}%</b>'
+                },
+                legend: {
+                    align: 'left',
+                    floating: true,
+                    layout: 'vertical'
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,  // 可以被选择
+                        cursor: 'pointer',       // 鼠标样式
+                        dataLabels: {
+                            enabled: true,
+                            format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                            style: {
+                                color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                            },
+                        },
+                        showInLegend: true // 设置饼图是否在图例中显示
+                    }
+                },
+                series: [{
+                    size: '60%',
+                    type: 'pie',
+                    name: '浏览器访问量占比',
+                    // data: data
+                    data: [
+                        ['Firefox', 45.0],
+                        ['IE', 26.8],
+                        {
+                            name: 'Chrome',
+                            y: 12.8,
+                            sliced: true,  // 默认突出
+                            selected: true // 默认选中 
+                        },
+                        ['Safari', 8.5],
+                        ['Opera', 6.2],
+                        ['其他', 7.7]
+                    ]
+                }]
+            });
+        }     
+    });
+</script>
+

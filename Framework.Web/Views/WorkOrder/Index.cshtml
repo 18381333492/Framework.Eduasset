@@ -3,6 +3,7 @@
     ViewBag.Title = "维修任务";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@model LoginCacheInfo
 <style>
     .bar-tab {
         background: -moz-linear-gradient(left,#2e8cbf,#3fbfe6); /*Mozilla*/
@@ -123,7 +124,7 @@
         <a class="tab-link button active">执行中</a>
         <a class="tab-link button">已结束</a>
     </div>
-    @Html.Partial("~/Views/Shared/_RepairUnitBar.cshtml")
+    @Html.Partial("~/Views/Shared/_RepairManagerBar.cshtml",Model)
     <!-- 这里是页面内容区 -->
     <div class="content_list">
         <!--执行中-->
@@ -146,7 +147,7 @@
     {{each list item index}}
     <div class="card" data-ID="{{item.RecordID}}">
         <div class="card-footer"><span>{{item.ApplyDate}}</span></div>
-        <div class="card-header">
+        <div class="card-footer">
             <span>{{item.OrgName}}</span>
             <span>{{item.DispatcherName}}</span>
             {{if item.WorkOrderState==0}}
@@ -159,7 +160,7 @@
                 <span>待评价</span>
             {{/if}}
         </div>
-        <div class="card-footer">
+        <div class="card-header">
             <span>{{item.FaultName}}</span> 
         </div>
         <div class="card-footer">
@@ -168,7 +169,7 @@
         <div class="card-footer">
             <span>处理时间:{{item.FactStartDate}}</span>
             <span>
-                <a class="button see_box">查看进度</a>
+                <a class="button see_box progress">查看进度</a>
             </span>
         </div>
     </div>
@@ -178,11 +179,11 @@
     {{each list item index}}
     <div class="card" data-ID="{{item.RecordID}}">
         <div class="card-footer"><span>{{item.ApplyDate}}</span></div>
-        <div class="card-header">
+        <div class="card-footer">
             <span>{{item.OrgName}}</span>
             <span>{{item.DispatcherName}}</span>
         </div>
-        <div class="card-footer">
+        <div class="card-header">
             <span>{{item.FaultName}}</span>
         </div>
         <div class="card-footer">
@@ -191,11 +192,64 @@
         <div class="card-footer">
             <span>处理时间:{{item.FactStartDate}}</span>
             <span>
-                <a class="button see_box">进度</a>
+                <a class="button see_box progress">查看进度</a>
             </span>
         </div>
     </div>
     {{/each}}
+</script>
+<script id="FormProgress" type="text/html">
+    <div style="text-align:left;font-size:12px;">
+        {{if item.RepairApplyState>=4}}
+        <!--报修单审批-->
+        <p>
+            <span>{{item.ApproveDate}}</span>
+            <span>{{item.IntegratorName}}</span>
+            <span>{{item.ApproveName}}</span>
+        </p>
+        {{/if}}
+        {{if item.RepairApplyState>=3}}
+        <!--报修单撤回-->
+        <p>
+            <span>{{item.CancelDate}}</span>
+            {{if item.roleType!=4}}
+            <span>{{item.OrgName}}</span>
+            {{/if}}
+            <span>{{item.CancelerName}}</span>
+        </p>
+        {{/if}}
+        {{if item.RepairApplyState>=2}}
+        <!--派工信息-->
+        <p>
+            <span>{{item.DispatchDate}}</span>
+            <span>{{item.IntegratorName}}派工</span>
+            <span>{{item.ServiceHeaderName}}</span>
+            <span>{{item.ServiceHeaderContactNumber}}</span>
+            <span>{{item.PlanStartDate}}到达</span>
+        </p>
+        {{/if}}
+        {{if item.RepairApplyState>=1}}
+        <!--响应信息-->
+        <p>
+            <span>{{item.ResponseDate}}</span>
+            {{if item.roleType!=1}}
+            <span>{{item.IntegratorName}}</span>
+            {{/if}}
+            <span>{{item.ResponserName}}</span>
+            <span>响应</span>
+        </p>
+        {{/if}}
+        {{if item.RepairApplyState>=0}}
+        <!--创建信息-->
+        <p>
+            <span>{{item.ApplyDate}}</span>
+            {{if item.roleType!=4}}
+            <span>{{item.OrgName}}</span>
+            {{/if}}
+            <span>{{item.ApplyerName}}</span>
+        </p>
+        {{/if}}
+    </div>
 </script>
 <script type="text/javascript">
     $(function () {
@@ -233,9 +287,31 @@
 
         //绑定详情事件
         function bingElement() {
+            //跳转详情
             $('.card').off("click").on("click", function () {
                 var RecordID = $(this).attr("data-ID");
-                location.href = "/Form/Detail?ID=" + RecordID;
+                location.href = "/WorkOrder/Detail?ID=" + RecordID;
+            });
+
+            //查看进度
+            $('.progress').off("click").on("click", function (event) {
+                event.stopPropagation();
+                var RecordID = $(this).parents(".card").attr("data-ID");
+                var RepairApplyState = $(this).parents(".card").attr("data-RepairApplyState");//报修单状态
+                var sUrl ="/WorkOrder/GetInfoById";
+                client.ajax.getRequest(sUrl, { ID: RecordID }, function (r) {
+                    var info = JSON.parse(r.data.info);
+                    info.roleType = r.data.roleType;
+                    info.RepairApplyState = RepairApplyState;
+                    var html = template("FormProgress", { item: info });
+                    $.modal({
+                        title: " ",
+                        text: html,
+                        buttons: [
+                          { text: "确定", className: "default" },
+                        ]
+                    });
+                });
             });
         }
 
@@ -276,7 +352,5 @@
             loadWorkOrderIngData: loadWorkOrderIngData,
             loadWorkOrderEndData: loadWorkOrderEndData
         }
-
     }));
-
 </script>

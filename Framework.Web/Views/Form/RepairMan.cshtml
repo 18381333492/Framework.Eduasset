@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "任务";
+    ViewBag.Title = "我的任务";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <style>
@@ -153,7 +153,7 @@
                 <a class="button see_box create" data-ID="{{item.RecordID}}">创建工单</a>
                 {{/if}}
                 {{if item.RepairApplyState>2}}
-                <a class="button see_box create" data-ID="{{item.RecordID}}">查看工单</a>
+                <a class="button see_box see" data-ID="{{item.RecordID}}">查看工单</a>
                 {{/if}}
             </span>
         </div>
@@ -171,24 +171,25 @@
      
         //事件绑定
         function bingEvent() {
-            //绑定详情事件
-            $('.card').off("click").on("click", function () {
-                var RecordID = $(this).attr("data-ID");
-                location.href = "/Form/Detail?ID=" + RecordID;
-            });
-
             //创建工单
             $('.create').off("click").on("click", function (event) {
                 event.stopPropagation();
                 var RecordID = $(this).parents(".card").attr("data-ID");
-                location.href = "/Form/Detail?ID=" + RecordID;
+                location.href = "/WorkOrder/Insert?ID=" + RecordID;
+            });
+
+            //差看工单
+            $('.see').off("click").on("click", function (event) {
+                event.stopPropagation();
+                var RecordID = $(this).parents(".card").attr("data-ID");
+                location.href = "/WorkOrder/Detail?repairApplyId=" + RecordID;
             });
         }
 
         //加载维修单位的保修单
         function loadformList() {
             slideing.pageParameter.url = "/Form/GetRepairApplyList";
-            slideing.pageParameter.params = "repairApplyState=2";
+            slideing.pageParameter.params = "repairApplyState=2,3,4,5";
             slideing.pageParameter.page = 1;
             slideing.pageParameter.rows = 10;
             slideing.pageParameter.tip = "暂无待创建的保修单";

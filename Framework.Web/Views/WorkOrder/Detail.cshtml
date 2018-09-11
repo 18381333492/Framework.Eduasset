@@ -176,7 +176,7 @@
 <body>
     <header class="bar bar-nav heard">
         <a class="icon icon-left pull-left back"></a>
-        <h1 class="title">查看保修单</h1>
+        <h1 class="title">查看工单</h1>
     </header>
     <div class="content">
         <form id="commit_form">
@@ -199,7 +199,7 @@
                             <div class="item-inner">
                                 <div class="item-title label">门牌号</div>
                                 <div class="item-input">
-                                    <input class="weui-select" name="HouseNo" readonly value="@Model.HouseNo">
+                                    <input name="HouseNo" readonly value="@Model.HouseNo">
                                 </div>
                             </div>
                         </div>
@@ -263,7 +263,7 @@
                             <div class="item-inner">
                                 <div class="item-title label">设备类型</div>
                                 <div class="item-input">
-                                    <input class="weui-select" name="TypeName" readonly value="@Model.TypeName">
+                                    <input name="TypeName" readonly value="@Model.TypeName">
                                 </div>
                             </div>
                         </div>
@@ -274,7 +274,7 @@
                             <div class="item-inner">
                                 <div class="item-title label">设备名称</div>
                                 <div class="item-input">
-                                    <input class="weui-select" readonly value="@Model.DeviceName">
+                                    <input readonly value="@Model.DeviceName">
                                 </div>
                             </div>
                         </div>
@@ -342,12 +342,41 @@
                         </div>
                     </li>
                     <li>
-                        <div class="item-content">
+                        <div class="item-content ">
                             <div class="item-media"><i class="icon icon-form-email"></i></div>
-                            <div class="item-inner">
-                                <div class="item-title label">开始时间</div>
+                            <div class="item-inner clear">
+                                <div class="item-title label">故障原因</div>
                                 <div class="item-input">
-                                    <input type="text" name="RequireStartDate" readonly value="@Model.RequireStartDate" />
+                                    <input type="text" name="FaultReason" />
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item-content ">
+                            <div class="item-media"><i class="icon icon-form-email"></i></div>
+                            <div class="item-inner clear">
+                                <div class="item-title label">故障处理</div>
+                                <div class="textarea_box">
+                                    <textarea name="DealWay"></textarea>
+                                    <div class="clear">
+                                    @if (Model.DealPicPath1!= null)
+                                    {
+                                    <img class="img" src="@(Convert.ToString(ViewBag.ImageUrl)+Convert.ToString(Model.FaultPicPath1))" />
+                                    }
+                                    @if (Model.DealPicPath2 != null)
+                                    {
+                                        <img class="img" src="@(Convert.ToString(ViewBag.ImageUrl)+Convert.ToString(Model.FaultPicPath2))" />
+                                    }
+                                    @if (Model.DealPicPath3 != null)
+                                    {
+                                        <img class="img" src="@(Convert.ToString(ViewBag.ImageUrl)+Convert.ToString(Model.FaultPicPath3))" />
+                                    }
+                                    @if (Model.DealPicPath4 != null)
+                                    {
+                                        <img class="img" src="@(Convert.ToString(ViewBag.ImageUrl)+Convert.ToString(Model.FaultPicPath4))" />
+                                    }
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -356,21 +385,262 @@
                         <div class="item-content">
                             <div class="item-media"><i class="icon icon-form-email"></i></div>
                             <div class="item-inner">
-                                <div class="item-title label">结束时间</div>
+                                <div class="item-title label">配件名称</div>
                                 <div class="item-input">
-                                    <input type="text" name="RequireEndDate" readonly value="@Model.RequireStartDate" />
+                                    <input type="text" name="PartName" class="select_box" />
                                 </div>
                             </div>
                         </div>
                     </li>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-email"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title label">品牌</div>
+                                <div class="item-input">
+                                    <input type="text" name="ProductModel" class="select_box" value="" />
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-email"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title label">数量</div>
+                                <div class="item-input">
+                                    <input type="number" name="ConsumeNumber" class="select_box" value="" />
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-email"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title label">单位</div>
+                                <div class="item-input">
+                                    <input type="text" name="NumberUnit" class="select_box" value="" />
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-email"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title label">单价</div>
+                                <div class="item-input">
+                                    <input type="text" name="Price" class="select_box" value="" />
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-email"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title label">要求开始时间</div>
+                                <div class="item-input">
+                                    <input type="text" name="RequireStartDate" class="select_box" value="@Model.RequireStartDate" />
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-email"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title label">要求结束时间</div>
+                                <div class="item-input">
+                                    <input type="text" name="RequireEndDate" class="select_box" value="@Model.RequireEndDate" />
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-email"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title label">计划开始时间</div>
+                                <div class="item-input">
+                                    <input type="text" name="PlanStartDate" class="select_box" value="@Model.PlanStartDate" />
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-email"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title label">计划结束时间</div>
+                                <div class="item-input">
+                                    <input type="text" name="PlanEndDate" class="select_box" value="@Model.PlanEndDate" />
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-email"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title label">实际开始时间</div>
+                                <div class="item-input">
+                                    <input type="text" name="FactStartDate" class="select_box" value="@Model.FactStartDate" />
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-email"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title label">实际结束时间</div>
+                                <div class="item-input">
+                                    <input type="text" name="FactEndDate" class="select_box" value="@Model.FactEndDate" />
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="last">
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-email"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title label">维修人员</div>
+                                <div class="item-input">
+                                    <input type="text" name="ServicePersons" class="select_box" value="@Model.ServiceHeaderName" />
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    @if(roleType == RoleType.School&& Convert.ToInt32(Model.WorkOrderState)==2)
+                    {
+                        <li class="last">
+                            <div class="item-content">
+                                <div class="item-media"><i class="icon icon-form-email"></i></div>
+                                <div class="item-inner">
+                                    <div class="item-title label">服务评价</div>
+                                    <div class="item-input">
+                                        <label><input type="radio" name="SureLevel" value="0">满意</label> 
+                                        <label><input type="radio" name="SureLevel" value="2">一般</label> 
+                                        <label><input type="radio" name="SureLevel" value="2">较差</label> 
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="item-content ">
+                                <div class="item-media"><i class="icon icon-form-email"></i></div>
+                                <div class="item-inner clear">
+                                    <div class="item-title label">意见</div>
+                                    <div class="textarea_box">
+                                        <textarea name="SureOpinion"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    }
                 </ul>
             </div>
         </form>
+        @if (roleType == RoleType.RepairMan&& Convert.ToInt32(Model.WorkOrderState)==0)
+        {
+            <div class="footter" data-RoleType="@((int)RoleType.RepairMan)">
+                <a><img src="~/Content/img/tijiao_icon.png" />撤回</a>
+            </div>
+        }
+        @if (roleType == RoleType.School && Convert.ToInt32(Model.WorkOrderState) == 2)
+        {
+            <div class="footter" data-RoleType="@((int)RoleType.School)">
+                <a><img src="~/Content/img/tijiao_icon.png" />评价</a>
+            </div>
+        }
+        @if (roleType == RoleType.Manager && Convert.ToInt32(Model.WorkOrderState)==0)
+        {
+            <div class="footter" data-RoleType="@((int)RoleType.Manager)">
+                <a><img src="~/Content/img/tijiao_icon.png" />审批</a>
+            </div>
+        }
     </div>
     <input id="RecordID" type="hidden" value="@Model.RecordID" />
 </body>
+<!--审批弹出款-->
+<script type="text/html" id="verifyModal">
+    <form class="verifyContent">
+        <p>
+            <label><input type="radio" name="verifyType" value="0" checked />同意</label>
+            <label><input type="radio" name="verifyType" value="1" />拒绝</label>
+        </p>
+        <p>
+            <span>说明</span>
+            <textarea name="ApproveOpinion"></textarea>
+        </p>
+    </form>
+</script>
 <script type="text/javascript">
     $(function () {
-     
+        $('.footter').on("click", function () {
+            var ID = $('#RecordID').val();
+            var RoleType = $(this).attr("data-RoleType");
+            if (RoleType == 4) {
+                //工单评价
+                submitDatas.ID = ID;
+                submitDatas.SureLevel = $('input[name=SureLevel]:checked').val();
+                submitDatas.SureOpinion = $('textarea[name=SureOpinion]').val();
+                client.ajax.postRequest("/WorkOrder/SureWorkOrder", { submitDatas: JSON.stringify(submitDatas) }, function (r) {
+                    $.toast("评价成功");
+                    setTimeout(function () {
+                        location.href = "/Form/Teacher";
+                    }, 1000);
+                }, function (r) {
+                    $.toast(r.info, "text");
+                });
+            }
+            if (RoleType == 3) {
+                var html = template("verifyModal", null)();
+                $.modal({
+                    title: ' ',
+                    text: html,
+                    buttons: [
+                      {
+                          text: "确定", className: "default", onClick: function () {
+                              var param = client.form.parseJson($('.verifyContent'));
+                              var sUrl = param == 0 ? "/WorkOrder/PassWorkOrder" : "/WorkOrder/UnPassWorkOrder";
+                              submitDatas = {};
+                              submitDatas.ID = ID;
+                              submitDatas.ApproveOpinion = param.ApproveOpinion;
+                              client.ajax.postRequest(sUrl, { submitDatas: JSON.stringify(submitDatas) }, function (r) {
+                                  $.toast(r.info);
+                                  setTimeout(function () {
+                                      location.href = "/WorkOrder/Manager";
+                                  }, 1000);
+                              }, function (r) {
+                                  $.toast(r.info, "text");
+                              });
+                          }
+                      },
+                    ]
+                });
+            }
+            if (RoleType == 2) {
+                //工单撤回
+                $.confirm({
+                    title: '提示',
+                    text: '确定撤回？',
+                    onOK: function (input) {
+                        var submitDatas = {};
+                        submitDatas.ID = ID;
+                        client.ajax.postRequest("/WorkOrder/CancelWorkOrder", { submitDatas: JSON.stringify(submitDatas) }, function (r) {
+                            $.toast("撤回成功");
+                            setTimeout(function () {
+                                location.href = "/Form/RepairMan";
+                            }, 1000);
+                        }, function (r) {
+                            $.toast(r.info, "text");
+                        });
+                    }
+                });
+            }
+        });
     });
 </script>

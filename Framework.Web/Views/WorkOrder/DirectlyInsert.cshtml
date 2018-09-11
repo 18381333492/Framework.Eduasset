@@ -1,0 +1,1008 @@
+﻿
+@{
+    ViewBag.Title = "创建工单";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model LoginCacheInfo
+<style>
+    body {
+        background-color: white;
+    }
+
+    .heard.bar {
+        background: -moz-linear-gradient(left,#2e8cbf,#3fbfe6); /*Mozilla*/
+        background: -webkit-gradient(linear,0 50%,100% 50%,from(#2e8cbf),to(#3fbfe6)); /*Old gradient for webkit*/
+        background: -webkit-linear-gradient(left,#2e8cbf,#3fbfe6); /*new gradient for Webkit*/
+        background: -o-linear-gradient(left,#2e8cbf,#3fbfe6); /*Opera11*/
+        color: white;
+    }
+
+    .heard .title {
+        color: white;
+    }
+
+    .bar .icon {
+        color: white;
+    }
+
+    .list-block .item-inner:after {
+        background: none;
+    }
+
+    .list-block ul:before {
+        background: none;
+    }
+
+    .list-block {
+        margin: 0;
+    }
+
+        .list-block .item-title.label {
+            text-align: left;
+            width: 28%;
+            font-size: .7rem;
+            color: #333;
+        }
+
+        .list-block .item-input {
+            border: 1px solid #b4b4b4;
+            border-radius: .25rem;
+            height: 1.4rem;
+            line-height: 1.4rem;
+            margin-left: 5px;
+            padding: 0 2px;
+            font-size: .14rem;
+            background-color: #fff;
+        }
+
+        .list-block input[type=text], .list-block input[type=password], .list-block input[type=email], .list-block input[type=tel], .list-block input[type=url], .list-block input[type=date], .list-block input[type=datetime-local], .list-block input[type=time], .list-block input[type=number], .list-block input[type=search], .list-block select, .list-block textarea {
+            height: 1.4rem;
+            line-height: 1.4rem;
+            font-size: .25rem;
+            color: #333;
+        }
+
+        .list-block .item-inner:after {
+            background: none;
+        }
+
+    .list-block {
+        background-color: white;
+    }
+
+        .list-block ul {
+            margin: 0 3%;
+            border-bottom: 1px dashed #888;
+        }
+
+    .add_box {
+        background: -moz-linear-gradient(left,#2e8cbf,#3fbfe6); /*Mozilla*/
+        background: -webkit-gradient(linear,0 50%,100% 50%,from(#2e8cbf),to(#3fbfe6)); /*Old gradient for webkit*/
+        background: -webkit-linear-gradient(left,#2e8cbf,#3fbfe6); /*new gradient for Webkit*/
+        background: -o-linear-gradient(left,#2e8cbf,#3fbfe6); /*Opera11*/
+        font-size: .14rem;
+        border: none;
+        height: 2rem;
+        line-height: 2rem;
+        color: white;
+        width: 62%;
+        border-radius: 5px;
+        margin-left: 34%;
+    }
+
+    .email_box {
+        font-size: .14rem;
+        margin-left: 30%;
+        margin-top: 5px;
+    }
+
+        .email_box img {
+            width: 1rem;
+            height: auto;
+            position: relative;
+            top: 5px;
+        }
+
+    .footter {
+        background: -moz-linear-gradient(left,#2e8cbf,#3fbfe6); /*Mozilla*/
+        background: -webkit-gradient(linear,0 50%,100% 50%,from(#2e8cbf),to(#3fbfe6)); /*Old gradient for webkit*/
+        background: -webkit-linear-gradient(left,#2e8cbf,#3fbfe6); /*new gradient for Webkit*/
+        background: -o-linear-gradient(left,#2e8cbf,#3fbfe6); /*Opera11*/
+        text-align: center;
+        color: white;
+        height: 2.2rem;
+        line-height: 2.2rem;
+        position: fixed;
+        width: 100%;
+        bottom: 0;
+    }
+
+        .footter img {
+            width: 15px;
+            margin-right: 10px;
+        }
+
+        .footter a {
+            color: white;
+        }
+
+    .textarea_box {
+        position: relative;
+        width: 100%;
+        border: 1px solid #b4b4b4;
+        margin-bottom: 3px;
+        border-radius: .25rem;
+    }
+
+        .textarea_box textarea {
+            height: 4rem;
+            width: 100%;
+            margin: 0px 5px 10px;
+            line-height: 1rem;
+        }
+
+    .list-block ul ul {
+        padding-left: 0px;
+    }
+
+    .textarea_box ul {
+        padding: 0 10px;
+    }
+
+        .textarea_box ul li {
+            width: 1.6rem;
+            /*float: left;*/
+        }
+
+    .textarea_box .img {
+        width: 2rem;
+        height: 2rem;
+        border-radius: 5px;
+        object-fit: cover;
+        margin-right: 3px;
+        position: relative;
+    }
+
+    .textarea_box .del {
+        position: absolute;
+        top: -8px;
+        right: -6px;
+    }
+
+    .list-block ul li.last {
+        margin-bottom: 3rem;
+    }
+</style>
+<body>
+    <header class="bar bar-nav heard">
+        <a class="icon icon-left pull-left back"></a>
+        <h1 class="title">创建工单</h1>
+        <a id="codeScan" class="icon icon-left iconfont icon-saoyisao" style="float:right;font-size:1.3rem"></a>
+    </header>
+    <div class="content">
+    
+    <div class="list-block">
+        <ul>
+            <li>
+                <div class="item-content">
+                    <div class="item-media"><i class="icon icon-form-email"></i></div>
+                    <div class="item-inner">
+                        <div class="item-title label">学校名称</div>
+                        <div class="item-input">
+                            <input type="text" name="OrgName" class="select_box" readonly />
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="item-content">
+                    <div class="item-media"><i class="icon icon-form-email"></i></div>
+                    <div class="item-inner">
+                        <div class="item-title label">门牌号</div>
+                        <div class="item-input">
+                            <select class="weui-select" name="HouseNo"></select>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="item-content">
+                    <div class="item-media"><i class="icon icon-form-name"></i></div>
+                    <div class="item-inner">
+                        <div class="item-title label">班级</div>
+                        <div class="item-input">
+                            <input type="text" name="ClassName">
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="list-block">
+        <ul>
+            <li>
+                <div class="item-content">
+                    <div class="item-media"><i class="icon icon-form-email"></i></div>
+                    <div class="item-inner">
+                        <div class="item-title label">报修时间</div>
+                        <div class="item-input">
+                            <input type="text" name="FaultDate" class="select_box" />
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="item-content">
+                    <div class="item-media"><i class="icon icon-form-name"></i></div>
+                    <div class="item-inner">
+                        <div class="item-title label">报修人</div>
+                        <div class="item-input">
+                            <input type="text" name="Linkman" value="@Model.RealName">
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="item-content">
+                    <div class="item-media"><i class="icon icon-form-name"></i></div>
+                    <div class="item-inner">
+                        <div class="item-title label">联系电话</div>
+                        <div class="item-input">
+                            <input type="tel" name="ContactNumber">
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <!--设备相关-->
+    <div id="formDiv0" class="list-block autoform">
+        <ul>
+            <li>
+                <div class="item-content">
+                    <div class="item-media"><i class="icon icon-form-email"></i></div>
+                    <div class="item-inner">
+                        <div class="item-title label">设备类型</div>
+                        <div class="item-input">
+                            <select class="weui-select" name="TypeName"></select>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="item-content">
+                    <div class="item-media"><i class="icon icon-form-name"></i></div>
+                    <div class="item-inner">
+                        <div class="item-title label">设备名称</div>
+                        <div class="item-input">
+                            <select class="weui-select" name="DeviceCode"></select>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="item-content">
+                    <div class="item-media"><i class="icon icon-form-email"></i></div>
+                    <div class="item-inner">
+                        <div class="item-title label">位置</div>
+                        <div class="item-input">
+                            <input type="text" name="StorePlace">
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="item-content">
+                    <div class="item-media"><i class="icon icon-form-email"></i></div>
+                    <div class="item-inner">
+                        <div class="item-title label">维修单位</div>
+                        <div class="item-input">
+                            <input type="text" name="IntegratorName" readonly />
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="item-content">
+                    <div class="item-media"><i class="icon icon-form-email"></i></div>
+                    <div class="item-inner">
+                        <div class="item-title label">故障现象</div>
+                        <div class="item-input">
+                            <input type="text" name="FaultName" class="select_box" />
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="item-content ">
+                    <div class="item-media"><i class="icon icon-form-email"></i></div>
+                    <div class="item-inner clear">
+                        <div class="item-title label">故障描述</div>
+                        <div class="textarea_box">
+                            <textarea name="FaultDesc"></textarea>
+                            <div class="clear">
+                                <img class="addImage img" data-Type="addImage_question" src="~/jquery/img/upload_img.png" />
+                                @*<img src="~/Content/img/del.png" class="del">*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="item-content ">
+                    <div class="item-media"><i class="icon icon-form-email"></i></div>
+                    <div class="item-inner clear">
+                        <div class="item-title label">故障原因</div>
+                        <div class="item-input">
+                            <input type="text" name="FaultReason" class="select_box" />
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="item-content ">
+                    <div class="item-media"><i class="icon icon-form-email"></i></div>
+                    <div class="item-inner clear">
+                        <div class="item-title label">故障处理</div>
+                        <div class="textarea_box">
+                            <textarea name="DealWay"></textarea>
+                            <div class="clear ">
+                                <img class="addImage img"  data-Type="addImage_handle" src="~/jquery/img/upload_img.png" />
+                                @*<img src="~/Content/img/del.png" class="del">*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="item-content">
+                    <div class="item-media"><i class="icon icon-form-email"></i></div>
+                    <div class="item-inner">
+                        <div class="item-title label">配件名称</div>
+                        <div class="item-input">
+                            <input type="text" name="PartName" class="select_box" />
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="item-content">
+                    <div class="item-media"><i class="icon icon-form-email"></i></div>
+                    <div class="item-inner">
+                        <div class="item-title label">品牌</div>
+                        <div class="item-input">
+                            <input type="text" name="ProductModel" class="select_box" />
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="item-content">
+                    <div class="item-media"><i class="icon icon-form-email"></i></div>
+                    <div class="item-inner">
+                        <div class="item-title label">数量</div>
+                        <div class="item-input">
+                            <input type="number" name="ConsumeNumber" class="select_box" />
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="item-content">
+                    <div class="item-media"><i class="icon icon-form-email"></i></div>
+                    <div class="item-inner">
+                        <div class="item-title label">单位</div>
+                        <div class="item-input">
+                            <input type="text" name="NumberUnit" class="select_box" />
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="item-content">
+                    <div class="item-media"><i class="icon icon-form-email"></i></div>
+                    <div class="item-inner">
+                        <div class="item-title label">单价</div>
+                        <div class="item-input">
+                            <input type="text" name="Price" class="select_box" />
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <!--增加按钮-->
+    <div class="list-block last_div" style="margin-top: 5px;">
+        <ul>
+            <li>
+                <button class="add_box">新增维修</button>
+            </li>
+            <li>
+                <div class="item-content">
+                    <div class="item-media"><i class="icon icon-form-email"></i></div>
+                    <div class="item-inner">
+                        <div class="item-title label">要求开始时间</div>
+                        <div class="item-input">
+                            <input type="text" name="RequireStartDate" class="select_box" />
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="item-content">
+                    <div class="item-media"><i class="icon icon-form-email"></i></div>
+                    <div class="item-inner">
+                        <div class="item-title label">要求结束时间</div>
+                        <div class="item-input">
+                            <input type="text" name="RequireEndDate" class="select_box" />
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="item-content">
+                    <div class="item-media"><i class="icon icon-form-email"></i></div>
+                    <div class="item-inner">
+                        <div class="item-title label">计划开始时间</div>
+                        <div class="item-input">
+                            <input type="text" name="PlanStartDate" class="select_box" />
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="item-content">
+                    <div class="item-media"><i class="icon icon-form-email"></i></div>
+                    <div class="item-inner">
+                        <div class="item-title label">计划结束时间</div>
+                        <div class="item-input">
+                            <input type="text" name="PlanEndDate" class="select_box" />
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="item-content">
+                    <div class="item-media"><i class="icon icon-form-email"></i></div>
+                    <div class="item-inner">
+                        <div class="item-title label">实际开始时间</div>
+                        <div class="item-input">
+                            <input type="text" name="FactStartDate" class="select_box" />
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="item-content">
+                    <div class="item-media"><i class="icon icon-form-email"></i></div>
+                    <div class="item-inner">
+                        <div class="item-title label">实际结束时间</div>
+                        <div class="item-input">
+                            <input type="text" name="FactEndDate" class="select_box" />
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li class="last">
+                <div class="item-content">
+                    <div class="item-media"><i class="icon icon-form-email"></i></div>
+                    <div class="item-inner">
+                        <div class="item-title label">维修人员</div>
+                        <div class="item-input">
+                            <input type="text" name="ServicePersons" class="select_box" value="@Model.RealName" />
+                            <p class="email_box">
+                                审批人：张三（2414769392@qq.com）
+                                <img src="~/Content/img/Eadd_icon.png" height="32" width="32" />
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>    
+        <!--提交按钮-->
+        <div class="footter">
+            <a><img src="~/Content/img/tijiao_icon.png" />提交</a>
+        </div>
+    </div>
+    <input type="hidden" name="DealerName" value="@Model.RealName" />
+</body>
+<!--增加保修模板-->
+<script id="AddForm" type="text/html">
+    <div id="formDiv{{Order}}" class="list-block autoform cancelform">
+        <ul>
+            <li>
+                <div class="item-content">
+                    <div class="item-media"><i class="icon icon-form-email"></i></div>
+                    <div class="item-inner">
+                        <div class="item-title label">设备类型</div>
+                        <div class="item-input">
+                            <select class="weui-select" name="TypeName"></select>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="item-content">
+                    <div class="item-media"><i class="icon icon-form-name"></i></div>
+                    <div class="item-inner">
+                        <div class="item-title label">设备名称</div>
+                        <div class="item-input">
+                            <select class="weui-select" name="DeviceCode"></select>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="item-content">
+                    <div class="item-media"><i class="icon icon-form-email"></i></div>
+                    <div class="item-inner">
+                        <div class="item-title label">位置</div>
+                        <div class="item-input">
+                            <input type="text" name="StorePlace">
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="item-content">
+                    <div class="item-media"><i class="icon icon-form-email"></i></div>
+                    <div class="item-inner">
+                        <div class="item-title label">故障现象</div>
+                        <div class="item-input">
+                            <input type="text" name="FaultName" class="select_box" />
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="item-content ">
+                    <div class="item-media"><i class="icon icon-form-email"></i></div>
+                    <div class="item-inner clear">
+                        <div class="item-title label">故障描述</div>
+                        <div class="textarea_box">
+                            <textarea name="FaultDesc"></textarea>
+                            <div class="clear">
+                                <img class="addImage img" data-Type="addImage_question"  src="/jquery/img/upload_img.png" />
+                                @*<img src="~/Content/img/del.png" class="del">*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="item-content ">
+                    <div class="item-media"><i class="icon icon-form-email"></i></div>
+                    <div class="item-inner clear">
+                        <div class="item-title label">故障原因</div>
+                        <div class="item-input">
+                            <input type="text" name="FaultReason" class="select_box" />
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="item-content ">
+                    <div class="item-media"><i class="icon icon-form-email"></i></div>
+                    <div class="item-inner clear">
+                        <div class="item-title label">故障处理</div>
+                        <div class="textarea_box">
+                            <textarea name="DealWay"></textarea>
+                            <div class="clear">
+                                <img class="addImage img" data-Type="addImage_handle" src="/jquery/img/upload_img.png" />
+                                @*<img src="~/Content/img/del.png" class="del">*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="item-content">
+                    <div class="item-media"><i class="icon icon-form-email"></i></div>
+                    <div class="item-inner">
+                        <div class="item-title label">配件名称</div>
+                        <div class="item-input">
+                            <input type="text" name="PartName" class="select_box" />
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="item-content">
+                    <div class="item-media"><i class="icon icon-form-email"></i></div>
+                    <div class="item-inner">
+                        <div class="item-title label">品牌</div>
+                        <div class="item-input">
+                            <input type="text" name="ProductModel" class="select_box" />
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="item-content">
+                    <div class="item-media"><i class="icon icon-form-email"></i></div>
+                    <div class="item-inner">
+                        <div class="item-title label">数量</div>
+                        <div class="item-input">
+                            <input type="number" name="ConsumeNumber" class="select_box" />
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="item-content">
+                    <div class="item-media"><i class="icon icon-form-email"></i></div>
+                    <div class="item-inner">
+                        <div class="item-title label">单位</div>
+                        <div class="item-input">
+                            <input type="text" name="NumberUnit" class="select_box" />
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="item-content">
+                    <div class="item-media"><i class="icon icon-form-email"></i></div>
+                    <div class="item-inner">
+                        <div class="item-title label">单价</div>
+                        <div class="item-input">
+                            <input type="text" name="Price" class="select_box" />
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</script>
+<script src="~/Scripts/jweixin-1.2.0.js"></script>
+<script src="~/Scripts/wxhelper.js"></script>
+<script type="text/javascript">
+    $(function () {
+        domin.bingEvent();
+        domin.initControl();
+        domin.loadWeChatConfig();//加载微信配置
+    });
+
+    var domin = (function (obj) { return obj; }(new function () {
+
+        //教室相关信息
+        var houseInfo = {
+            houseCode:'',       
+            OrgCode: '',
+            HouseNo: '',
+        };
+        var DeviceArray = [];//设备信息的数组
+        var DeviceCount = 0;//添加保修的个数
+        var WeChat = new wxhelper();
+
+        var localIds = [];
+        var serverIds = [];
+
+        //初始化时间控件
+        function initControl() {
+            $("input[name=FaultDate]").datetimePicker();
+            $("input[name=RequireStartDate]").datetimePicker();
+            $("input[name=RequireEndDate]").datetimePicker();
+            $("input[name=PlanStartDate]").datetimePicker();
+            $("input[name=PlanEndDate]").datetimePicker();
+            $("input[name=FactStartDate]").datetimePicker();
+            $("input[name=FactEndDate]").datetimePicker();
+        }
+
+        //注入微信配置
+        function loadWeChatConfig() {
+            client.ajax.getRequest("/WeChat/GetWeChatConfig", null, function (r) {
+                //获取微信配置
+                var appId = r.data.appId;
+                var timestamp = r.data.timestamp;
+                var nonceStr = r.data.noncestr;
+                var signature = r.data.signature;
+                WeChat.config(appId, timestamp, nonceStr, signature);
+            }, function (r) {
+                alert(r.info);
+            });
+        }
+
+        //下载上传图片
+        function downloadImage(serverIds, type, $this) {
+            $.showLoading("正在上传");
+            client.ajax.postRequest("/WeChat/UploadImage", { serverIds: serverIds.join() }, function (r) {
+                $.hideLoading();
+                var imageList = r.data;
+                var html = [];
+                $(imageList).each(function (index,url) {
+                    html.push('<img src="' + url + '" data-Type="' + type + '" class="img upload_img" />');
+                });
+                $(html.join('')).insertBefore($this);
+            });
+        }
+
+        //上传图片
+        function uploadImage(type, $this) {
+            try {
+                (function (localId) {//异步闭包
+                    ////解决IOS无法上传的坑
+                    //if (localId.indexOf("wxlocalresource") != -1) {
+                    //    localId = localId.replace("wxlocalresource", "wxLocalResource");
+                    //}
+                    WeChat.uploadImage(localId, function (res) {
+                        serverIds.push(res.serverId);// 返回图片的服务器端ID
+                        if (serverIds.length != localIds.length) {
+                            uploadImage(type, $this);
+                        }
+                        else {
+                            //上传完毕，下载图片
+                            downloadImage(serverIds, type, $this);
+                        }
+                    });
+                })(localIds[serverIds.length]);
+            } catch (e) {
+                alert(e.message);
+            }
+        }
+
+        //绑定新增元素事件
+        function bingElement(Order) {
+            var divId = $('#formDiv' + Order);
+            //初始化设备信息
+            initDeviceList(divId);
+
+            //切换设备类型事件绑定
+            $('select[name=TypeName]', divId).change(function () {
+                initDeviceName(divId);
+            });
+
+            //切换设备名称事件绑定
+            $('select[name=DeviceName]', divId).change(function () {
+                initDeviceDetail(divId);
+            });
+            //时间控件的绑定
+            $("input[name=RequireStartDate]", divId).datetimePicker();
+            $("input[name=RequireEndDate]", divId).datetimePicker();
+
+            //点击选择图片
+            $('.addImage', divId).on("click", function () {
+                localIds = [];//清空数组
+                serverIds = [];//清空数组
+                var type = $(this).attr("data-Type");
+                var $this = $(this);
+                var uploadCount = $('img[data-Type="' + type + '"]', divId).length;//已经上传的张数
+                if (uploadCount < 5) {
+                    var count = 5 - uploadCount;//还能上传的图片张数
+                    WeChat.chooseImage(count, function (r) {
+                        localIds = r.localIds;
+                        uploadImage(type, $this);
+                    });
+                }
+                else {
+                    $.toast("最多上传四张图片", "text");
+                }
+            });
+        }
+
+        //事件绑定
+        function bingEvent() {
+
+            //扫一扫事件绑定
+            $('#codeScan').on("click", function () {
+                WeChat.scanQRCode(function (res) {
+                    houseInfo.houseCode = res.resultStr;//获取扫描的教室编码
+                    if (houseInfo.houseCode) {
+                        //获取教室信息
+                        GetHouseInfoByHouseCode();
+                        //清空增加的维修
+                        $('.cancelform').remove();
+                    }
+                });
+            });
+
+            //点击选择图片
+            $('.addImage', $('#formDiv0')).on("click", function () {
+                try {
+                    localIds = [];//清空数组
+                    serverIds = [];//清空数组
+                    var type = $(this).attr("data-Type");
+                    var $this = $(this);
+                    var uploadCount = $('img[data-Type="' + type + '"]', $('#formDiv0')).length;//已经上传的张数
+                    if (uploadCount < 5) {
+                        var count = 5 - uploadCount;//还能上传的图片张数
+                        WeChat.chooseImage(count, function (r) {
+                            localIds = r.localIds;
+                            uploadImage(type, $this);
+                        });
+                    }
+                    else {
+                        $.toast("最多上传四张图片", "text");
+                    }
+                } catch (e) {
+                    alert(e.message);
+                }
+               
+            });
+
+            //增加维修
+            $('.add_box').on("click", function (event) {
+                DeviceCount = DeviceCount + 1;
+                var html = template("AddForm", { Order: DeviceCount });
+                $(html).insertBefore(".last_div");
+                //绑定事件
+                bingElement(DeviceCount);
+            });
+
+            //直接创建工单
+            $('.footter').on("click", function () {
+                $.showLoading("正在提交");
+                var submitDatas = {};
+                var Devices = [];
+                submitDatas.HouseNo = $('select[name=HouseNo]').val();
+                submitDatas.ClassName = $('input[name=ClassName]').val();
+                submitDatas.Linkman = $('input[name=Linkman]').val();
+                submitDatas.ContactNumber = $('input[name=ContactNumber]').val();
+                submitDatas.FaultDate = $('input[name=FaultDate]').val();
+                submitDatas.RequireStartDate = $('input[name=RequireStartDate]').val();//要求开始时间
+                submitDatas.RequireEndDate = $('input[name=RequireEndDate]').val(); //要求结束时间  
+                submitDatas.PlanStartDate = $('input[name=PlanStartDate]').val(); //计划开始时间
+                submitDatas.PlanEndDate = $('input[name=PlanEndDate]').val();//计划结束时间
+                submitDatas.FactStartDate = $('input[name=FactStartDate]').val();//实际开始时间
+                submitDatas.FactEndDate = $('input[name=FactEndDate]').val();//实际结束时间
+                submitDatas.DealerName = $('input[name=DealerName]').val();//处理人姓名
+                submitDatas.ServicePersons = $('input[name=ServicePersons]').val();//维修人员
+                var elementArray = $('.autoform');
+                $(elementArray).each(function (index, element) {
+                    var obj = {
+                        DeviceCode: $('select[name=DeviceCode]', element).val(),
+                        StorePlace: $('input[name=StorePlace]', element).val(),
+                        FaultName: $('input[name=FaultName]', element).val(),
+                        FaultDesc: $('textarea[name=FaultDesc]', element).val(),
+                        FaultReason: $('input[name=FaultReason]', element).val(),
+                        DealWay: $('textarea[name=DealWay]', element).val(),
+                    }
+                    var questionImages = $('img[data-Type=addImage_question]', element);
+                    var handleImages = $('img[data-Type=addImage_handle]', element);
+                    for (var i = 1; i < questionImages.length; i++) {
+                        obj["FaultPicPath" + i] = $(questionImages).eq(i - 1).attr("src");
+                    }
+                    for (var i = 1; i < handleImages.length; i++) {
+                        obj["DealPicPath" + i] = $(handleImages).eq(i - 1).attr("src");
+                    }
+                    obj.Parts = [{
+                        PartName: $('input[name=PartName]', element).val(),
+                        ProductModel: $('input[name=ProductModel]', element).val(),
+                        ConsumeNumber: $('input[name=ConsumeNumber]', element).val(),
+                        NumberUnit: $('input[name=NumberUnit]', element).val(),
+                        Price: $('input[name=Price]', element).val(),
+                    }];
+                    Devices.push(obj);
+                });
+                submitDatas.Devices = Devices;//设备列表信息
+                client.ajax.postRequest("/WorkOrder/DirectlyInsert", { submitDatas: JSON.stringify(submitDatas) }, function (r) {
+                    $.hideLoading();
+                    $.toast("创建成功");
+                    setTimeout(function () {
+                        location.href = "/Form/RepairMan";
+                    },500)
+                }, function (r) {
+                    $.hideLoading();
+                    $.toast(r.info, "text");
+                });
+            });
+
+            //切换门牌号事件绑定
+            $('select[name=HouseNo]').change(function () {
+                houseInfo.HouseNo = $(this).val();
+                var className = $('select[name=HouseNo]').find("option:checked").attr("data-class");
+                $('input[name=ClassName]').val(className);
+                //初始化设备列表
+                initDeviceList();
+                //清空增加的保修
+                $('.cancelform').remove();
+            });
+
+            //切换设备类型事件绑定
+            $('select[name=TypeName]').change(function () {
+                initDeviceName();
+            });
+
+            //切换设备名称事件绑定
+            $('select[name=DeviceName]').change(function () {
+                initDeviceDetail();
+            });
+        }
+
+        //根据门牌号二维码获取教室信息
+        function GetHouseInfoByHouseCode() {
+            client.ajax.getRequest("/Form/GetHouseInfoByHouseCode", { houseCode: houseInfo.houseCode }, function (r) {
+                var info = JSON.parse(r.data);
+                houseInfo.OrgCode = info.OrgCode;//获取学校的代码
+                $('input[name=OrgName]').val(info.OrgName);
+                initHouseList();//初始化门牌号
+            });
+        }
+
+        //初始化门牌号下拉列表
+        function initHouseList() {
+            //初始化门牌号下拉列表
+            client.ajax.getRequest("/Form/GetHouseListByOrgCode", { OrgCode: houseInfo.OrgCode }, function (r) {
+                var houseArray = JSON.parse(r.data);
+                var html = [];
+                $(houseArray).each(function () {
+                    html.push('<option data-class="' + this.ClassName+ '" value="' + this.HouseNo + '">' + this.HouseNo + '</option>');
+                });
+                $('select[name=HouseNo]').html(html.join(''));
+                //设置第一个为默认值
+                houseInfo.HouseNo = $('select[name=HouseNo]').val();
+                var className = $('select[name=HouseNo]').find("option:checked").attr("data-class");
+                $('input[name=ClassName]').val(className);
+                //加载设备列表
+                loadDeviceList();
+            });
+        }
+
+        //加载设备列表和设备类型
+        function loadDeviceList() {
+            client.ajax.getRequest("/Form/GetDeviceListByOrgCodeAndHouseNo", { OrgCode: houseInfo.OrgCode, HouseNo: houseInfo.HouseNo }, function (r) {
+                DeviceArray = JSON.parse(r.data);
+                initDeviceList();
+            });
+        }
+
+        //初始化设备列表和设备类型
+        function initDeviceList(divId) {
+            var Typehtml = [];
+            $(DeviceArray).each(function () {
+                Typehtml.push('<option value="' + this.TypeName + '">' + this.TypeName + '</option>');
+            });
+            $('select[name=TypeName]', divId).html(Typehtml.join(''));
+            initDeviceName(divId);  //初始化设备名称下拉数据
+        }
+
+        //初始化设备名称下拉数据
+        function initDeviceName(divId) {
+            var TypeName = $('select[name=TypeName]', divId).val();
+            var DeviceNameArray = [];//设备名称数组
+            $(DeviceArray).each(function () {
+                if (this.TypeName == TypeName) {
+                    DeviceNameArray = this.Items;
+                    return false;
+                }
+            });
+            var DeviceNameHtml = [];
+            $(DeviceNameArray).each(function () {
+                DeviceNameHtml.push('<option value="' + this.DeviceCode + '">' + this.DeviceName + '</option>');
+            });
+            $('select[name=DeviceCode]', divId).html(DeviceNameHtml.join(''));
+            initDeviceDetail(divId); //初始化设备详情
+        }
+
+        //初始化设备详情
+        function initDeviceDetail(divId) {
+            var TypeName = $('select[name=TypeName]', divId).val();
+            var DeviceCode = $('select[name=DeviceCode]', divId).val();
+            var detailInfo = {};
+            var isFind = false;
+            //查找设备设备的详细信息
+            $(DeviceArray).each(function () {
+                if (this.TypeName == TypeName) {
+                    $(this.Items).each(function (index, item) {
+                        if (item.DeviceCode == DeviceCode) {
+                            isFind = true;
+                            detailInfo = item;
+                            return false;
+                        }
+                    });
+                }
+                if (isFind) {
+                    return false;
+                }
+            });
+            $('input[name=StorePlace]', divId).val(detailInfo.StorePlace);
+            $('input[name=IntegratorName]', divId).val(detailInfo.IntegratorName);//设置维修单位
+        }
+
+        return {
+            initControl:initControl,
+            bingEvent: bingEvent,
+            loadWeChatConfig: loadWeChatConfig
+        }
+    }));
+</script>

@@ -330,7 +330,7 @@
 </script>
 <script id="formendList" type="text/html">
     {{each list item index}}
-    <div class="card" data-ID="{{item.RecordID}}">
+    <div class="card" data-ID="{{item.RecordID}}" data-RepairApplyState="{{item.RepairApplyState}}">
         <div class="card-footer"><span>{{item.FaultDate}}</span></div>
         <div class="card-header">
             <span>{{item.FaultName}}</span>
@@ -338,12 +338,17 @@
         </div>
         <div class="card-footer">
             <span>{{item.IntegratorName}}</span>
+            {{if item.RepairApplyState==6}}
             <span style="display:inline-block;float:right">已结束</span>
+            {{/if}}
+            {{if item.RepairApplyState==7}}
+            <span style="display:inline-block;float:right">已撤销</span>
+            {{/if}}
         </div>
         <div class="card-footer">
             <span>到场时间:{{item.DispatchDate}}</span>
             <span>
-                <a class="button see_box">进度记录</a>
+                <a class="button see_box progress">进度记录</a>
             </span>
         </div>
     </div>
@@ -458,14 +463,22 @@
             //绑定详情事件
             $('.card').off("click").on("click", function () {
                 var RecordID = $(this).attr("data-ID");
-                location.href = "/Form/Detail?ID=" + RecordID;
+                var RepairApplyState = $(this).attr("data-RepairApplyState");////报修单状态
+                if (RepairApplyState < 3) {
+                    //查看保修单详情
+                    location.href = "/Form/Detail?ID=" + RecordID;
+                }
+                else {
+                    //查看工单详情
+                    location.href = "/WorkOrder/Detail?repairApplyId=" + RecordID;
+                }
             });
 
             //服务评价
             $('.parse_form').off("click").on("click", function (event) {
                 event.stopPropagation();
                 var RecordID = $(this).parents(".card").attr("data-ID");
-                location.href = "/Form/Detail?ID=" + RecordID;
+                location.href = "/WorkOrder/Detail?repairApplyId=" + RecordID;
             });
 
             //查看进度
@@ -473,8 +486,16 @@
                 event.stopPropagation();
                 var RecordID = $(this).parents(".card").attr("data-ID");
                 var RepairApplyState = $(this).parents(".card").attr("data-RepairApplyState");//报修单状态
-                var sUrl = RepairApplyState < 3 ? "/Form/GetInfoById" : "/WorkOrder/GetInfoById";
-                client.ajax.getRequest(sUrl, { ID: RecordID }, function (r) {
+                var param = {};
+                if (RepairApplyState < 3) {
+                    sUrl = "/Form/GetInfoById";
+                    param.ID = RecordID;
+                }
+                else {
+                    sUrl = "/WorkOrder/GetInfoById";
+                    param.repairApplyId = RecordID;
+                }
+                client.ajax.getRequest(sUrl, param, function (r) {
                     var info = JSON.parse(r.data.info);
                     info.roleType = r.data.roleType;
                     info.RepairApplyState = RepairApplyState;

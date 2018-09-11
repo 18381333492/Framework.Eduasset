@@ -475,6 +475,7 @@
 
         //教室相关信息
         var houseInfo = {
+            houseCode:'',
             OrgCode: $('#OrgCode').val(),
             HouseNo: '',
         };
@@ -587,9 +588,10 @@
             //扫一扫事件绑定
             $('#codeScan').on("click", function () {
                 WeChat.scanQRCode(function (res) {
-                    DefaultOrgCode= res.resultStr;//获取扫描的教室编码
-                    if (DefaultOrgCode) {
-                        initHouseList();
+                    houseInfo.houseCode = res.resultStr;//获取扫描的教室编码
+                    if (houseInfo.houseCode) {
+                        //获取教室信息
+                        GetHouseInfoByHouseCode();
                         //清空增加的保修
                         $('.cancelform').remove();
                     }
@@ -684,6 +686,16 @@
                 initDeviceDetail();
             });
         }
+        //根据门牌号二维码获取教室信息
+        function GetHouseInfoByHouseCode() {
+            client.ajax.getRequest("/Form/GetHouseInfoByHouseCode", { houseCode: houseInfo.houseCode }, function (r) {
+                var info = JSON.parse(r.data);
+                houseInfo.OrgCode = info.OrgCode;//获取学校的代码
+                $('input[name=OrgName]').val(info.OrgName);
+                initHouseList();//初始化门牌号
+            });
+        }
+
 
         //初始化门牌号下拉列表
         function initHouseList() {

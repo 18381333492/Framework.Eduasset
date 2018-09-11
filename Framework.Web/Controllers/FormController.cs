@@ -49,16 +49,15 @@ namespace Framework.Web.Controllers
         /// <param name="endDate"></param>
         /// <param name="state"></param>
         /// <returns></returns>
-        public ActionResult GetRepairApplyList(PageInfo pageInfo, string startDate, string endDate,string repairApplyState, int state = 0)
+        public ActionResult GetRepairApplyList(PageInfo pageInfo, string startDate, string endDate, string repairApplyState, string state)
         {
             Parameter.method = "GetRepairApplyList";//分页获取保修单
             Parameter.ArgsArray.Add("page", pageInfo.page);
             Parameter.ArgsArray.Add("rows", pageInfo.rows);
-            Parameter.ArgsArray.Add("state", state);
+            if (!string.IsNullOrEmpty(state))
+                Parameter.ArgsArray.Add("state", state);
             if (!string.IsNullOrEmpty(repairApplyState))
-            {
                 Parameter.ArgsArray.Add("repairApplyState", repairApplyState);
-            }
             //时间的过滤查询
             if (!string.IsNullOrEmpty(startDate))
                 Parameter.ArgsArray.Add("startDate", startDate);
@@ -232,7 +231,28 @@ namespace Framework.Web.Controllers
             }
             return Json(result, JsonRequestBehavior.AllowGet);
         }
-                   
+
+        /// <summary>
+        /// 根据门牌号二维码获取教室信息
+        /// </summary>
+        /// <param name="houseCode"></param>
+        /// <returns></returns>
+        public ActionResult GetHouseInfoByHouseCode(string houseCode)
+        {
+            Parameter.method = "GetHouseInfoByHouseCode";
+            Parameter.ArgsArray.Add("houseCode", houseCode);
+            var respone = HttpHelper.HttpGet(Parameter);
+            if (respone.Code == 1)
+            {
+                result.data = JsonHelper.ToJsonString(respone.Data);
+                result.success = true;
+            }
+            else
+                result.info = "获取数据失败";
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+
         /// <summary>
         /// 根据机构编码获取门牌号列表
         /// </summary>
