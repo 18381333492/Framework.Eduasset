@@ -112,6 +112,24 @@
     .responeform p{
         margin-top:10px;
     }
+        .responeform p span:first-child {
+            width:38%;
+            text-align:right;
+            display:inline-block;
+            font-size:13px
+        }
+    .input_title {
+        margin:15px 0
+    
+    }
+       .input_title label{
+           margin:0 15px
+    
+    }
+       .input_title label input{
+          width:30px
+    
+    }
 </style>
 <body>
 @Html.Partial("~/Views/Shared/_RepairUnitBar.cshtml")
@@ -147,13 +165,13 @@
 </script>
 <script type="text/html" id="responeModal">
     <form class="responeform">
-        <p>
+        <p class="input_title">
             <label><input type="radio" name="DealType" value="0" checked />派人</label>
             <label><input type="radio" name="DealType" value="1" />排除建议</label>
         </p>
         <p>
-            <span>维修建议</span>
-            <textarea name="ResponseOpinion"></textarea>
+            <span style="margin-top:13px;float:left">维修建议</span>
+            <textarea name="ResponseOpinion" style="width:59%;height:40px;border-radius: 5px;"></textarea>
         </p>
         <p>
             <span>维修人员</span>

@@ -3,16 +3,84 @@
     ViewBag.Title = "工单统计";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<style>
+    .bar-tab {
+        background: -moz-linear-gradient(left,#2e8cbf,#3fbfe6); /*Mozilla*/
+        background: -webkit-gradient(linear,0 50%,100% 50%,from(#2e8cbf),to(#3fbfe6)); /*Old gradient for webkit*/
+        background: -webkit-linear-gradient(left,#2e8cbf,#3fbfe6); /*new gradient for Webkit*/
+        background: -o-linear-gradient(left,#2e8cbf,#3fbfe6); /*Opera11*/
+    }
+
+        .bar-tab .tab-item .icon ~ .tab-label {
+            color: white;
+        }
+
+    .icon-home:before {
+        content: none;
+    }
+
+    .buttons-row .button.active {
+        background: -moz-linear-gradient(left,#2e8cbf,#3fbfe6); /*Mozilla*/
+        background: -webkit-gradient(linear,0 50%,100% 50%,from(#2e8cbf),to(#3fbfe6)); /*Old gradient for webkit*/
+        background: -webkit-linear-gradient(left,#2e8cbf,#3fbfe6); /*new gradient for Webkit*/
+        background: -o-linear-gradient(left,#2e8cbf,#3fbfe6); /*Opera11*/
+        border: none;
+        border-radius: 0;
+    }
+
+    .buttons-row .button {
+        background: -moz-linear-gradient(left,white,#ededed); /*Mozilla*/
+        background: -webkit-gradient(linear,0 50%,100% 50%,from(#fff),to(#ededed)); /*Old gradient for webkit*/
+        background: -webkit-linear-gradient(left,#fff,#ededed); /*new gradient for Webkit*/
+        background: -o-linear-gradient(left,#fff,#ededed); /*Opera11*/
+        border: none;
+        color: #333;
+    }
+
+    .buttons-row .button {
+        height: 2.2rem;
+        line-height: 2.2rem;
+    }
+
+    .content-block {
+        margin: 0;
+        padding: 0;
+    }
+</style>
 <body>
-    <div id="container" style="width:100%"></div>
+    @Html.Partial("~/Views/Shared/_RepairManagerBar.cshtml")
+    <!-- 这里是页面内容区 -->
+    <div class="content">
+          <div id="container" style="width: 100%; height: 400px"></div>
+    </div>
 </body>
 <script src="~/Scripts/highcharts.js"></script>
 <script type="text/javascript">
     $(function () {
-
+        var data = [];
         client.ajax.getRequest("/WorkOrder/GetWorkOrderStateCount", null, function (r) {
-            debugger
-            var countInfo = JSON.parse(r);
+            var countInfo = JSON.parse(r.data.info);
+            for (var key in countInfo) {
+                if (key == "ToResponseCount") {
+                    data.push(["等待派工", countInfo[key]]);
+                }
+                if (key == "ToConfirmCount") {
+                    data.push(["待处理", countInfo[key]]);
+                }
+                if (key == "ToCreateWorkOrderCount") {
+                    data.push(["待客户确认", countInfo[key]]);
+                }
+                if (key == "ToApproveCount") {
+                    data.push(["待审批", countInfo[key]]);
+                }
+                if (key == "ToReCommitCount") {
+                    data.push(["被驳回待重新提交", countInfo[key]]);
+                }
+                if (key == "ToSureCount") {
+                    data.push(["待评价", countInfo[key]]);
+                }
+            }
+            InitHighcharts();
         });
 
         function InitHighcharts() {
@@ -46,21 +114,21 @@
                 series: [{
                     size: '60%',
                     type: 'pie',
-                    name: '浏览器访问量占比',
-                    // data: data
-                    data: [
-                        ['Firefox', 45.0],
-                        ['IE', 26.8],
-                        {
-                            name: 'Chrome',
-                            y: 12.8,
-                            sliced: true,  // 默认突出
-                            selected: true // 默认选中 
-                        },
-                        ['Safari', 8.5],
-                        ['Opera', 6.2],
-                        ['其他', 7.7]
-                    ]
+                    name: '工单',
+                    data: data
+                    //data: [
+                    //    ['Firefox', 45.0],
+                    //    ['IE', 26.8],
+                    //    {
+                    //        name: 'Chrome',
+                    //        y: 12.8,
+                    //        sliced: true,  // 默认突出
+                    //        selected: true // 默认选中 
+                    //    },
+                    //    ['Safari', 8.5],
+                    //    ['Opera', 6.2],
+                    //    ['其他', 7.7]
+                    //]
                 }]
             });
         }     

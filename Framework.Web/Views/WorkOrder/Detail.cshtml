@@ -58,7 +58,7 @@
         .list-block input[type=text], .list-block input[type=password], .list-block input[type=email], .list-block input[type=tel], .list-block input[type=url], .list-block input[type=date], .list-block input[type=datetime-local], .list-block input[type=time], .list-block input[type=number], .list-block input[type=search], .list-block select, .list-block textarea {
             height: 1.4rem;
             line-height: 1.4rem;
-            font-size: .25rem;
+            font-size: 14px;
             color: #333;
         }
 
@@ -170,7 +170,18 @@
     }
 
     .list-block ul li.last {
-        margin-bottom: 3rem;
+        margin-bottom: 1rem;
+    }
+    .radio_box {
+       font-size:13px
+    
+    }
+    .radio_box label{
+       display:inline-block;
+       margin-right:30px;
+    }
+    .list-block .item-content{
+        padding-left:0px
     }
 </style>
 <body>
@@ -509,6 +520,30 @@
                                 <div class="item-title label">维修人员</div>
                                 <div class="item-input">
                                     <input type="text" name="ServicePersons" class="select_box" value="@Model.ServiceHeaderName" />
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-email"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title label">服务评价</div>
+                                <div class="radio_box">
+                                    <label><input type="radio" name="SureLevel" value="0">满意</label>
+                                    <label><input type="radio" name="SureLevel" value="2">一般</label>
+                                    <label><input type="radio" name="SureLevel" value="2">较差</label>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="last">
+                        <div class="item-content ">
+                            <div class="item-media"><i class="icon icon-form-email"></i></div>
+                            <div class="item-inner clear">
+                                <div class="item-title label">意见</div>
+                                <div class="textarea_box">
+                                    <textarea name="SureOpinion"></textarea>
                                 </div>
                             </div>
                         </div>
