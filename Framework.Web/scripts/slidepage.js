@@ -21,6 +21,7 @@ function slidepage() {
         $(window).scroll(function () {//绑定滚动事件
             if ($(window).scrollTop() == $(document).height() - $(window).height()) {
                 if (STATE) {
+                    $.showLoading("正在加载");
                     slideRequest();
                 }
             }
@@ -38,19 +39,20 @@ function slidepage() {
             dataType: 'json',
             data: option.params + '&page=' + option.page + '&rows=' + option.rows,
             success: function (r) {
-                if (option.page == 1) {
-                    $.hideLoading();
-                }
+                //if (option.page == 1) {
+                //    $.hideLoading();
+                //}
                 if (r.success) {
                     var data = JSON.parse(r.data);
                     if (data.rows.length > 0) {
-                        $.showLoading("正在加载");
                         setTimeout(function () {
-                            option.callback.call(this, data);//(js的call调用一个对象的一个方法，以另一个对象替换当前对象（函数可以看成一个对象)
+                            option.callback.call(this, data);//(js的call调用一个对象的一个方法，以另一个对象替换当前对象（函数可以看成一个对象)   
                             $.hideLoading();
-                        },500);
+                        }, 700);
                         option.page = option.page + 1;
-                        
+                        if (data.rows.length < option.rows) {
+                            STATE = false;
+                        }
                     }
                     else {
                         if (option.page == 1) {
