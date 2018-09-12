@@ -524,7 +524,7 @@
                 $(imageList).each(function (index,url) {
                     html.push('<img src="' + url + '" class="img upload_img" />');
                 });
-                $(html.join('')).insertBefore($(".addImage", divId));
+                $(html.join('')).insertBefore($(".addImage"));
             });
         }
 
@@ -539,7 +539,7 @@
                     WeChat.uploadImage(localId, function (res) {
                         serverIds.push(res.serverId);// 返回图片的服务器端ID
                         if (serverIds.length != localIds.length) {
-                            uploadImage(divId);
+                            uploadImage();
                         }
                         else {
                             //上传完毕，下载图片
@@ -559,9 +559,9 @@
             $('.addImage').on("click", function () {
                  localIds = [];//清空数组
                  serverIds = [];//清空数组
-                 var uploadCount = $('.img').length;//已经上传的张数
-                 if (uploadCount < 5) {
-                    var count = 5 - uploadCount;//还能上传的图片张数
+                 var uploadCount = $('.upload_img').length;//已经上传的张数
+                 if (uploadCount < 4) {
+                    var count = 4 - uploadCount;//还能上传的图片张数
                     WeChat.chooseImage(count, function (r) {
                         localIds = r.localIds;
                         uploadImage();
@@ -585,7 +585,7 @@
                 submitDatas.DealerName = $('input[name=DealerName]').val();//处理人姓名
                 submitDatas.ServicePersons = $('input[name=ServicePersons]').val();//维修人员姓名
                 var images = $('.upload_img');
-                for (var i = 1; i < images.length; i++) {
+                for (var i = 1; i <=images.length; i++) {
                     submitDatas["DealPicPath" + i] = $(images).eq(i - 1).attr("src");
                 }
                 Parts.push({

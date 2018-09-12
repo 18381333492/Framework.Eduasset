@@ -44,8 +44,13 @@ function slidepage() {
                 if (r.success) {
                     var data = JSON.parse(r.data);
                     if (data.rows.length > 0) {
-                        option.callback.call(this, data);//(js的call调用一个对象的一个方法，以另一个对象替换当前对象（函数可以看成一个对象)
+                        $.showLoading("正在加载");
+                        setTimeout(function () {
+                            option.callback.call(this, data);//(js的call调用一个对象的一个方法，以另一个对象替换当前对象（函数可以看成一个对象)
+                            $.hideLoading();
+                        },500);
                         option.page = option.page + 1;
+                        
                     }
                     else {
                         if (option.page == 1) {

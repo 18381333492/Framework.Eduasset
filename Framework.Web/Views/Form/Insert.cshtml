@@ -58,7 +58,7 @@
         .list-block input[type=text], .list-block input[type=password], .list-block input[type=email], .list-block input[type=tel], .list-block input[type=url], .list-block input[type=date], .list-block input[type=datetime-local], .list-block input[type=time], .list-block input[type=number], .list-block input[type=search], .list-block select, .list-block textarea {
             height: 1.4rem;
             line-height: 1.4rem;
-            font-size: .25rem;
+            font-size: 14px;
             color: #333;
         }
 
@@ -650,7 +650,7 @@
                         RequireEndDate: $('input[name=RequireEndDate]', element).val(),
                     }
                     var images = $('.upload_img', element);
-                    for (var i = 1; i < images.length; i++) {
+                    for (var i = 1; i <=images.length; i++) {
                         obj["FaultPicPath" + i] = $(images).eq(i - 1).attr("src");
                     }
                     Devices.push(obj);
