@@ -157,6 +157,30 @@ namespace Framework.Web.Controllers
         }
 
         /// <summary>
+        /// 报修单确认（建议措施类型）
+        /// </summary>
+        /// <param name="submitDatas"></param>
+        /// <returns></returns>
+        public ActionResult ConfirmRepairApply(string submitDatas)
+        {
+            Parameter.method = "ConfirmRepairApply";//提交保修单
+            JObject job = JsonHelper.Deserialize<JObject>(submitDatas);
+            job.Add(new JProperty("MeasureConfirmerName", LoginStatus.RealName));
+            string sBody = string.Format("submitDatas={0}", job.ToString());
+            var respone = HttpHelper.HttpPost(Parameter, sBody);
+            if (respone.Code == 1)
+            {
+                result.success = true;
+                result.info = "确认成功";
+            }
+            else
+            {
+                result.info = "确认失败";
+            }
+            return Json(result);
+        }
+
+        /// <summary>
         /// 查看保修单详情
         /// </summary>
         /// <param name="ID"></param>

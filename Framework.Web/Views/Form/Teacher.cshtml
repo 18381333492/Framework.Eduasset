@@ -49,24 +49,24 @@
         line-height: 1.4rem;
         margin-left: 5px;
         padding: 0 2px;
-        font-size: .14rem;
+          font-size: 14px;
         background-color: #f8f8f8;
     }
 
     .search_box {
         width: 27%;
         float: left;
-        font-size: .14rem;
+          font-size: 14px;
     }
 
     .search-input input {
         background-color: #f8f8f8;
-        font-size: .14rem;
+         font-size: 14px;
     }
 
     .see_box {
         display: inline-block;
-        font-size: .14rem;
+        font-size: 14px;
         margin-left: 5px;
         background-color: #288bc3;
         color: white;
@@ -312,17 +312,14 @@
             <div class="card-footer">
                 <span>到场时间:{{item.DispatchDate}}</span>
                 <span>
-                    {{if item.RepairApplyState==0||item.RepairApplyState==1}}
-                        <a class="button see_box progress">查看进度</a>
-                    {{/if}}
-                    {{if item.RepairApplyState>=2&&item.RepairApplyState<5}}
-                        <a class="button see_box">应急措施</a>
-                        <a class="button see_box progress">查看进度</a>
+                   
+                    {{if item.RepairApplyState==1}}
+                    <a class="button see_box opinion">应急措施</a>
                     {{/if}}
                     {{if item.RepairApplyState==5}}
                         <a class="button see_box parse_form">服务评价</a>
-                        <a class="button see_box progress">查看进度</a>
                     {{/if}}
+                    <a class="button see_box progress">查看进度</a>
                 </span>
             </div>
         </div>
@@ -356,34 +353,50 @@
 </script>
 <script  id="FormProgress" type="text/html">
     <div style="text-align:left;font-size:12px;">
-        {{if item.RepairApplyState>=4}}
-            <!--报修单审批-->
+        {{if item.WorkOrderState>=2}}
+        <!--通过审批-->
+        <p>
+            <span>{{item.ApproveDate}}</span>
+            <span>{{item.IntegratorName}}</span>
+            <span>{{item.ApproveName}}审批通过</span>
+        </p>
+        {{/if}}
+        {{if item.WorkOrderState>=1}}
+            <!--不通过审批-->
             <p>
                 <span>{{item.ApproveDate}}</span>
                 <span>{{item.IntegratorName}}</span>
-                <span>{{item.ApproveName}}</span>
+                <span>{{item.ApproveName}}审批不通过</span>
             </p>
         {{/if}}
-        {{if item.RepairApplyState>=3}}
+        {{if item.WorkOrderState==4}}
             <!--报修单撤回-->
             <p>
                 <span>{{item.CancelDate}}</span>
                 {{if item.roleType!=4}}
                 <span>{{item.OrgName}}</span>
                 {{/if}}
-                <span>{{item.CancelerName}}</span>      
+                <span>{{item.CancelerName}}撤回</span>      
             </p>
         {{/if}}
-        {{if item.RepairApplyState>=2}}
+        {{if item.RepairApplyState==2}}
             <!--派工信息-->
             <p>
-                <span>{{item.DispatchDate}}</span>
+                <span>{{item.ResponseDate}}</span>
                 <span>{{item.IntegratorName}}派工</span>
                 <span>{{item.ServiceHeaderName}}</span>
                 <span>{{item.ServiceHeaderContactNumber}}</span>
-                <span>{{item.PlanStartDate}}到达</span>
+                <span>预计{{item.PlanStartDate}}到达</span>
             </p>
         {{/if}}
+            {{if item.RepairApplyState==1}}
+            <!--建议措施-->
+            <p>
+                <span>{{item.ResponseDate}}</span>
+                <span>{{item.IntegratorName}}</span>
+                <span>{{item.ResponserName}}给出建议措施</span>
+            </p>
+            {{/if}}
         {{if item.RepairApplyState>=1}}
             <!--响应信息-->
             <p>
@@ -402,7 +415,7 @@
                 {{if item.roleType!=4}}
                  <span>{{item.OrgName}}</span>
                 {{/if}}
-                <span>{{item.ApplyerName}}</span>
+                <span>{{item.ApplyerName}}创建报修单</span>
             </p>
         {{/if}}
     </div>
@@ -505,6 +518,36 @@
                         text: html,
                         buttons: [
                           { text: "确定", className: "default" },
+                        ]
+                    });
+                });
+            });
+
+            //查看应急措施
+            $(".opinion").off("click").on("click", function (event) {
+                event.stopPropagation();
+                var RecordID = $(this).parents(".card").attr("data-ID");
+                //获取保修单详情
+                client.ajax.getRequest("/Form/GetInfoById", { ID: RecordID }, function (r) {
+                    var info = JSON.parse(r.data.info);
+                    var opinion = info.ResponseOpinion;
+                    var html = template("FormProgress", { item: info });
+                    $.modal({
+                        title: "建议措施",
+                        text: opinion,
+                        buttons: [
+                          { text: "取消", className: "default" },
+                          {
+                              text: "确定",onClick: function () {
+                                  //报修单确认
+                                  submitDatas = {};
+                                  submitDatas.ID = RecordID;
+                                  client.ajax.postRequest("/Form/ConfirmRepairApply", { submitDatas: JSON.stringify(submitDatas) }, function (r) {
+                                      
+                                      $.toast(r.info);
+                                  });
+                              }
+                          },
                         ]
                     });
                 });

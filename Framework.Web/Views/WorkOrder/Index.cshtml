@@ -57,7 +57,7 @@
         line-height: 1.4rem;
         margin-left: 5px;
         padding: 0 2px;
-        font-size: .14rem;
+         font-size: 14px;
         background-color: #f8f8f8;
     }
            .buttons-row .button:first-child {
@@ -68,17 +68,17 @@
     .search_box {
         width: 27%;
         float: left;
-        font-size: .14rem;
+          font-size: 14px;
     }
 
     .search-input input {
         background-color: #f8f8f8;
-        font-size: .14rem;
+          font-size: 14px;
     }
 
     .see_box {
         display: inline-block;
-        font-size: .14rem;
+          font-size: 14px;
         margin-left: 5px;
         background-color: #288bc3;
         color: white;
@@ -204,35 +204,40 @@
 </script>
 <script id="FormProgress" type="text/html">
     <div style="text-align:left;font-size:12px;">
-        {{if item.RepairApplyState>=4}}
-        <!--报修单审批-->
+        {{if item.WorkOrderState>=2}}
+        <!--通过审批-->
         <p>
             <span>{{item.ApproveDate}}</span>
             <span>{{item.IntegratorName}}</span>
-            <span>{{item.ApproveName}}</span>
+            <span>{{item.ApproveName}}审批通过</span>
         </p>
         {{/if}}
-        {{if item.RepairApplyState>=3}}
+        {{if item.WorkOrderState>=1}}
+        <!--不通过审批-->
+        <p>
+            <span>{{item.ApproveDate}}</span>
+            <span>{{item.IntegratorName}}</span>
+            <span>{{item.ApproveName}}审批不通过</span>
+        </p>
+        {{/if}}
+        {{if item.WorkOrderState==4}}
         <!--报修单撤回-->
         <p>
             <span>{{item.CancelDate}}</span>
             {{if item.roleType!=4}}
             <span>{{item.OrgName}}</span>
             {{/if}}
-            <span>{{item.CancelerName}}</span>
+            <span>{{item.CancelerName}}撤回</span>
         </p>
-        {{/if}}
-        {{if item.RepairApplyState>=2}}
+        {{/if}}    
         <!--派工信息-->
         <p>
-            <span>{{item.DispatchDate}}</span>
+            <span>{{item.ResponseDate}}</span>
             <span>{{item.IntegratorName}}派工</span>
             <span>{{item.ServiceHeaderName}}</span>
             <span>{{item.ServiceHeaderContactNumber}}</span>
-            <span>{{item.PlanStartDate}}到达</span>
+            <span>预计{{item.PlanStartDate}}到达</span>
         </p>
-        {{/if}}
-        {{if item.RepairApplyState>=1}}
         <!--响应信息-->
         <p>
             <span>{{item.ResponseDate}}</span>
@@ -242,17 +247,14 @@
             <span>{{item.ResponserName}}</span>
             <span>响应</span>
         </p>
-        {{/if}}
-        {{if item.RepairApplyState>=0}}
         <!--创建信息-->
         <p>
             <span>{{item.ApplyDate}}</span>
             {{if item.roleType!=4}}
             <span>{{item.OrgName}}</span>
             {{/if}}
-            <span>{{item.ApplyerName}}</span>
+            <span>{{item.ApplyerName}}创建报修单</span>
         </p>
-        {{/if}}
     </div>
 </script>
 <script type="text/javascript">

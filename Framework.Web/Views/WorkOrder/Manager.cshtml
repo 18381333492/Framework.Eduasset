@@ -56,24 +56,24 @@
         line-height: 1.4rem;
         margin-left: 5px;
         padding: 0 2px;
-        font-size: .14rem;
+          font-size: 14px;
         background-color: #f8f8f8;
     }
 
     .search_box {
         width: 27%;
         float: left;
-        font-size: .14rem;
+          font-size: 14px;
     }
 
     .search-input input {
         background-color: #f8f8f8;
-        font-size: .14rem;
+          font-size: 14px;
     }
 
     .see_box {
         display: inline-block;
-        font-size: .14rem;
+        font-size: 14px;
         margin-left: 5px;
         background-color: #288bc3;
         color: white;
@@ -151,7 +151,7 @@
 
         template.defaults.imports.getInervaldate = function (faultDate) {
             //获取两个时间差       
-            var stime = Date.parse(new Date(faultDate));
+            var stime = Date.parse(new Date(faultDate.replace(/-/g, "/")));
             var etime = Date.parse(new Date());
             var usedTime = etime - stime;  //两个时间戳相差的毫秒数
             var days = Math.floor(usedTime / (24 * 3600 * 1000));
@@ -161,17 +161,7 @@
             //计算相差分钟数
             var leave2 = leave1 % (3600 * 1000);        //计算小时数后剩余的毫秒数
             var minutes = Math.floor(leave2 / (60 * 1000));
-            if (days >= 0) {
-                var time = days + "天" + hours + "小时" + minutes + "分钟";
-            }
-            else {
-                if (hours > 0) {
-                    var time = hours + "小时" + minutes + "分钟";
-                }
-                else {
-                    var time = minutes + "分钟";
-                }
-            }
+            var time = days + "天" + hours + "小时" + minutes + "分钟";        
             return time;
         }
 

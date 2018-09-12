@@ -51,7 +51,7 @@
             line-height: 1.4rem;
             margin-left: 5px;
             padding: 0 2px;
-            font-size: .14rem;
+            font-size: 14px;
             background-color: #fff;
         }
 
@@ -80,7 +80,7 @@
         background: -webkit-gradient(linear,0 50%,100% 50%,from(#2e8cbf),to(#3fbfe6)); /*Old gradient for webkit*/
         background: -webkit-linear-gradient(left,#2e8cbf,#3fbfe6); /*new gradient for Webkit*/
         background: -o-linear-gradient(left,#2e8cbf,#3fbfe6); /*Opera11*/
-        font-size: .14rem;
+          font-size: 14px;
         border: none;
         height: 2rem;
         line-height: 2rem;
@@ -91,7 +91,7 @@
     }
 
     .email_box {
-        font-size: .14rem;
+         font-size: 14px;
         margin-left: 30%;
         margin-top: 5px;
     }
@@ -176,12 +176,24 @@
        font-size:13px
     
     }
+    .radio_box input{
+        width:30px;
+        height:20px;
+    }
     .radio_box label{
        display:inline-block;
-       margin-right:30px;
+       margin-right:10px;
     }
     .list-block .item-content{
         padding-left:0px
+    }
+
+    .verifyContent input{
+         width:30px;
+         height:20px;
+    }
+     .verifyContent label{
+        margin:0 20px;
     }
 </style>
 <body>
@@ -398,7 +410,7 @@
                             <div class="item-inner">
                                 <div class="item-title label">配件名称</div>
                                 <div class="item-input">
-                                    <input type="text" name="PartName" class="select_box" />
+                                    <input type="text" name="PartName" class="select_box" value="@Model.Parts[0].PartName" />
                                 </div>
                             </div>
                         </div>
@@ -409,7 +421,7 @@
                             <div class="item-inner">
                                 <div class="item-title label">品牌</div>
                                 <div class="item-input">
-                                    <input type="text" name="ProductModel" class="select_box" value="" />
+                                    <input type="text" name="ProductModel" class="select_box" value="@Model.Parts[0].ProductModel" />
                                 </div>
                             </div>
                         </div>
@@ -420,7 +432,7 @@
                             <div class="item-inner">
                                 <div class="item-title label">数量</div>
                                 <div class="item-input">
-                                    <input type="number" name="ConsumeNumber" class="select_box" value="" />
+                                    <input type="number" name="ConsumeNumber" class="select_box" value="@Model.Parts[0].ConsumeNumber" />
                                 </div>
                             </div>
                         </div>
@@ -431,7 +443,7 @@
                             <div class="item-inner">
                                 <div class="item-title label">单位</div>
                                 <div class="item-input">
-                                    <input type="text" name="NumberUnit" class="select_box" value="" />
+                                    <input type="text" name="NumberUnit" class="select_box" value="@Model.Parts[0].NumberUnit" />
                                 </div>
                             </div>
                         </div>
@@ -442,7 +454,7 @@
                             <div class="item-inner">
                                 <div class="item-title label">单价</div>
                                 <div class="item-input">
-                                    <input type="text" name="Price" class="select_box" value="" />
+                                    <input type="text" name="Price" class="select_box" value="@Model.Parts[0].Price" />
                                 </div>
                             </div>
                         </div>
@@ -524,30 +536,48 @@
                             </div>
                         </div>
                     </li>
-                    <li>
-                        <div class="item-content">
-                            <div class="item-media"><i class="icon icon-form-email"></i></div>
-                            <div class="item-inner">
-                                <div class="item-title label">服务评价</div>
-                                <div class="radio_box">
-                                    <label><input type="radio" name="SureLevel" value="0">满意</label>
-                                    <label><input type="radio" name="SureLevel" value="2">一般</label>
-                                    <label><input type="radio" name="SureLevel" value="2">较差</label>
+                   @if (Convert.ToInt32(Model.WorkOrderState) == 3)
+                   {
+                        <li>
+                            <div class="item-content">
+                                <div class="item-media"><i class="icon icon-form-email"></i></div>
+                                <div class="item-inner">
+                                    <div class="item-title label">服务评价</div>
+                                    <div class="radio_box">
+                                        @if (Model.SureLevel == 0)
+                                        {
+                                            <label><input type="radio" readonly name="SureLevel" value="0" checked>满意</label>
+                                            <label><input type="radio" readonly name="SureLevel" value="1">一般</label>
+                                            <label><input type="radio"  readonly name="SureLevel" value="2">较差</label>
+                                        }
+                                        @if (Model.SureLevel == 1)
+                                        {
+                                            <label><input type="radio"  readonly name="SureLevel" value="0">满意</label>
+                                            <label><input type="radio"  readonly name="SureLevel" value="1" checked>一般</label>
+                                            <label><input type="radio"  readonly name="SureLevel" value="2">较差</label>
+                                        }
+                                        @if (Model.SureLevel == 2)
+                                        {
+                                            <label><input type="radio" readonly name="SureLevel" value="0">满意</label>
+                                            <label><input type="radio" readonly name="SureLevel" value="1">一般</label>
+                                            <label><input type="radio" readonly name="SureLevel" value="2" checked>较差</label>
+                                        }
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </li>
-                    <li class="last">
-                        <div class="item-content ">
-                            <div class="item-media"><i class="icon icon-form-email"></i></div>
-                            <div class="item-inner clear">
-                                <div class="item-title label">意见</div>
-                                <div class="textarea_box">
-                                    <textarea name="SureOpinion"></textarea>
+                        </li>
+                        <li class="last">
+                            <div class="item-content ">
+                                <div class="item-media"><i class="icon icon-form-email"></i></div>
+                                <div class="item-inner clear">
+                                    <div class="item-title label">意见</div>
+                                    <div class="textarea_box">
+                                        <textarea name="SureOpinion">@Model.SureOpinion</textarea>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </li>
+                        </li>
+                   }
                     @if(roleType == RoleType.School&& Convert.ToInt32(Model.WorkOrderState)==2)
                     {
                         <li class="last">
@@ -557,13 +587,13 @@
                                     <div class="item-title label">服务评价</div>
                                     <div class="item-input">
                                         <label><input type="radio" name="SureLevel" value="0">满意</label> 
-                                        <label><input type="radio" name="SureLevel" value="2">一般</label> 
+                                        <label><input type="radio" name="SureLevel" value="1">一般</label> 
                                         <label><input type="radio" name="SureLevel" value="2">较差</label> 
                                     </div>
                                 </div>
                             </div>
                         </li>
-                        <li>
+                        <li class="last">
                             <div class="item-content ">
                                 <div class="item-media"><i class="icon icon-form-email"></i></div>
                                 <div class="item-inner clear">
@@ -606,9 +636,9 @@
             <label><input type="radio" name="verifyType" value="0" checked />同意</label>
             <label><input type="radio" name="verifyType" value="1" />拒绝</label>
         </p>
-        <p>
-            <span>说明</span>
-            <textarea name="ApproveOpinion"></textarea>
+        <p style="margin-top:10px;">
+            <span style="display:inline-block;float:left;margin-top:20px;">说明</span>
+            <textarea style="height:60px;border-radius:5px;width: 190px;padding:5px;" name="ApproveOpinion"></textarea>
         </p>
     </form>
 </script>
@@ -632,15 +662,17 @@
                 });
             }
             if (RoleType == 3) {
+                //审批
                 var html = template("verifyModal", null)();
                 $.modal({
                     title: ' ',
                     text: html,
                     buttons: [
+                      { text: "取消", className: "default" },
                       {
-                          text: "确定", className: "default", onClick: function () {
+                          text: "确定", onClick: function () {
                               var param = client.form.parseJson($('.verifyContent'));
-                              var sUrl = param == 0 ? "/WorkOrder/PassWorkOrder" : "/WorkOrder/UnPassWorkOrder";
+                              var sUrl = param.verifyType == 0 ? "/WorkOrder/PassWorkOrder" : "/WorkOrder/UnPassWorkOrder";
                               submitDatas = {};
                               submitDatas.ID = ID;
                               submitDatas.ApproveOpinion = param.ApproveOpinion;
