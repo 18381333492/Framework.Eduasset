@@ -362,7 +362,10 @@
                                 <div class="textarea_box">
                                     <textarea name="DealWay"></textarea>
                                     <div class="clear">
-                                        <img class="addImage img" src="~/jquery/img/upload_img.png" />
+                                        <div class="addImage" style="position:relative;float:left;margin-left:5px;">
+                                            <img class="img" src="~/jquery/img/upload_img.png" />
+                                        </div>
+                                        @*<img class="addImage img" src="~/jquery/img/upload_img.png" />*@
                                         @*<img src="~/Content/img/del.png" class="del">*@
                                     </div>
                                 </div>
@@ -522,9 +525,16 @@
                 var imageList = r.data;
                 var html = [];
                 $(imageList).each(function (index,url) {
-                    html.push('<img src="' + url + '" class="img upload_img" />');
+                    html.push('<div class="upload_img" style="position:relative;float:left;margin-left:5px;">');
+                    html.push('<img src="' + url + '" class="img" />');
+                    html.push('<img src="~/Content/img/del.png" class="del">');
+                    html.push('</div>');
                 });
                 $(html.join('')).insertBefore($(".addImage"));
+                //绑定图片删除事件
+                $('.del', divId).off("click").on("click", function () {
+                    $(this).parents(".upload_img").remove();
+                });
             });
         }
 
@@ -586,7 +596,7 @@
                 submitDatas.ServicePersons = $('input[name=ServicePersons]').val();//维修人员姓名
                 var images = $('.upload_img');
                 for (var i = 1; i <=images.length; i++) {
-                    submitDatas["DealPicPath" + i] = $(images).eq(i - 1).attr("src");
+                    submitDatas["DealPicPath" + i] = $(images).eq(i - 1).find(".img").attr("src");
                 }
                 Parts.push({
                     PartName: $('input[name=PartName]').val(),

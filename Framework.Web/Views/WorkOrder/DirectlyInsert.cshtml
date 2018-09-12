@@ -324,7 +324,10 @@
                         <div class="textarea_box">
                             <textarea name="FaultDesc"></textarea>
                             <div class="clear">
-                                <img class="addImage img" data-Type="addImage_question" src="~/jquery/img/upload_img.png" />
+                                <div class="addImage" data-Type="addImage_question" style="position:relative;float:left;margin-left:5px;">
+                                    <img class="img" src="~/jquery/img/upload_img.png" />
+                                </div>
+                                @*<img class="addImage img" data-Type="addImage_question" src="~/jquery/img/upload_img.png" />*@
                                 @*<img src="~/Content/img/del.png" class="del">*@
                             </div>
                         </div>
@@ -350,7 +353,10 @@
                         <div class="textarea_box">
                             <textarea name="DealWay"></textarea>
                             <div class="clear ">
-                                <img class="addImage img"  data-Type="addImage_handle" src="~/jquery/img/upload_img.png" />
+                                <div class="addImage" data-Type="addImage_handle" style="position:relative;float:left;margin-left:5px;">
+                                    <img class="img" src="~/jquery/img/upload_img.png" />
+                                </div>
+                                @*<img class="addImage img"  data-Type="addImage_handle" src="~/jquery/img/upload_img.png" />*@
                                 @*<img src="~/Content/img/del.png" class="del">*@
                             </div>
                         </div>
@@ -566,7 +572,10 @@
                         <div class="textarea_box">
                             <textarea name="FaultDesc"></textarea>
                             <div class="clear">
-                                <img class="addImage img" data-Type="addImage_question"  src="/jquery/img/upload_img.png" />
+                                <div class="addImage" data-Type="addImage_question" style="position:relative;float:left;margin-left:5px;">
+                                    <img class="img" src="~/jquery/img/upload_img.png" />
+                                </div>
+                                @*<img class="addImage img" data-Type="addImage_question"  src="/jquery/img/upload_img.png" />*@
                                 @*<img src="~/Content/img/del.png" class="del">*@
                             </div>
                         </div>
@@ -592,7 +601,10 @@
                         <div class="textarea_box">
                             <textarea name="DealWay"></textarea>
                             <div class="clear">
-                                <img class="addImage img" data-Type="addImage_handle" src="/jquery/img/upload_img.png" />
+                                <div class="addImage" data-Type="addImage_handle" style="position:relative;float:left;margin-left:5px;">
+                                    <img class="img" src="~/jquery/img/upload_img.png" />
+                                </div>
+                                @*<img class="addImage img" data-Type="addImage_handle" src="/jquery/img/upload_img.png" />*@
                                 @*<img src="~/Content/img/del.png" class="del">*@
                             </div>
                         </div>
@@ -713,8 +725,12 @@
                 $.hideLoading();
                 var imageList = r.data;
                 var html = [];
-                $(imageList).each(function (index,url) {
-                    html.push('<img src="' + url + '" data-Type="' + type + '" class="img upload_img" />');
+                $(imageList).each(function (index, url) {
+                    html.push('<div class="upload_img" data-Type="' + type + '" style="position:relative;float:left;margin-left:5px;">');
+                    html.push('<img src="' + url + '" class="img" />');
+                    html.push('<img src="~/Content/img/del.png" class="del">');
+                    html.push('</div>');
+                    //html.push('<img src="' + url + '" data-Type="' + type + '" class="img upload_img" />');
                 });
                 $(html.join('')).insertBefore($this);
             });
@@ -769,7 +785,7 @@
                 serverIds = [];//清空数组
                 var type = $(this).attr("data-Type");
                 var $this = $(this);
-                var uploadCount = $('img[data-Type="' + type + '"]', divId).length;//已经上传的张数
+                var uploadCount = $('div[data-Type="' + type + '"]', divId).length;//已经上传的张数
                 if (uploadCount < 5) {
                     var count = 5 - uploadCount;//还能上传的图片张数
                     WeChat.chooseImage(count, function (r) {
@@ -806,7 +822,7 @@
                     serverIds = [];//清空数组
                     var type = $(this).attr("data-Type");
                     var $this = $(this);
-                    var uploadCount = $('img[data-Type="' + type + '"]', $('#formDiv0')).length;//已经上传的张数
+                    var uploadCount = $('div[data-Type="' + type + '"]', $('#formDiv0')).length;//已经上传的张数
                     if (uploadCount < 5) {
                         var count = 5 - uploadCount;//还能上传的图片张数
                         WeChat.chooseImage(count, function (r) {
@@ -860,13 +876,13 @@
                         FaultReason: $('input[name=FaultReason]', element).val(),
                         DealWay: $('textarea[name=DealWay]', element).val(),
                     }
-                    var questionImages = $('img[data-Type=addImage_question]', element);
-                    var handleImages = $('img[data-Type=addImage_handle]', element);
+                    var questionImages = $('div[data-Type=addImage_question]', element);
+                    var handleImages = $('div[data-Type=addImage_handle]', element);
                     for (var i = 1; i < questionImages.length; i++) {
-                        obj["FaultPicPath" + i] = $(questionImages).eq(i - 1).attr("src");
+                        obj["FaultPicPath" + i] = $(questionImages).eq(i - 1).find(".img").attr("src");
                     }
                     for (var i = 1; i < handleImages.length; i++) {
-                        obj["DealPicPath" + i] = $(handleImages).eq(i - 1).attr("src");
+                        obj["DealPicPath" + i] = $(handleImages).eq(i - 1).find(".img").attr("src");
                     }
                     obj.Parts = [{
                         PartName: $('input[name=PartName]', element).val(),

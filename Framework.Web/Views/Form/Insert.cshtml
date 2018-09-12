@@ -166,7 +166,7 @@
     .textarea_box .del {
         position: absolute;
         top: -8px;
-        right: -6px;
+        right: 0px;
     }
 
     .list-block ul li.last {
@@ -324,8 +324,13 @@
                                 <div class="textarea_box">
                                     <textarea name="FaultDesc"></textarea>
                                     <div class="clear">
-                                        <img class="addImage img" src="~/jquery/img/upload_img.png" />
-                                        @*<img src="~/Content/img/del.png" class="del">*@
+                                        <div class="addImage" style="position:relative;float:left;margin-left:5px;">
+                                            <img class="img" src="~/jquery/img/upload_img.png" />
+                                        </div>
+                                        @*<div style="position:relative;float:left;margin-left:5px;">
+                                            <img class="addImage img" src="~/jquery/img/upload_img.png" />
+                                            <img src="~/Content/img/del.png" class="del">
+                                         </div>*@             
                                     </div>
                                 </div>
                             </div>
@@ -432,8 +437,9 @@
                         <div class="textarea_box">
                             <textarea name="FaultDesc"></textarea>
                             <div class="clear">
-                                <img  class="addImage img" src="/jquery/img/upload_img.png" />
-                                @*<img src="~/Content/img/del.png" class="del">*@
+                                <div class="addImage" style="position:relative;float:left;margin-left:5px;">
+                                    <img class="img" src="~/jquery/img/upload_img.png" />
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -517,10 +523,17 @@
                 $.hideLoading();
                 var imageList = r.data;
                 var html = [];
-                $(imageList).each(function (index,url) {
-                    html.push('<img src="' + url + '" class="img upload_img" />');
+                $(imageList).each(function (index, url) {
+                    html.push('<div class="upload_img" style="position:relative;float:left;margin-left:5px;">');
+                    html.push('<img src="' + url + '" class="img" />');
+                    html.push('<img src="~/Content/img/del.png" class="del">');
+                    html.push('</div>');
                 });
                 $(html.join('')).insertBefore($(".addImage", divId));
+                //绑定图片删除事件
+                $('.del', divId).off("click").on("click", function () {
+                    $(this).parents(".upload_img").remove();
+                });
             });
         }
 
@@ -571,9 +584,9 @@
             $('.addImage', divId).on("click", function () {
                 localIds = [];//清空数组
                 serverIds = [];//清空数组
-                var uploadCount = $('.img', divId).length;//已经上传的张数
-                if (uploadCount < 5) {
-                    var count = 5 - uploadCount;//还能上传的图片张数
+                var uploadCount = $('.upload_img', divId).length;//已经上传的张数
+                if (uploadCount < 4) {
+                    var count = 4 - uploadCount;//还能上传的图片张数
                     WeChat.chooseImage(count, function (r) {
                         localIds = r.localIds;
                         uploadImage(divId);
@@ -606,9 +619,9 @@
                  localIds = [];//清空数组
                  serverIds = [];//清空数组
                  var divId = $('#formDiv0');
-                 var uploadCount = $('.img', divId).length;//已经上传的张数
-                 if (uploadCount < 5) {
-                    var count = 5 - uploadCount;//还能上传的图片张数
+                 var uploadCount = $('.upload_img', divId).length;//已经上传的张数
+                 if (uploadCount < 4) {
+                    var count = 4 - uploadCount;//还能上传的图片张数
                     WeChat.chooseImage(count, function (r) {
                         localIds = r.localIds;
                         uploadImage(divId);
@@ -651,7 +664,7 @@
                     }
                     var images = $('.upload_img', element);
                     for (var i = 1; i <=images.length; i++) {
-                        obj["FaultPicPath" + i] = $(images).eq(i - 1).attr("src");
+                        obj["FaultPicPath" + i] = $(images).eq(i - 1).find(".img").attr("src");
                     }
                     Devices.push(obj);
                 });
