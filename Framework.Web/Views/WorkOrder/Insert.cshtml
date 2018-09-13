@@ -363,7 +363,7 @@
                                     <textarea name="DealWay"></textarea>
                                     <div class="clear">
                                         <div class="addImage" style="position:relative;float:left;margin-left:5px;">
-                                            <img class="img" src="~/jquery/img/upload_img.png" />
+                                            <img class="img" src="/jquery/img/upload_img.png" />
                                         </div>
                                         @*<img class="addImage img" src="~/jquery/img/upload_img.png" />*@
                                         @*<img src="~/Content/img/del.png" class="del">*@
@@ -527,12 +527,12 @@
                 $(imageList).each(function (index,url) {
                     html.push('<div class="upload_img" style="position:relative;float:left;margin-left:5px;">');
                     html.push('<img src="' + url + '" class="img" />');
-                    html.push('<img src="~/Content/img/del.png" class="del">');
+                    html.push('<img src="/Content/img/del.png" class="del">');
                     html.push('</div>');
                 });
                 $(html.join('')).insertBefore($(".addImage"));
                 //绑定图片删除事件
-                $('.del', divId).off("click").on("click", function () {
+                $('.del').off("click").on("click", function () {
                     $(this).parents(".upload_img").remove();
                 });
             });

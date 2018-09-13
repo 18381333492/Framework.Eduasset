@@ -438,7 +438,7 @@
                             <textarea name="FaultDesc"></textarea>
                             <div class="clear">
                                 <div class="addImage" style="position:relative;float:left;margin-left:5px;">
-                                    <img class="img" src="~/jquery/img/upload_img.png" />
+                                    <img class="img" src="/jquery/img/upload_img.png" />
                                 </div>
                             </div>
                         </div>
@@ -526,7 +526,7 @@
                 $(imageList).each(function (index, url) {
                     html.push('<div class="upload_img" style="position:relative;float:left;margin-left:5px;">');
                     html.push('<img src="' + url + '" class="img" />');
-                    html.push('<img src="~/Content/img/del.png" class="del">');
+                    html.push('<img src="/Content/img/del.png" class="del">');
                     html.push('</div>');
                 });
                 $(html.join('')).insertBefore($(".addImage", divId));

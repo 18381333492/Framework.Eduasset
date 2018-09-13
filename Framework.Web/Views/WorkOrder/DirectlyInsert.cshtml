@@ -325,7 +325,7 @@
                             <textarea name="FaultDesc"></textarea>
                             <div class="clear">
                                 <div class="addImage" data-Type="addImage_question" style="position:relative;float:left;margin-left:5px;">
-                                    <img class="img" src="~/jquery/img/upload_img.png" />
+                                    <img class="img" src="/jquery/img/upload_img.png" />
                                 </div>
                                 @*<img class="addImage img" data-Type="addImage_question" src="~/jquery/img/upload_img.png" />*@
                                 @*<img src="~/Content/img/del.png" class="del">*@
@@ -354,7 +354,7 @@
                             <textarea name="DealWay"></textarea>
                             <div class="clear ">
                                 <div class="addImage" data-Type="addImage_handle" style="position:relative;float:left;margin-left:5px;">
-                                    <img class="img" src="~/jquery/img/upload_img.png" />
+                                    <img class="img" src="/jquery/img/upload_img.png" />
                                 </div>
                                 @*<img class="addImage img"  data-Type="addImage_handle" src="~/jquery/img/upload_img.png" />*@
                                 @*<img src="~/Content/img/del.png" class="del">*@
@@ -573,7 +573,7 @@
                             <textarea name="FaultDesc"></textarea>
                             <div class="clear">
                                 <div class="addImage" data-Type="addImage_question" style="position:relative;float:left;margin-left:5px;">
-                                    <img class="img" src="~/jquery/img/upload_img.png" />
+                                    <img class="img" src="/jquery/img/upload_img.png" />
                                 </div>
                                 @*<img class="addImage img" data-Type="addImage_question"  src="/jquery/img/upload_img.png" />*@
                                 @*<img src="~/Content/img/del.png" class="del">*@
@@ -602,7 +602,7 @@
                             <textarea name="DealWay"></textarea>
                             <div class="clear">
                                 <div class="addImage" data-Type="addImage_handle" style="position:relative;float:left;margin-left:5px;">
-                                    <img class="img" src="~/jquery/img/upload_img.png" />
+                                    <img class="img" src="/jquery/img/upload_img.png" />
                                 </div>
                                 @*<img class="addImage img" data-Type="addImage_handle" src="/jquery/img/upload_img.png" />*@
                                 @*<img src="~/Content/img/del.png" class="del">*@
@@ -728,11 +728,15 @@
                 $(imageList).each(function (index, url) {
                     html.push('<div class="upload_img" data-Type="' + type + '" style="position:relative;float:left;margin-left:5px;">');
                     html.push('<img src="' + url + '" class="img" />');
-                    html.push('<img src="~/Content/img/del.png" class="del">');
+                    html.push('<img src="/Content/img/del.png" class="del">');
                     html.push('</div>');
                     //html.push('<img src="' + url + '" data-Type="' + type + '" class="img upload_img" />');
                 });
                 $(html.join('')).insertBefore($this);
+                //绑定图片删除事件
+                $('.del').off("click").on("click", function () {
+                    $(this).parents(".upload_img").remove();
+                });
             });
         }
 
