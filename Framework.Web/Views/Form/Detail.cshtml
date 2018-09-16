@@ -502,7 +502,7 @@
                         client.ajax.postRequest("/Form/CancelRepairApply", { submitDatas: JSON.stringify(submitDatas) }, function (r) {
                             $.toast("撤回成功");
                             setTimeout(function () {
-                                location.href ="/Form/Teacher";
+                                location.href =client.baseUrl+"/Form/Teacher";
                             },1000);
                         }, function (r) {
                             $.toast(r.info, "text");
@@ -534,7 +534,7 @@
             $.hideLoading();
             $.toast("响应成功");
             setTimeout(function () {
-                location.href = "/Form/Repair";
+                location.href =client.baseUrl+"/Form/Repair";
             }, 500);
             location.href = "";
         }, function (r) {

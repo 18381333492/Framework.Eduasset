@@ -175,14 +175,14 @@
             $('.create').off("click").on("click", function (event) {
                 event.stopPropagation();
                 var RecordID = $(this).parents(".card").attr("data-ID");
-                location.href = "/WorkOrder/Insert?ID=" + RecordID;
+                location.href =client.baseUrl+"/WorkOrder/Insert?ID=" + RecordID;
             });
 
             //差看工单
             $('.see').off("click").on("click", function (event) {
                 event.stopPropagation();
                 var RecordID = $(this).parents(".card").attr("data-ID");
-                location.href = "/WorkOrder/Detail?repairApplyId=" + RecordID;
+                location.href =client.baseUrl+ "/WorkOrder/Detail?repairApplyId=" + RecordID;
             });
         }
 

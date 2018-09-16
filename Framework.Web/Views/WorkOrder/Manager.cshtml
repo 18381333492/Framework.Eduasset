@@ -170,7 +170,7 @@
             //跳转详情
             $('.card').off("click").on("click", function (r) {
                 var ID = $(this).attr("data-ID");
-                location.href = "/WorkOrder/Detail?ID="+ID;
+                location.href =client.baseUrl+"/WorkOrder/Detail?ID="+ID;
             });
         }
 

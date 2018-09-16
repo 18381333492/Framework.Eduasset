@@ -655,7 +655,7 @@
                 client.ajax.postRequest("/WorkOrder/SureWorkOrder", { submitDatas: JSON.stringify(submitDatas) }, function (r) {
                     $.toast("评价成功");
                     setTimeout(function () {
-                        location.href = "/Form/Teacher";
+                        location.href =client.baseUrl+ "/Form/Teacher";
                     }, 1000);
                 }, function (r) {
                     $.toast(r.info, "text");
@@ -679,7 +679,7 @@
                               client.ajax.postRequest(sUrl, { submitDatas: JSON.stringify(submitDatas) }, function (r) {
                                   $.toast(r.info);
                                   setTimeout(function () {
-                                      location.href = "/WorkOrder/Manager";
+                                      location.href =client.baseUrl+ "/WorkOrder/Manager";
                                   }, 1000);
                               }, function (r) {
                                   $.toast(r.info, "text");
@@ -700,7 +700,7 @@
                         client.ajax.postRequest("/WorkOrder/CancelWorkOrder", { submitDatas: JSON.stringify(submitDatas) }, function (r) {
                             $.toast("撤回成功");
                             setTimeout(function () {
-                                location.href = "/Form/RepairMan";
+                                location.href =client.baseUrl+ "/Form/RepairMan";
                             }, 1000);
                         }, function (r) {
                             $.toast(r.info, "text");

@@ -230,7 +230,7 @@
             //跳转详情
             $('.card').on("click", function () {
                 var RecordID = $(this).attr("data-ID");
-                location.href = "/Form/Detail?ID=" + RecordID;
+                location.href =client.baseUrl+"/Form/Detail?ID=" + RecordID;
             });
 
             //响应事件绑定

@@ -59,7 +59,7 @@ namespace Framework.Web
                 }
                 else
                 {//登录过期
-                    filterContext.Result = Redirect("/User/Login");
+                    filterContext.Result = Redirect("~/User/Login");
                 }
             }
         }

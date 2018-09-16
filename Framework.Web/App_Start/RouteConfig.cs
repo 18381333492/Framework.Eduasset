@@ -15,18 +15,17 @@ namespace Framework.Web
 
 
             routes.MapRoute(
-             name: "Default",
-             url: "eduasset_chat/{controller}/{action}/{id}",
-             defaults: new { controller = "Default", action = "Index", id = UrlParameter.Optional }
-         );
-
-            routes.MapRoute(
-              name: "MyDefault",
+              name: "Default",
               url: "{controller}/{action}/{id}",
               defaults: new { controller = "Default", action = "Index", id = UrlParameter.Optional }
           );
 
-         
+         //   routes.MapRoute(
+         //    name: "Default",
+         //    url: "eduasset_chat/{controller}/{action}/{id}",
+         //    defaults: new { controller = "Default", action = "Index", id = UrlParameter.Optional }
+         //);
+
         }
     }
 }

@@ -363,7 +363,7 @@
                                     <textarea name="DealWay"></textarea>
                                     <div class="clear">
                                         <div class="addImage" style="position:relative;float:left;margin-left:5px;">
-                                            <img class="img" src="/jquery/img/upload_img.png" />
+                                            <img class="img" src="~/jquery/img/upload_img.png" />
                                         </div>
                                         @*<img class="addImage img" src="~/jquery/img/upload_img.png" />*@
                                         @*<img src="~/Content/img/del.png" class="del">*@
@@ -527,7 +527,7 @@
                 $(imageList).each(function (index,url) {
                     html.push('<div class="upload_img" style="position:relative;float:left;margin-left:5px;">');
                     html.push('<img src="' + url + '" class="img" />');
-                    html.push('<img src="/Content/img/del.png" class="del">');
+                    html.push('<img src="/eduasset_chat/Content/img/del.png" class="del">');
                     html.push('</div>');
                 });
                 $(html.join('')).insertBefore($(".addImage"));
@@ -610,7 +610,7 @@
                     $.hideLoading();
                     $.toast("创建成功");
                     setTimeout(function () {
-                        location.href = "/Form/RepairMan";
+                        location.href =client.baseUrl+"/Form/RepairMan";
                     },500)
                 }, function (r) {
                     $.hideLoading();

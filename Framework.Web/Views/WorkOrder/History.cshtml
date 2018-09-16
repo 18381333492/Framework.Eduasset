@@ -164,7 +164,7 @@
             $('.card').off("click").on("click", function (event) {
                 event.stopPropagation();
                 var RecordID = $(this).attr("data-ID");
-                location.href = "/WorkOrder/Detail?ID=" + RecordID;
+                location.href =client.baseUrl+ "/WorkOrder/Detail?ID=" + RecordID;
             });
         }
 

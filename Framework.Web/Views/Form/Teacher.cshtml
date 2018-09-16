@@ -289,9 +289,9 @@
             <div class="card-header">
                 <span>{{item.FaultName}}</span>
                 {{if item.RepairApplyState==0}}
-                <img src="/Content/img/time_icon.png" height="20" width="20" />
+                <img src="/eduasset_chat/Content/img/time_icon.png" height="20" width="20" />
                 {{else}}
-                <img src="/Content/img/timeing_icon.png" height="20" width="20" />
+                <img src="/eduasset_chat/Content/img/timeing_icon.png" height="20" width="20" />
                 {{/if}}
             </div>
             <div class="card-footer">
@@ -331,7 +331,7 @@
         <div class="card-footer"><span>{{item.FaultDate}}</span></div>
         <div class="card-header">
             <span>{{item.FaultName}}</span>
-            <img src="/Content/img/timeend_icon.png" height="20" width="20" />
+            <img src="/eduasset_chat/Content/img/timeend_icon.png" height="20" width="20" />
         </div>
         <div class="card-footer">
             <span>{{item.IntegratorName}}</span>
@@ -463,7 +463,7 @@
 
             //添加保修跳转
             $('.footter').on("click", function () {
-                location.href ="/Form/Insert";
+                location.href =client.baseUrl+"/Form/Insert";
             });
 
         }
@@ -483,11 +483,11 @@
                 var DealType = $(this).attr("data-DealType");////响应方式，0-派工，1-建议措施
                 if (RepairApplyState < 3 || DealType == 1 || RepairApplyState==7) {
                     //查看保修单详情
-                    location.href ="/Form/Detail?ID=" + RecordID;
+                    location.href=client.baseUrl+"/Form/Detail?ID=" + RecordID;
                 }
                 else {
                     //查看工单详情
-                    location.href = "/WorkOrder/Detail?repairApplyId=" + RecordID;
+                    location.href =client.baseUrl+"/WorkOrder/Detail?repairApplyId=" + RecordID;
                 }
             });
 
@@ -495,7 +495,7 @@
             $('.parse_form').off("click").on("click", function (event) {
                 event.stopPropagation();
                 var RecordID = $(this).parents(".card").attr("data-ID");
-                location.href ="/WorkOrder/Detail?repairApplyId=" + RecordID;
+                location.href =client.baseUrl+"/WorkOrder/Detail?repairApplyId=" + RecordID;
             });
 
             //查看进度
