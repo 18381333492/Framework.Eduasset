@@ -12,6 +12,7 @@
     //check window.client
     if (!window.client) {
         window.client = {
+            baseUrl:'', //'/eduasset_chat',
             ajax: new ajax(),
             form: new form(),
             string: new string(),
@@ -235,6 +236,7 @@
             }
 
             function ajaxRequest(url, params, success, fail, async, type) {
+                url = client.baseUrl + url;
                 $.ajax({
                     url: url,
                     data: params,

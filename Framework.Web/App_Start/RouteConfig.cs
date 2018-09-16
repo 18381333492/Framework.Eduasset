@@ -13,11 +13,20 @@ namespace Framework.Web
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+
             routes.MapRoute(
-                name: "Default",
-                url: "{controller}/{action}/{id}",
-                defaults: new { controller= "Default",action = "Index", id = UrlParameter.Optional }
-            );
+             name: "Default",
+             url: "eduasset_chat/{controller}/{action}/{id}",
+             defaults: new { controller = "Default", action = "Index", id = UrlParameter.Optional }
+         );
+
+            routes.MapRoute(
+              name: "MyDefault",
+              url: "{controller}/{action}/{id}",
+              defaults: new { controller = "Default", action = "Index", id = UrlParameter.Optional }
+          );
+
+         
         }
     }
 }

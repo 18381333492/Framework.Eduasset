@@ -34,7 +34,7 @@ function slidepage() {
             $.showLoading("正在加载");
         }
         $.ajax({
-            url: option.url,
+            url:client.baseUrl+option.url,
             type: 'POST',
             dataType: 'json',
             data: option.params + '&page=' + option.page + '&rows=' + option.rows,

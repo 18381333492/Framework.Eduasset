@@ -141,16 +141,16 @@
                         }
                         setTimeout(function () {
                             if (r.data == 4) {//老师
-                                location.href = "/Form/Teacher";
+                                location.href =client.baseUrl+"/Form/Teacher";
                             }
                             if (r.data == 1) {//维修单位
-                                location.href = "/Form/Repair";
+                                location.href = client.baseUrl + "/Form/Repair";
                             }
                             if (r.data == 2) {//维修人员
-                                location.href = "/Form/RepairMan";
+                                location.href = client.baseUrl + "/Form/RepairMan";
                             }
                             if (r.data == 3) {//学校领导
-                                location.href = "/WorkOrder/Manager";
+                                location.href = client.baseUrl + "/WorkOrder/Manager";
                             }
                         }, 500);
                     }, function (r) {

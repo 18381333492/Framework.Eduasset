@@ -463,7 +463,7 @@
 
             //添加保修跳转
             $('.footter').on("click", function () {
-                location.href = "/Form/Insert";
+                location.href ="/Form/Insert";
             });
 
         }
@@ -483,7 +483,7 @@
                 var DealType = $(this).attr("data-DealType");////响应方式，0-派工，1-建议措施
                 if (RepairApplyState < 3 || DealType == 1 || RepairApplyState==7) {
                     //查看保修单详情
-                    location.href = "/Form/Detail?ID=" + RecordID;
+                    location.href ="/Form/Detail?ID=" + RecordID;
                 }
                 else {
                     //查看工单详情
@@ -495,7 +495,7 @@
             $('.parse_form').off("click").on("click", function (event) {
                 event.stopPropagation();
                 var RecordID = $(this).parents(".card").attr("data-ID");
-                location.href = "/WorkOrder/Detail?repairApplyId=" + RecordID;
+                location.href ="/WorkOrder/Detail?repairApplyId=" + RecordID;
             });
 
             //查看进度
@@ -506,11 +506,11 @@
                 var DealType = $(this).parents(".card").attr("data-DealType");////响应方式，0-派工，1-建议措施
                 var param = {};
                 if (RepairApplyState < 3 || DealType == 1 || RepairApplyState == 7) {
-                    sUrl = "/Form/GetInfoById";
+                    sUrl ="/Form/GetInfoById";
                     param.ID = RecordID;
                 }
                 else {
-                    sUrl = "/WorkOrder/GetInfoById";
+                    sUrl ="/WorkOrder/GetInfoById";
                     param.repairApplyId = RecordID;
                 }
                 client.ajax.getRequest(sUrl, param, function (r) {
