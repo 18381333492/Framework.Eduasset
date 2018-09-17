@@ -310,6 +310,7 @@
             slideing.pageParameter.rows = 10;
             slideing.pageParameter.tip = "暂无待响应的保修单";
             slideing.pageParameter.callback = function (r) {
+                debugger
                 var html = template("formList", { list: r.rows });
                 $('.formlist').append(html);
                 bingEvent();

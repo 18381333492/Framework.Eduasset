@@ -55,6 +55,7 @@ function slidepage() {
                         }
                     }
                     else {
+                        $.hideLoading();
                         if (option.page == 1) {
                             $('.no_tip', option.tipId).find('span').text(option.tip);
                             $('.no_tip', option.tipId).show();
@@ -63,6 +64,7 @@ function slidepage() {
                     }
                 }
                 else {
+                    $.hideLoading();
                     alert(r.info);
                 }
             }
