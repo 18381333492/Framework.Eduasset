@@ -299,11 +299,11 @@
                 {{if item.RepairApplyState==0}}
                 <span style="display:inline-block;float:right">待响应</span>
                 {{/if}}
-                {{if item.RepairApplyState==1}}
-                <span style="display:inline-block;float:right">执行中</span>
-                {{/if}}
-                {{if item.RepairApplyState>=2&&item.RepairApplyState<5}}
+                {{if item.RepairApplyState==1||item.RepairApplyState==2}}
                 <span style="display:inline-block;float:right">已响应</span>
+                {{/if}}
+                {{if item.RepairApplyState>=3&&item.RepairApplyState<5}}
+                <span style="display:inline-block;float:right">执行中</span>
                 {{/if}}
                 {{if item.RepairApplyState==5}}
                 <span style="display:inline-block;float:right">待评价</span>
