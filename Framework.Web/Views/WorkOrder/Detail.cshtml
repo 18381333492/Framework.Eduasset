@@ -170,7 +170,7 @@
     }
 
     .list-block ul li.last {
-        margin-bottom: 1rem;
+        margin-bottom: 50px;
     }
     .radio_box {
        font-size:13px
@@ -538,13 +538,24 @@
                             </div>
                         </div>
                     </li>
-                    <li class="last">
+                    <li>
                         <div class="item-content">
                             <div class="item-media"><i class="icon icon-form-email"></i></div>
                             <div class="item-inner">
                                 <div class="item-title label">维修人员</div>
                                 <div class="item-input">
                                     <input type="text" name="ServicePersons" class="select_box" value="@Model.ServiceHeaderName" />
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="last">
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-email"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title label">审批人</div>
+                                <div class="item-input">
+                                    <input type="text" name="ToApprovNames" class="select_box" value="@Model.ToApprovNames" />
                                 </div>
                             </div>
                         </div>

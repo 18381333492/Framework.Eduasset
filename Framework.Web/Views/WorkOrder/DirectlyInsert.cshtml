@@ -115,6 +115,7 @@
         position: fixed;
         width: 100%;
         bottom: 0;
+        z-index:1000;
     }
 
         .footter img {
@@ -170,7 +171,7 @@
     }
 
     .list-block ul li.last {
-        margin-bottom: 1rem;
+        margin-bottom:50px;
     }
     .list-block .item-content{
         padding-left:0px
@@ -300,7 +301,7 @@
                     <div class="item-inner">
                         <div class="item-title label">维修单位</div>
                         <div class="item-input">
-                            <input type="text" name="IntegratorName" readonly />
+                            <select class="weui-select" name="IntegratorName"></select>
                         </div>
                     </div>
                 </div>
@@ -492,29 +493,55 @@
                     </div>
                 </div>
             </li>
-            <li class="last">
+            <li>
                 <div class="item-content">
                     <div class="item-media"><i class="icon icon-form-email"></i></div>
                     <div class="item-inner">
                         <div class="item-title label">维修人员</div>
                         <div class="item-input">
                             <input type="text" name="ServicePersons" class="select_box" value="@Model.RealName" />
-                            <p class="email_box">
+                            @*<p class="email_box">
                                 审批人：张三（2414769392@qq.com）
                                 <img src="~/Content/img/Eadd_icon.png" height="32" width="32" />
-                            </p>
+                            </p>*@
                         </div>
                     </div>
                 </div>
             </li>
+            <li>
+                <!--审批人列表-->
+                <div style="margin-bottom:150px;margin-top:10px">
+                    <div>
+                        <p style="float: left;padding-left: .75rem;
+                font-size: .7rem;
+                width:33%;
+                text-align:left;margin-top: 6px;
+                padding-right :15px;">审批人</p>
+                        <div class="multsel" defval="0" style="width:60%">
+                            <span class="view">选择值</span>
+                            <div class="selist">
+                                @*<a class="seitem" value="select1">选择项一</a>
+                        <a class="seitem" value="select2">选择项二</a>
+                        <a class="seitem" value="select3">选择项三</a>
+                        <a class="seitem" value="select4">选择项四</a>
+                        <a class="seitem" value="select5">选择项五</a>
+                        <a class="seitem" value="select6">选择项六</a>*@
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </li>
         </ul>
-    </div>    
-        <!--提交按钮-->
-        <div class="footter">
-            <a><img src="~/Content/img/tijiao_icon.png" />提交</a>
-        </div>
+    </div>   
+ 
+    <!--提交按钮-->
+    <div class="footter">
+        <a><img src="~/Content/img/tijiao_icon.png" />提交</a>
+    </div>
     </div>
     <input type="hidden" name="DealerName" value="@Model.RealName" />
+    <input id="ToApprovIds" type="hidden" />
+    <input id="ToApprovNames" type="hidden" />
 </body>
 <!--增加保修模板-->
 <script id="AddForm" type="text/html">
@@ -671,11 +698,14 @@
 </script>
 <script src="~/Scripts/jweixin-1.2.0.js"></script>
 <script src="~/Scripts/wxhelper.js"></script>
+<link href="~/jquerySelect/multsel/multsel.css" rel="stylesheet" />
+<script src="~/jquerySelect/multsel/multselwork.js"></script>
 <script type="text/javascript">
     $(function () {
         domin.bingEvent();
         domin.initControl();
         domin.loadWeChatConfig();//加载微信配置
+        domin.initRepairOrgList();//初始化维修单位列表
     });
 
     var domin = (function (obj) { return obj; }(new function () {
@@ -870,6 +900,8 @@
                 submitDatas.FactEndDate = $('input[name=FactEndDate]').val();//实际结束时间
                 submitDatas.DealerName = $('input[name=DealerName]').val();//处理人姓名
                 submitDatas.ServicePersons = $('input[name=ServicePersons]').val();//维修人员
+                submitDatas.ToApprovIds = $('#ToApprovIds').val();
+                submitDatas.ToApprovNames = $('#ToApprovNames').val();
                 var elementArray = $('.autoform');
                 $(elementArray).each(function (index, element) {
                     var obj = {
@@ -921,6 +953,13 @@
                 $('.cancelform').remove();
             });
 
+            //绑定维修单位切换事件
+            $('select[name=IntegratorName]').change(function () {
+                var integratorCode = $(this).val();
+                initApprovalPersonList(integratorCode); //初始化审批人列表
+            });
+
+
             //切换设备类型事件绑定
             $('select[name=TypeName]').change(function () {
                 initDeviceName();
@@ -940,6 +979,33 @@
                 houseInfo.HouseNo = info.HouseNo;//获取教室门牌号
                 $('input[name=OrgName]').val(info.OrgName);
                 initHouseList();//初始化门牌号
+            });
+        }
+
+        //初始化维修单位下拉列表
+        function initRepairOrgList() {
+            client.ajax.getRequest("/Form/GetRepairOrgList", null, function (r) {
+                var houseArray = JSON.parse(r.data);
+                var html = [];
+                $(houseArray).each(function () {
+                    html.push('<option value="' + this.OrgCode + '">' + this.OrgName + '</option>');
+                });
+                $('select[name=IntegratorName]').html(html.join(''));
+                var integratorCode = $('select[name=IntegratorName]').val();//默认获取第一个维修单位
+                initApprovalPersonList(integratorCode);//初始化审批人列表
+            });
+        }
+
+        //初始化审批人列表
+        function initApprovalPersonList(integratorCode) {
+            client.ajax.getRequest("/WorkOrder/GetApprovalPersonList", { integratorCode: integratorCode }, function (r) {
+                var personArray = JSON.parse(r.data);
+                var html = [];
+                $(personArray).each(function () {
+                    html.push('<a class="seitem" value="' + this.RecordID + '">' + this.RealName + '</a>')
+                });
+                $('.selist').html(html.join(''));
+                multselInit();//渲染插件
             });
         }
 
@@ -1020,13 +1086,14 @@
                 }
             });
             $('input[name=StorePlace]', divId).val(detailInfo.StorePlace);
-            $('input[name=IntegratorName]', divId).val(detailInfo.IntegratorName);//设置维修单位
+            $('select[name=IntegratorName]', divId).val(detailInfo.IntegratorCode);//设置维修单位       
         }
 
         return {
             initControl:initControl,
             bingEvent: bingEvent,
-            loadWeChatConfig: loadWeChatConfig
+            loadWeChatConfig: loadWeChatConfig,
+            initRepairOrgList: initRepairOrgList
         }
     }));
 </script>

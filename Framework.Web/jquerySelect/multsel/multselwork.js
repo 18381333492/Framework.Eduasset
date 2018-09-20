@@ -51,13 +51,12 @@ function multselCheck($obj){
 		names='请选择...';
 	}
 	$obj.parent('div.multsel').find('span.view').html(names);		
-
 }
 /**
  * interface
  * @param vals
  */
 function multselVals(vals, names) {
-    $('#CopyToIds').val(vals.join());
-    $('#CopyToNames').val(names);
+    $('#ToApprovIds').val(vals.join());
+    $('#ToApprovNames').val(names);
 }

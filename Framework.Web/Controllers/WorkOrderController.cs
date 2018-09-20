@@ -357,6 +357,26 @@ namespace Framework.Web.Controllers
             Parameter.ArgsArray.Add("ID", ID);
             var respone = HttpHelper.HttpGet(Parameter);
             return respone;
-        }            
+        }
+
+        /// <summary>
+        /// 获取获取审批人列表
+        /// </summary>
+        /// <param name=""></param>
+        /// <returns></returns>
+        public ActionResult GetApprovalPersonList(string integratorCode)
+        {
+            Parameter.method = "GetApprovalPersonList";
+            Parameter.ArgsArray.Add("integratorCode", integratorCode);
+            var respone = HttpHelper.HttpGet(Parameter);
+            if (respone.Code == 1)
+            {
+                result.data = JsonHelper.ToJsonString(respone.Data);
+                result.success = true;
+            }
+            else
+                result.info = "获取数据失败";
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
     }
 }

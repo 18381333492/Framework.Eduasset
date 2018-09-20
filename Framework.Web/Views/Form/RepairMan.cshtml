@@ -194,11 +194,25 @@
             slideing.pageParameter.rows = 10;
             slideing.pageParameter.tip = "暂无待创建的保修单";
             slideing.pageParameter.callback = function (r) {
+                r.rows = r.rows.sort(compare);
                 var html = template("formList", { list: r.rows });
                 $('.formlist').append(html);
                 bingEvent();
             }
             slideing.initslide();
+        }
+
+        //排序
+        var compare = function (obj1, obj2) {
+            var val1 = Number(obj1.RepairApplyState);
+            var val2 = Number(obj2.RepairApplyState);
+            if (val1 < val2) {
+                return -1;
+            } else if (val1 > val2) {
+                return 1;
+            } else {
+                return 0;
+            }
         }
 
         return {

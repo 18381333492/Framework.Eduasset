@@ -357,5 +357,24 @@ namespace Framework.Web.Controllers
                 result.info = "获取数据失败";
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+
+        /// <summary>
+        /// 获取抄送人列表
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult GetCopyPersonList(string OrgCode)
+        {
+            Parameter.method = "GetCopyPersonList";
+            Parameter.ArgsArray.Add("orgCode", OrgCode);
+            var respone = HttpHelper.HttpGet(Parameter);
+            if (respone.Code == 1)
+            {
+                result.data = JsonHelper.ToJsonString(respone.Data);
+                result.success = true;
+            }
+            else
+                result.info = "获取数据失败";
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
     }
 }

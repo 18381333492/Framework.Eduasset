@@ -1,6 +1,6 @@
 ﻿
 @model LoginCacheInfo
-<nav class="bar bar-tab">
+<nav class="bar bar-tab" style="position:fixed;z-index:100;">
     @if (Model==null||Model.RoleType == RoleType.Manager)
     {
         <a class="tab-item external active" href="~/WorkOrder/Manager">

@@ -369,7 +369,7 @@
                         </div>
                     </li>
                     <li>
-                        <div class="item-content">
+                     <div class="item-content">
                             <div class="item-media"><i class="icon icon-form-email"></i></div>
                             <div class="item-inner">
                                 <div class="item-title label">要求开始时间</div>
@@ -379,13 +379,24 @@
                             </div>
                         </div>
                     </li>
-                    <li class="last">
+                    <li>
                         <div class="item-content">
                             <div class="item-media"><i class="icon icon-form-email"></i></div>
                             <div class="item-inner">
                                 <div class="item-title label">要求结束时间</div>
                                 <div class="item-input">
                                     <input type="text" name="RequireEndDate" readonly value="@Model.RequireEndDate" />
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="last">
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-email"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title label">抄送人</div>
+                                <div class="item-input">
+                                    <input type="text" name="CopyToNames" readonly value="@Model.CopyToNames" />
                                 </div>
                             </div>
                         </div>

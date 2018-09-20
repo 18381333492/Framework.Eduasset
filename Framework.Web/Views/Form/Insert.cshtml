@@ -87,7 +87,7 @@
         color: white;
         width: 62%;
         border-radius: 5px;
-        margin-left: 34%;
+        margin-left: 31%;
     }
 
     .email_box {
@@ -115,6 +115,7 @@
         position: fixed;
         width: 100%;
         bottom: 0;
+            z-index: 200;
     }
 
         .footter img {
@@ -170,7 +171,7 @@
     }
 
     .list-block ul li.last {
-        margin-bottom: 1rem;
+        margin-bottom:10px;
     }
     .list-block .item-content{
         padding-left:0px
@@ -358,40 +359,38 @@
                             </div>
                         </div>
                     </li>
-                    <li>
-                        <div class="item-content">
-                            <div class="item-media"><i class="icon icon-form-email"></i></div>
-                            <div class="item-inner">
-                                <div class="item-title label">抄送人</div>
-                                <div class="multsel" defval="0" style="width:50%">
-                                    <span class="view">选择值</span>
-                                    <div class="selist">
-                                        <a class="seitem" value="select1">选择项一</a>
-                                        <a class="seitem" value="select2">选择项二</a>
-                                        <a class="seitem" value="select3">选择项三</a>
-                                        <a class="seitem" value="select4">选择项四</a>
-                                        <a class="seitem" value="select5">选择项五</a>
-                                        <a class="seitem" value="select6">选择项六</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
                 </ul>
             </div>
         </form>
         <!--增加按钮-->
-        <div class="list-block" style="margin-top: 5px;">
-            <ul>
-                <li class="last">
-                    <button class="add_box">增加报修</button>
-                    <p class="email_box">
-                        @*抄送人：张三（2414769392@qq.com）
-                        <img src="~/Content/img/Eadd_icon.png" height="32" width="32" />*@
-                    </p>
-                </li>
-            </ul>
+        <div style="margin-bottom:150px;margin-top:10px">
+            <div>
+                <p style="float: left;
+                   font-size: .7rem;
+                   width:33%;
+                   text-align:right;margin-top: 6px;
+                   padding-right :15px;">抄送人</p>
+                <div class="multsel" defval="0" style="width:60%">
+                    <span class="view">选择值</span>
+                    <div class="selist">
+                        @*<a class="seitem" value="select1">选择项一</a>
+                        <a class="seitem" value="select2">选择项二</a>
+                        <a class="seitem" value="select3">选择项三</a>
+                        <a class="seitem" value="select4">选择项四</a>
+                        <a class="seitem" value="select5">选择项五</a>
+                        <a class="seitem" value="select6">选择项六</a>*@
+                    </div>
+                </div>
+            </div>
+            <div class="list-block" style="margin-top: 5px;">
+                <ul>
+                    <li class="last">
+                        <button class="add_box">增加报修</button>
+                    </li>
+                </ul>
+            </div>
         </div>
+       
         <!--提交按钮-->
         <div class="footter">
             <a><img src="~/Content/img/tijiao_icon.png" />提交</a>
@@ -399,6 +398,8 @@
     </div>
     <input id="OrgCode" type="hidden" value="@Model.OrgCode" />
     <input id="ApplyerName" type="hidden" value="@Model.RealName" />
+    <input id="CopyToIds" type="hidden" />
+    <input id="CopyToNames" type="hidden"/>
 </body>
 <!--增加保修模板-->
 <script id="AddForm" type="text/html">
@@ -500,6 +501,7 @@
         domin.initControl();
         domin.loadWeChatConfig();//加载微信配置 
         domin.initRepairOrgList();//初始化维修单位列表
+        domin.initCopyPersonList();//初始化抄送人下拉列表
     });
 
     var domin = (function (obj) { return obj; }(new function () {
@@ -674,6 +676,8 @@
                 submitDatas.Linkman = $('input[name=Linkman]').val();
                 submitDatas.ContactNumber = $('input[name=ContactNumber]').val();
                 submitDatas.ApplyerName = $('#ApplyerName').val();
+                submitDatas.CopyToIds = $('#CopyToIds').val();//抄送人IDs
+                submitDatas.CopyToNames = $('#CopyToNames').val();//抄送人姓名
                 var elementArray = $('.autoform');
                 $(elementArray).each(function (index, element) {
                     var obj = {
@@ -724,6 +728,7 @@
                 initDeviceDetail();
             });
         }
+
         //根据门牌号二维码获取教室信息
         function GetHouseInfoByHouseCode() {
             client.ajax.getRequest("/Form/GetHouseInfoByHouseCode", { houseCode: houseInfo.houseCode }, function (r) {
@@ -732,6 +737,7 @@
                 houseInfo.HouseNo = info.HouseNo;//返回的门牌号
                 $('input[name=OrgName]').val(info.OrgName);
                 initHouseList();//初始化门牌号
+                initCopyPersonList();//初始化抄送人列表
             });
         }
 
@@ -747,9 +753,17 @@
             });
         }
 
-        //初始化抄送人
-        function GetPersonList() {
-            multselInit();
+        //初始化抄送人下拉列表
+        function initCopyPersonList() {
+            client.ajax.getRequest("/Form/GetCopyPersonList", { OrgCode: houseInfo.OrgCode }, function (r) {
+                var personArray = JSON.parse(r.data);
+                var html = [];
+                $(personArray).each(function () {
+                    html.push('<a class="seitem" value="' + this.RecordID + '">' + this.RealName + '</a>')
+                });
+                $('.selist').html(html.join(''));
+                multselInit();
+            });  
         }
 
         //初始化门牌号下拉列表
@@ -843,7 +857,8 @@
             bingEvent: bingEvent,
             loadWeChatConfig: loadWeChatConfig,
             initHouseList: initHouseList,
-            initRepairOrgList: initRepairOrgList
+            initRepairOrgList: initRepairOrgList,
+            initCopyPersonList: initCopyPersonList
         }
     }));
 </script>

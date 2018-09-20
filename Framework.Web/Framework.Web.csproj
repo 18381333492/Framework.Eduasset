@@ -183,6 +183,8 @@
     <Content Include="jquerySelect\index.html" />
     <Content Include="jquerySelect\jquery\jquery-1.9.1.js" />
     <Content Include="jquerySelect\multsel\icons.png" />
+    <Content Include="jquerySelect\multsel\multselworkinsert.js" />
+    <Content Include="jquerySelect\multsel\multselwork.js" />
     <Content Include="jquerySelect\multsel\multsel.css" />
     <Content Include="jquerySelect\multsel\multsel.js" />
     <Content Include="jquery\img\upload_img.png" />
