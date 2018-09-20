@@ -300,7 +300,7 @@
                             <div class="item-inner">
                                 <div class="item-title label">维修单位</div>
                                 <div class="item-input">
-                                    <input type="text" name="IntegratorName" readonly />
+                                    <select class="weui-select" name="IntegratorName"></select>
                                 </div>
                             </div>
                         </div>
@@ -383,7 +383,7 @@
         <!--增加按钮-->
         <div class="list-block" style="margin-top: 5px;">
             <ul>
-                <li>
+                <li class="last">
                     <button class="add_box">增加报修</button>
                     <p class="email_box">
                         @*抄送人：张三（2414769392@qq.com）
@@ -499,7 +499,7 @@
         domin.bingEvent();
         domin.initControl();
         domin.loadWeChatConfig();//加载微信配置 
-        domin.GetPersonList();
+        domin.initRepairOrgList();//初始化维修单位列表
     });
 
     var domin = (function (obj) { return obj; }(new function () {
@@ -735,11 +735,22 @@
             });
         }
 
+        //初始化维修单位下拉列表
+        function initRepairOrgList() {
+            client.ajax.getRequest("/Form/GetRepairOrgList", null, function (r) {
+                var houseArray = JSON.parse(r.data);
+                var html = [];
+                $(houseArray).each(function () {
+                    html.push('<option value="' + this.OrgCode + '">' + this.OrgName + '</option>');
+                });
+                $('select[name=IntegratorName]').html(html.join(''));
+            });
+        }
+
         //初始化抄送人
         function GetPersonList() {
             multselInit();
         }
-
 
         //初始化门牌号下拉列表
         function initHouseList() {
@@ -824,7 +835,7 @@
                 }
             });
             $('input[name=StorePlace]', divId).val(detailInfo.StorePlace);
-            $('input[name=IntegratorName]', divId).val(detailInfo.IntegratorName);//设置维修单位          
+            $('select[name=IntegratorName]', divId).val(detailInfo.IntegratorCode);//设置维修单位          
         }
 
         return {
@@ -832,7 +843,7 @@
             bingEvent: bingEvent,
             loadWeChatConfig: loadWeChatConfig,
             initHouseList: initHouseList,
-            GetPersonList: GetPersonList
+            initRepairOrgList: initRepairOrgList
         }
     }));
 </script>

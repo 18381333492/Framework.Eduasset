@@ -339,5 +339,23 @@ namespace Framework.Web.Controllers
                 result.info = "获取数据失败";
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+
+        /// <summary>
+        /// 获取维修单位下拉列表
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult GetRepairOrgList()
+        {
+            Parameter.method = "GetRepairOrgList";
+            var respone = HttpHelper.HttpGet(Parameter);
+            if (respone.Code == 1)
+            {
+                result.data = JsonHelper.ToJsonString(respone.Data);
+                result.success = true;
+            }
+            else
+                result.info = "获取数据失败";
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
     }
 }
