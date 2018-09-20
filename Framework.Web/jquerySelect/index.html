@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>test</title>
+	<link rel="StyleSheet" href="multsel/multsel.css" type="text/css"/>
+	<script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+	<script type="text/javascript" src="multsel/multsel.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			multselInit();
+		});
+	</script>
+</head>
+<body>
+	<div class="multsel" defval="0" style="width:50%">
+		<span class="view">选择值</span>
+		<div class="selist">
+			<a class="seitem" value="select1">选择项一</a>
+			<a class="seitem" value="select2">选择项二</a>
+			<a class="seitem" value="select3">选择项三</a>
+            <a class="seitem" value="select4">选择项四</a>
+			<a class="seitem" value="select5">选择项五</a>
+			<a class="seitem" value="select6">选择项六</a>
+		</div>
+	</div>
+	
+	<div style="height: 200px;">&nbsp;<br/>&nbsp;</div>
+	<div id="testarea" style="border:1px solid #ccc;">test area:</div>
+</body>
+</html>

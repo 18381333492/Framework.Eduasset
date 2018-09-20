@@ -181,7 +181,6 @@
         <h1 class="title">创建工单</h1>
     </header>
     <div class="content">
-        <form id="commit_form">
             <div class="list-block">
                 <ul>
                     <li>
@@ -257,7 +256,7 @@
                 </ul>
             </div>
             <!--设备相关-->
-            <div class="list-block autoform">
+            <div class="list-block">
                 <ul>
                     <li>
                         <div class="item-content">
@@ -372,6 +371,11 @@
                             </div>
                         </div>
                     </li>
+                </ul>
+              </div>
+            <!--配件相关-->
+             <div class="list-block autoform">
+                  <ul>
                     <li>
                         <div class="item-content">
                             <div class="item-media"><i class="icon icon-form-email"></i></div>
@@ -427,6 +431,14 @@
                             </div>
                         </div>
                     </li>
+                 </ul>
+               </div>
+            <!--时间相关-->
+             <div class="list-block last_div" style="margin-top: 5px;">
+                <ul>
+                    <li>
+                        <button class="add_box">新增配件</button>
+                    </li>
                     <li>
                         <div class="item-content">
                             <div class="item-media"><i class="icon icon-form-email"></i></div>
@@ -462,7 +474,6 @@
                     </li>
                 </ul>
             </div>
-        </form>
         <!--增加按钮-->
         <div class="list-block" style="margin-top: 5px;">
             <ul>
@@ -482,6 +493,69 @@
     <input type="hidden" name="RepairApplyCode" value="@Model.RepairApplyCode" />
     <input type="hidden" name="DealerName" value="@ViewBag.RealName"/>
 </body>
+<!--新增配件-->
+<script type="text/html" id="AddForm">
+    <div class="list-block autoform">
+        <ul>
+            <li>
+                <div class="item-content">
+                    <div class="item-media"><i class="icon icon-form-email"></i></div>
+                    <div class="item-inner">
+                        <div class="item-title label">配件名称</div>
+                        <div class="item-input">
+                            <input type="text" name="PartName" class="select_box" />
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="item-content">
+                    <div class="item-media"><i class="icon icon-form-email"></i></div>
+                    <div class="item-inner">
+                        <div class="item-title label">品牌</div>
+                        <div class="item-input">
+                            <input type="text" name="ProductModel" class="select_box" />
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="item-content">
+                    <div class="item-media"><i class="icon icon-form-email"></i></div>
+                    <div class="item-inner">
+                        <div class="item-title label">数量</div>
+                        <div class="item-input">
+                            <input type="number" name="ConsumeNumber" class="select_box" />
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="item-content">
+                    <div class="item-media"><i class="icon icon-form-email"></i></div>
+                    <div class="item-inner">
+                        <div class="item-title label">单位</div>
+                        <div class="item-input">
+                            <input type="text" name="NumberUnit" class="select_box" />
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="item-content">
+                    <div class="item-media"><i class="icon icon-form-email"></i></div>
+                    <div class="item-inner">
+                        <div class="item-title label">单价</div>
+                        <div class="item-input">
+                            <input type="text" name="Price" class="select_box" />
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</script>
+
 <script src="~/Scripts/jweixin-1.2.0.js"></script>
 <script src="~/Scripts/wxhelper.js"></script>
 <script type="text/javascript">
@@ -581,6 +655,12 @@
                     $.toast("最多上传四张图片", "text");
                 }
             });
+            
+            //增加配件
+            $('.add_box').on("click", function (event) {
+                var html = template("AddForm")();
+                $(html).insertBefore(".last_div");
+            });
 
             //提交工单
             $('.footter').on("click", function () {
@@ -598,12 +678,21 @@
                 for (var i = 1; i <=images.length; i++) {
                     submitDatas["DealPicPath" + i] = $(images).eq(i - 1).find(".img").attr("src");
                 }
-                Parts.push({
-                    PartName: $('input[name=PartName]').val(),
-                    ProductModel: $('input[name=ProductModel]').val(),
-                    ConsumeNumber: $('input[name=ConsumeNumber]').val(),
-                    NumberUnit: $('textarea[name=NumberUnit]').val(),
-                    Price: $('input[name=Price]').val(),
+                //添加配件列表
+                var partsElement = $('.autoform');
+                $(partsElement).each(function () {
+                    var PartName= $('input[name=PartName]',$(this)).val();
+                    var ProductModel= $('input[name=ProductModel]',$(this)).val();
+                    var ConsumeNumber= $('input[name=ConsumeNumber]',$(this)).val();
+                    var NumberUnit= $('input[name=NumberUnit]',$(this)).val();
+                    var Price = $('input[name=Price]', $(this)).val();
+                    Parts.push({
+                        PartName: PartName,
+                        ProductModel: ProductModel,
+                        ConsumeNumber: ConsumeNumber,
+                        NumberUnit: NumberUnit,
+                        Price: Price,
+                    });         
                 });
                 submitDatas.Parts = Parts;
                 client.ajax.postRequest("/WorkOrder/Insert", { submitDatas: JSON.stringify(submitDatas) }, function (r) {

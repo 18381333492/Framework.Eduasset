@@ -168,10 +168,10 @@
             <span>{{item.FaultName}}</span> 
         </div>
         <div class="card-footer">
-            <span>到场时间:{{item.DispatchDate}}</span>
+            <span>到场时间:{{getInervaldate(item.DispatchDate,item.FactStartDate)}}</span>
         </div>
         <div class="card-footer">
-            <span>处理时间:{{item.FactStartDate}}</span>
+            <span>处理时间:{{getInervaldate(item.FactStartDate,item.FactEndDate)}}</span>
             <span>
                 <a class="button see_box progress">查看进度</a>
             </span>
@@ -191,10 +191,10 @@
             <span>{{item.FaultName}}</span>
         </div>
         <div class="card-footer">
-            <span>到场时间:{{item.DispatchDate}}</span>
+            <span>到场时间:{{getInervaldate(item.DispatchDate,item.FactStartDate)}}</span>
         </div>
         <div class="card-footer">
-            <span>处理时间:{{item.FactStartDate}}</span>
+            <span>处理时间:{{getInervaldate(item.FactStartDate,item.FactEndDate)}}</span>
             <span>
                 <a class="button see_box progress">查看进度</a>
             </span>
@@ -268,6 +268,23 @@
         var slideing = new slidepage();
         var slideend = new slidepage();
         var Isloadend = false;//是否加载了保修结束订单
+
+        //求时间差
+        template.defaults.imports.getInervaldate = function (StartTime, EndTime) {
+            //获取两个时间差       
+            var stime = Date.parse(new Date(StartTime.replace(/-/g, "/")));
+            var etime = Date.parse(new Date(EndTime.replace(/-/g, "/")));
+            var usedTime = etime - stime;  //两个时间戳相差的毫秒数
+            var days = Math.floor(usedTime / (24 * 3600 * 1000));
+            //计算出小时数
+            var leave1 = usedTime % (24 * 3600 * 1000);    //计算天数后剩余的毫秒数
+            var hours = Math.floor(leave1 / (3600 * 1000));
+            //计算相差分钟数
+            var leave2 = leave1 % (3600 * 1000);        //计算小时数后剩余的毫秒数
+            var minutes = Math.floor(leave2 / (60 * 1000));
+            var time = days + "天" + hours + "小时" + minutes + "分钟";
+            return time;
+        }
 
         //事件绑定
         function bingEvent() {

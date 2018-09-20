@@ -278,7 +278,7 @@
                 </ul>
             </div>
             <!--设备相关-->
-            <div id="formDiv0" class="list-block autoform">
+            <div class="list-block">
                 <ul>
                     <li>
                         <div class="item-content">
@@ -404,61 +404,74 @@
                             </div>
                         </div>
                     </li>
-                    <li>
-                        <div class="item-content">
-                            <div class="item-media"><i class="icon icon-form-email"></i></div>
-                            <div class="item-inner">
-                                <div class="item-title label">配件名称</div>
-                                <div class="item-input">
-                                    <input type="text" name="PartName" class="select_box" value="@Model.Parts[0].PartName" />
+                </ul>
+            </div>
+            <!--配件相关-->
+            @foreach (var item in Model.Parts)
+            {
+                <div  class="list-block">
+                    <ul>
+                        <li>
+                            <div class="item-content">
+                                <div class="item-media"><i class="icon icon-form-email"></i></div>
+                                <div class="item-inner">
+                                    <div class="item-title label">配件名称</div>
+                                    <div class="item-input">
+                                        <input type="text" name="PartName" class="select_box" value="@item.PartName" />
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="item-content">
-                            <div class="item-media"><i class="icon icon-form-email"></i></div>
-                            <div class="item-inner">
-                                <div class="item-title label">品牌</div>
-                                <div class="item-input">
-                                    <input type="text" name="ProductModel" class="select_box" value="@Model.Parts[0].ProductModel" />
+                        </li>
+                        <li>
+                            <div class="item-content">
+                                <div class="item-media"><i class="icon icon-form-email"></i></div>
+                                <div class="item-inner">
+                                    <div class="item-title label">品牌</div>
+                                    <div class="item-input">
+                                        <input type="text" name="ProductModel" class="select_box" value="@item.ProductModel" />
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="item-content">
-                            <div class="item-media"><i class="icon icon-form-email"></i></div>
-                            <div class="item-inner">
-                                <div class="item-title label">数量</div>
-                                <div class="item-input">
-                                    <input type="number" name="ConsumeNumber" class="select_box" value="@Model.Parts[0].ConsumeNumber" />
+                        </li>
+                        <li>
+                            <div class="item-content">
+                                <div class="item-media"><i class="icon icon-form-email"></i></div>
+                                <div class="item-inner">
+                                    <div class="item-title label">数量</div>
+                                    <div class="item-input">
+                                        <input type="number" name="ConsumeNumber" class="select_box" value="@item.ConsumeNumber" />
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="item-content">
-                            <div class="item-media"><i class="icon icon-form-email"></i></div>
-                            <div class="item-inner">
-                                <div class="item-title label">单位</div>
-                                <div class="item-input">
-                                    <input type="text" name="NumberUnit" class="select_box" value="@Model.Parts[0].NumberUnit" />
+                        </li>
+                        <li>
+                            <div class="item-content">
+                                <div class="item-media"><i class="icon icon-form-email"></i></div>
+                                <div class="item-inner">
+                                    <div class="item-title label">单位</div>
+                                    <div class="item-input">
+                                        <input type="text" name="NumberUnit" class="select_box" value="@item.NumberUnit" />
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="item-content">
-                            <div class="item-media"><i class="icon icon-form-email"></i></div>
-                            <div class="item-inner">
-                                <div class="item-title label">单价</div>
-                                <div class="item-input">
-                                    <input type="text" name="Price" class="select_box" value="@Model.Parts[0].Price" />
+                        </li>
+                        <li>
+                            <div class="item-content">
+                                <div class="item-media"><i class="icon icon-form-email"></i></div>
+                                <div class="item-inner">
+                                    <div class="item-title label">单价</div>
+                                    <div class="item-input">
+                                        <input type="text" name="Price" class="select_box" value="@item.Price" />
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </li>
+                        </li>
+                    </ul>
+                </div>
+            }
+            <!--时间相关-->
+            <div class="list-block">
+                <ul>
                     <li>
                         <div class="item-content">
                             <div class="item-media"><i class="icon icon-form-email"></i></div>

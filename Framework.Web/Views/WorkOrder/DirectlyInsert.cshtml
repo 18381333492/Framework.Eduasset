@@ -937,6 +937,7 @@
             client.ajax.getRequest("/Form/GetHouseInfoByHouseCode", { houseCode: houseInfo.houseCode }, function (r) {
                 var info = JSON.parse(r.data);
                 houseInfo.OrgCode = info.OrgCode;//获取学校的代码
+                houseInfo.HouseNo = info.HouseNo;//获取教室门牌号
                 $('input[name=OrgName]').val(info.OrgName);
                 initHouseList();//初始化门牌号
             });
@@ -952,8 +953,8 @@
                     html.push('<option data-class="' + this.ClassName+ '" value="' + this.HouseNo + '">' + this.HouseNo + '</option>');
                 });
                 $('select[name=HouseNo]').html(html.join(''));
-                //设置第一个为默认值
-                houseInfo.HouseNo = $('select[name=HouseNo]').val();
+                //赋值门牌号
+                $('select[name=HouseNo]').val(houseInfo.HouseNo);
                 var className = $('select[name=HouseNo]').find("option:checked").attr("data-class");
                 $('input[name=ClassName]').val(className);
                 //加载设备列表

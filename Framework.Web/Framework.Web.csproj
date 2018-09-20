@@ -180,6 +180,11 @@
     <Content Include="Content\img\表单内_新增图片.png" />
     <Content Include="Content\img\表单内_日历.png" />
     <Content Include="Content\css\jquery-weui.min.css" />
+    <Content Include="jquerySelect\index.html" />
+    <Content Include="jquerySelect\jquery\jquery-1.9.1.js" />
+    <Content Include="jquerySelect\multsel\icons.png" />
+    <Content Include="jquerySelect\multsel\multsel.css" />
+    <Content Include="jquerySelect\multsel\multsel.js" />
     <Content Include="jquery\img\upload_img.png" />
     <Content Include="Scripts\back.js" />
     <Content Include="Scripts\highcharts.js" />
