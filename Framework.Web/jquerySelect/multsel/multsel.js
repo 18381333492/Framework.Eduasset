@@ -8,7 +8,7 @@ function multselInit(){
 	$_sel.each(function(){
 		$(this).append("<i></i>");
 	});
-	$_sel.find("span.view").click(function(){
+	$_sel.find("span.view").off("click").on("click",function(){
 		$_t=$(this).parent("div.multsel");
 		if($_t.hasClass('expand')){
 			$_t.find(".selist").hide();
@@ -20,7 +20,7 @@ function multselInit(){
 			$_t.addClass('expand');
 		}
 	});
-	$_sel.find(".selist").find("a.seitem").click(function(){
+	$_sel.find(".selist").find("a.seitem").off("click").on("click",function(){
 		$_this=$(this);
 		
 		if($_this.hasClass('checked')){
@@ -31,13 +31,13 @@ function multselInit(){
 		multselCheck($_this.parent(".selist"));
 	});
 	
-	$(document).click(function(e){
-		var t = $("div.multsel")[0],target = e.target;
-		if (t !== target && !$.contains(t, target)) {
-			$_sel.removeClass('expand').find(".selist").hide();
-			$_sel.find("i:first").removeClass("pop");
-		}
-	});
+	//$(document).off("click").on("click",function(e){
+	//	var t = $("div.multsel")[0],target = e.target;
+	//	if (t !== target && !$.contains(t, target)) {
+	//		$_sel.removeClass('expand').find(".selist").hide();
+	//		$_sel.find("i:first").removeClass("pop");
+	//	}
+	//});
 }
 function multselCheck($obj){
 	var names='',vals=[];

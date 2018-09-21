@@ -756,6 +756,7 @@
         //初始化抄送人下拉列表
         function initCopyPersonList() {
             client.ajax.getRequest("/Form/GetCopyPersonList", { OrgCode: houseInfo.OrgCode }, function (r) {
+                $('.selist').empty();
                 var personArray = JSON.parse(r.data);
                 var html = [];
                 $(personArray).each(function () {
