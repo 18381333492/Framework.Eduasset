@@ -182,6 +182,7 @@
             slideing.pageParameter.rows = 10;
             slideing.pageParameter.tip = "暂无待审批的工单";
             slideing.pageParameter.callback = function (r) {
+                debugger
                 var html = template("WorkOrderList", { list: r.rows });
                 $('.WorkOrderList').append(html);
                 bingEvent();
