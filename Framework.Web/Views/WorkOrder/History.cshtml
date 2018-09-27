@@ -129,10 +129,10 @@
         <div class="card-footer"><span>{{item.FaultDate}}</span></div>
         <div class="card-footer">
             <span>{{item.OrgName}}{{item.HouseNo}}</span>
-            {{if item.WorkOrderState==3}}
+            {{if item.WorkOrderState==4}}
             <span>已结束</span>
             {{/if}}
-            {{if item.WorkOrderState==4}}
+            {{if item.WorkOrderState==5}}
             <span>已撤销</span>
             {{/if}}
         </div>
@@ -171,7 +171,7 @@
         //加载历史工单任务
         function loadHistoryWorkOrderList() {
             slideing.pageParameter.url = "/WorkOrder/GetWorkOrderList";
-            slideing.pageParameter.params = "workOrderState=3,4";
+            slideing.pageParameter.params = "workOrderState=4,5";
             slideing.pageParameter.page = 1;
             slideing.pageParameter.rows = 10;
             slideing.pageParameter.tip = "暂无历史任务";

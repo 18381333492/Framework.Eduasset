@@ -128,7 +128,7 @@
         <a class="tab-link button active">执行中</a>
         <a class="tab-link button">已结束</a>
     </div>
-    @Html.Partial("~/Views/Shared/_RepairManagerBar.cshtml",Model)
+    @Html.Partial("~/Views/Shared/_RepairUnitBar.cshtml")
     <!-- 这里是页面内容区 -->
     <div class="content_list" style="margin-top:50px;margin-bottom:50px;">
         <!--执行中-->
@@ -149,19 +149,19 @@
 </body>
 <script id="WorkOrderIngList" type="text/html">
     {{each list item index}}
-    <div class="card" data-ID="{{item.RecordID}}">
-        <div class="card-footer"><span>{{item.DealDate}}</span></div>
+    <div class="card" data-ID="{{item.RecordID}}" data-RepairApplyState="{{item.RepairApplyState}}">
+        <div class="card-footer"><span>{{item.ApplyDate}}</span></div>
         <div class="card-footer">
-            <span>{{item.IntegratorName}}</span>
-            <span>{{item.DispatcherName}}</span>
-            {{if item.WorkOrderState==0}}
-                <span>待审批</span>
+            <span>{{item.OrgName}}</span>
+            <span>{{item.ApplyerName}}</span>
+            {{if item.RepairApplyState==1||item.RepairApplyState==2}}
+                <span>已响应</span>
             {{/if}}
-            {{if item.WorkOrderState==1}}
-                <span>驳回待重新提交</span>
+            {{if item.RepairApplyState>2&&item.RepairApplyState<=5}}
+            <span >执行中</span>
             {{/if}}
-            {{if item.WorkOrderState==2}}
-                <span>待评价</span>
+            {{if item.RepairApplyState==6}}
+            <span>待评价</span>
             {{/if}}
         </div>
         <div class="card-header">
@@ -181,14 +181,21 @@
 </script>
 <script id="WorkOrderEndList" type="text/html">
     {{each list item index}}
-    <div class="card" data-ID="{{item.RecordID}}">
-        <div class="card-footer"><span>{{item.DealDate}}</span></div>
+    <div class="card" data-ID="{{item.RecordID}}" data-RepairApplyState="{{item.RepairApplyState}}" data-DealType="{{item.DealType}}">
+        <div class="card-footer"><span>{{item.ApplyDate}}</span></div>
         <div class="card-footer">
-            <span>{{item.IntegratorName}}</span>
-            <span>{{item.DispatcherName}}</span>
+            <span>{{item.OrgName}}</span>
+            <span>{{item.ApplyerName}}</span>
+            {{if item.RepairApplyState==7}}
+            <span>已结束</span>
+            {{/if}}
+            {{if item.RepairApplyState==8}}
+            <span>已撤销</span>
+            {{/if}}
         </div>
         <div class="card-header">
             <span>{{item.FaultName}}</span>
+           
         </div>
         <div class="card-footer">
             <span>到场时间:{{getInervaldate(item.DispatchDate,item.FactStartDate)}}</span>
@@ -204,11 +211,29 @@
 </script>
 <script id="FormProgress" type="text/html">
     <div style="text-align:left;font-size:12px;">
+        {{if item.RepairApplyState==8}}
+        <!--撤销信息-->
+        <p>
+            <span>{{item.CancelDate}}</span>
+            {{if item.roleType!=4}}
+            <span>{{item.OrgName}}</span>
+            {{/if}}
+            <span>{{item.CancelerName}}撤销报修单</span>
+        </p>
+        <!--创建信息-->
+        <p>
+            <span>{{item.ApplyDate}}</span>
+            {{if item.roleType!=4}}
+            <span>{{item.OrgName}}</span>
+            {{/if}}
+            <span>{{item.ApplyerName}}创建报修单</span>
+        </p>
+        {{else}}
         {{if item.WorkOrderState>=2}}
         <!--通过审批-->
         <p>
             <span>{{item.ApproveDate}}</span>
-            <span>{{item.OrgName}}</span>
+            <span>{{item.IntegratorName}}</span>
             <span>{{item.ApproveName}}审批通过</span>
         </p>
         {{/if}}
@@ -216,7 +241,7 @@
         <!--不通过审批-->
         <p>
             <span>{{item.ApproveDate}}</span>
-            <span>{{item.OrgName}}</span>
+            <span>{{item.IntegratorName}}</span>
             <span>{{item.ApproveName}}审批不通过</span>
         </p>
         {{/if}}
@@ -229,7 +254,8 @@
             {{/if}}
             <span>{{item.CancelerName}}撤回</span>
         </p>
-        {{/if}}    
+        {{/if}}
+        {{if item.RepairApplyState==2}}
         <!--派工信息-->
         <p>
             <span>{{item.ResponseDate}}</span>
@@ -238,6 +264,16 @@
             <span>{{item.ServiceHeaderContactNumber}}</span>
             <span>预计{{item.PlanStartDate}}到达</span>
         </p>
+        {{/if}}
+        {{if item.RepairApplyState==1||item.DealType==1}}
+        <!--建议措施-->
+        <p>
+            <span>{{item.ResponseDate}}</span>
+            <span>{{item.IntegratorName}}</span>
+            <span>{{item.ResponserName}}给出建议措施</span>
+        </p>
+        {{/if}}
+        {{if item.RepairApplyState>=1}}
         <!--响应信息-->
         <p>
             <span>{{item.ResponseDate}}</span>
@@ -247,6 +283,8 @@
             <span>{{item.ResponserName}}</span>
             <span>响应</span>
         </p>
+        {{/if}}
+        {{if item.RepairApplyState>=0}}
         <!--创建信息-->
         <p>
             <span>{{item.ApplyDate}}</span>
@@ -255,20 +293,14 @@
             {{/if}}
             <span>{{item.ApplyerName}}创建报修单</span>
         </p>
+        {{/if}}
+        {{/if}}
     </div>
 </script>
 <script type="text/javascript">
     $(function () {
-        var tab_order = client.localStorage.getStorage("tab_order");
         domin.bingEvent();
-        if (tab_order == 1) {
-            $('.tab-link').eq(1).click();
-            client.localStorage.removeStorage("tab_order");
-        }
-        else {
-            domin.loadWorkOrderIngData();
-            Isloading = true;
-        }
+        domin.initPage();
     });
 
     var domin = (function (obj) { return obj; }(new function () {
@@ -300,6 +332,19 @@
             }
         }
 
+        //初始化页面
+        function initPage() {
+            var tab_order = client.localStorage.getStorage("tab_order_repair");
+            if (tab_order == 1) {
+                $('.tab-link').eq(1).click();
+                client.localStorage.removeStorage("tab_order_repair");
+            }
+            else {
+                Isloading = true;
+                loadWorkOrderIngData();
+            }
+        }
+
         //事件绑定
         function bingEvent() {
             //tab的切换
@@ -311,29 +356,33 @@
                 if (index == 1 && Isloadend == false) {
                     Isloadend = true;
                     //加载保修结束订单
-                    domin.loadWorkOrderEndData();
+                    loadWorkOrderEndData();
                 }
                 if (index == 0 && Isloading == false) {
+                    //加载执行中的
                     Isloading = true;
-                    domin.loadWorkOrderIngData();
+                    loadWorkOrderIngData();
                 }
             });
-        }
-
-        //初始化时间控件
-        function initControl() {
-            $("input[name=startDate]").datetimePicker();
-            $("input[name=endDate]").datetimePicker();
         }
 
         //绑定详情事件
         function bingElement() {
             //跳转详情
             $('.card').off("click").on("click", function () {
-                var index= $('.active').index();
-                client.localStorage.setStorage("tab_order", index);
+                var index = $('.active').index();
+                client.localStorage.setStorage("tab_order_repair", index);
                 var RecordID = $(this).attr("data-ID");
-                location.href = client.baseUrl + "/WorkOrder/Detail?ID=" + RecordID;
+                var RepairApplyState = $(this).attr("data-RepairApplyState");////报修单状态
+                var DealType = $(this).attr("data-DealType");////响应方式，0-派工，1-建议措施
+                if (RepairApplyState < 3 || DealType == 1 || RepairApplyState == 8) {
+                    //查看报修单详情
+                    location.href = client.baseUrl + "/Form/Detail?ID=" + RecordID;
+                }
+                else {
+                    //查看工单详情
+                    location.href = client.baseUrl + "/WorkOrder/Detail?repairApplyId=" + RecordID;
+                }
             });
 
             //查看进度
@@ -341,8 +390,17 @@
                 event.stopPropagation();
                 var RecordID = $(this).parents(".card").attr("data-ID");
                 var RepairApplyState = $(this).parents(".card").attr("data-RepairApplyState");//报修单状态
-                var sUrl ="/WorkOrder/GetInfoById";
-                client.ajax.getRequest(sUrl, { ID: RecordID }, function (r) {
+                var DealType = $(this).parents(".card").attr("data-DealType");////响应方式，0-派工，1-建议措施
+                var param = {};
+                if (RepairApplyState < 3 || DealType == 1 || RepairApplyState == 8) {
+                    sUrl = "/Form/GetInfoById";
+                    param.ID = RecordID;
+                }
+                else {
+                    sUrl = "/WorkOrder/GetInfoById";
+                    param.repairApplyId = RecordID;
+                }
+                client.ajax.getRequest(sUrl, param, function (r) {
                     var info = JSON.parse(r.data.info);
                     info.roleType = r.data.roleType;
                     info.RepairApplyState = RepairApplyState;
@@ -361,7 +419,7 @@
         //加载进行中数据
         function loadWorkOrderIngData() {
             slideing.pageParameter.url = "/Form/GetRepairApplyList";
-            slideing.pageParameter.params = "state=0";
+            slideing.pageParameter.params = "repairApplyState=1,2,3,4,5,6";
             slideing.pageParameter.page = 1;
             slideing.pageParameter.rows = 10;
             slideing.pageParameter.tipId = '.WorkOrderIng';
@@ -376,8 +434,8 @@
 
         //加载保修结束订单
         function loadWorkOrderEndData() {
-            slideend.pageParameter.url = "/WorkOrder/GetWorkOrderList";
-            slideend.pageParameter.params = "state=1";
+            slideend.pageParameter.url = "/Form/GetRepairApplyList";
+            slideend.pageParameter.params = "repairApplyState=7,8";
             slideend.pageParameter.page = 1;
             slideend.pageParameter.rows = 10;
             slideend.pageParameter.tipId = '.WorkOrderEnd';
@@ -391,6 +449,7 @@
         }
 
         return {
+            initPage:initPage,
             bingEvent: bingEvent,
             loadWorkOrderIngData: loadWorkOrderIngData,
             loadWorkOrderEndData: loadWorkOrderEndData

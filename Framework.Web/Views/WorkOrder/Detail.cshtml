@@ -115,6 +115,7 @@
         position: fixed;
         width: 100%;
         bottom: 0;
+        z-index:100;
     }
 
         .footter img {
@@ -560,7 +561,7 @@
                             </div>
                         </div>
                     </li>
-                   @if (Convert.ToInt32(Model.WorkOrderState) == 3)
+                   @if (Convert.ToInt32(Model.WorkOrderState) == 4)
                    {
                         <li>
                             <div class="item-content">
@@ -602,7 +603,7 @@
                             </div>
                         </li>
                    }
-                    @if(roleType == RoleType.School&& Convert.ToInt32(Model.WorkOrderState)==2)
+                    @if(roleType == RoleType.School&& Convert.ToInt32(Model.WorkOrderState)==3)
                     {
                         <li class="last">
                             <div class="item-content">
@@ -632,13 +633,19 @@
                 </ul>
             </div>
         </form>
+        @if (roleType == RoleType.RepairMan && Convert.ToInt32(Model.WorkOrderState) ==2)
+        {
+            <div class="footter over" data-RoleType="@((int)RoleType.RepairMan)">
+                <a><img src="~/Content/img/tijiao_icon.png" />结束</a>
+            </div>
+        }
         @if (roleType == RoleType.RepairMan&& Convert.ToInt32(Model.WorkOrderState)==0)
         {
             <div class="footter" data-RoleType="@((int)RoleType.RepairMan)">
                 <a><img src="~/Content/img/tijiao_icon.png" />撤回</a>
             </div>
         }
-        @if (roleType == RoleType.School && Convert.ToInt32(Model.WorkOrderState) == 2)
+        @if (roleType == RoleType.School && Convert.ToInt32(Model.WorkOrderState) == 3)
         {
             <div class="footter" data-RoleType="@((int)RoleType.School)">
                 <a><img src="~/Content/img/tijiao_icon.png" />评价</a>
@@ -714,23 +721,44 @@
                 });
             }
             if (RoleType == 2) {
-                //工单撤回
-                $.confirm({
-                    title: '提示',
-                    text: '确定撤回？',
-                    onOK: function (input) {
-                        var submitDatas = {};
-                        submitDatas.ID = ID;
-                        client.ajax.postRequest("/WorkOrder/CancelWorkOrder", { submitDatas: JSON.stringify(submitDatas) }, function (r) {
-                            $.toast("撤回成功");
-                            setTimeout(function () {
-                                location.href =client.baseUrl+ "/Form/RepairMan";
-                            }, 1000);
-                        }, function (r) {
-                            $.toast(r.info, "text");
-                        });
-                    }
-                });
+                if ($(this).hasClass("over")) {
+                    //结束工单
+                    $.confirm({
+                        title: '提示',
+                        text: '确定要结束工单？',
+                        onOK: function (input) {
+                            var submitDatas = {};
+                            submitDatas.ID = ID;
+                            client.ajax.postRequest("/WorkOrder/FinishWorkOrder", { submitDatas: JSON.stringify(submitDatas) }, function (r) {
+                                $.toast(r.info);
+                                setTimeout(function () {
+                                    location.href = client.baseUrl + "/Form/RepairMan";
+                                }, 1000);
+                            }, function (r) {
+                                $.toast(r.info, "text");
+                            });
+                        }
+                    });
+                }
+                else {
+                    //工单撤回
+                    $.confirm({
+                        title: '提示',
+                        text: '确定撤回？',
+                        onOK: function (input) {
+                            var submitDatas = {};
+                            submitDatas.ID = ID;
+                            client.ajax.postRequest("/WorkOrder/CancelWorkOrder", { submitDatas: JSON.stringify(submitDatas) }, function (r) {
+                                $.toast("撤回成功");
+                                setTimeout(function () {
+                                    location.href = client.baseUrl + "/Form/RepairMan";
+                                }, 1000);
+                            }, function (r) {
+                                $.toast(r.info, "text");
+                            });
+                        }
+                    });
+                }
             }
         });
     });

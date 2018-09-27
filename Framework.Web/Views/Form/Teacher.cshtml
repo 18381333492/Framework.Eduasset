@@ -279,7 +279,7 @@
         </div>
        </div>
         <div class="footter">
-            <a><img src="~/Content/img/add_icon.png" />新建保修单</a>
+            <a><img src="~/Content/img/add_icon.png" />新建报修单</a>
         </div>
 </body>
 <script id="formingList" type="text/html">
@@ -302,10 +302,10 @@
                 {{if item.RepairApplyState==1||item.RepairApplyState==2}}
                 <span style="display:inline-block;float:right">已响应</span>
                 {{/if}}
-                {{if item.RepairApplyState>=3&&item.RepairApplyState<5}}
+                {{if item.RepairApplyState>2&&item.RepairApplyState<=5}}
                 <span style="display:inline-block;float:right">执行中</span>
                 {{/if}}
-                {{if item.RepairApplyState==5}}
+                {{if item.RepairApplyState==6}}
                 <span style="display:inline-block;float:right">待评价</span>
                 {{/if}}
             </div>
@@ -319,7 +319,7 @@
                     {{if item.RepairApplyState==1}}
                     <a class="button see_box opinion">应急措施</a>
                     {{/if}}
-                    {{if item.RepairApplyState==5}}
+                    {{if item.RepairApplyState==6}}
                         <a class="button see_box parse_form">服务评价</a>
                     {{/if}}
                     <a class="button see_box progress">查看进度</a>
@@ -338,13 +338,10 @@
         </div>
         <div class="card-footer">
             <span>{{item.IntegratorName}}</span>
-            {{if item.RepairApplyState==4}}
-            <span style="display:inline-block;float:right">被驳回</span>
-            {{/if}}
-            {{if item.RepairApplyState==6}}
+            {{if item.RepairApplyState==7}}
             <span style="display:inline-block;float:right">已结束</span>
             {{/if}}
-            {{if item.RepairApplyState==7}}
+            {{if item.RepairApplyState==8}}
             <span style="display:inline-block;float:right">已撤销</span>
             {{/if}}
         </div>
@@ -363,70 +360,89 @@
 </script>
 <script  id="FormProgress" type="text/html">
     <div style="text-align:left;font-size:12px;">
-        {{if item.WorkOrderState>=2}}
-        <!--通过审批-->
-        <p>
-            <span>{{item.ApproveDate}}</span>
-            <span>{{item.IntegratorName}}</span>
-            <span>{{item.ApproveName}}审批通过</span>
-        </p>
-        {{/if}}
-        {{if item.WorkOrderState>=1}}
-            <!--不通过审批-->
-            <p>
-                <span>{{item.ApproveDate}}</span>
-                <span>{{item.IntegratorName}}</span>
-                <span>{{item.ApproveName}}审批不通过</span>
-            </p>
-        {{/if}}
-        {{if item.WorkOrderState==4}}
-            <!--报修单撤回-->
+        {{if item.RepairApplyState==8}}
+            <!--撤销信息-->
             <p>
                 <span>{{item.CancelDate}}</span>
                 {{if item.roleType!=4}}
                 <span>{{item.OrgName}}</span>
                 {{/if}}
-                <span>{{item.CancelerName}}撤回</span>      
+                <span>{{item.CancelerName}}撤销报修单</span>
             </p>
-        {{/if}}
-        {{if item.RepairApplyState==2}}
-            <!--派工信息-->
-            <p>
-                <span>{{item.ResponseDate}}</span>
-                <span>{{item.IntegratorName}}派工</span>
-                <span>{{item.ServiceHeaderName}}</span>
-                <span>{{item.ServiceHeaderContactNumber}}</span>
-                <span>预计{{item.PlanStartDate}}到达</span>
-            </p>
-        {{/if}}
-            {{if item.RepairApplyState==1||item.DealType==1}}
-            <!--建议措施-->
-            <p>
-                <span>{{item.ResponseDate}}</span>
-                <span>{{item.IntegratorName}}</span>
-                <span>{{item.ResponserName}}给出建议措施</span>
-            </p>
-            {{/if}}
-        {{if item.RepairApplyState>=1}}
-            <!--响应信息-->
-            <p>
-                <span>{{item.ResponseDate}}</span>
-                {{if item.roleType!=1}}
-                <span>{{item.IntegratorName}}</span>
-                {{/if}}
-                <span>{{item.ResponserName}}</span>
-                <span>响应</span>
-            </p>
-        {{/if}}
-        {{if item.RepairApplyState>=0}}
             <!--创建信息-->
             <p>
                 <span>{{item.ApplyDate}}</span>
                 {{if item.roleType!=4}}
-                 <span>{{item.OrgName}}</span>
+                <span>{{item.OrgName}}</span>
                 {{/if}}
                 <span>{{item.ApplyerName}}创建报修单</span>
             </p>
+        {{else}}
+            {{if item.WorkOrderState>=2}}
+            <!--通过审批-->
+            <p>
+                <span>{{item.ApproveDate}}</span>
+                <span>{{item.IntegratorName}}</span>
+                <span>{{item.ApproveName}}审批通过</span>
+            </p>
+            {{/if}}
+            {{if item.WorkOrderState>=1}}
+                <!--不通过审批-->
+                <p>
+                    <span>{{item.ApproveDate}}</span>
+                    <span>{{item.IntegratorName}}</span>
+                    <span>{{item.ApproveName}}审批不通过</span>
+                </p>
+            {{/if}}
+            {{if item.WorkOrderState==4}}
+                <!--报修单撤回-->
+                <p>
+                    <span>{{item.CancelDate}}</span>
+                    {{if item.roleType!=4}}
+                    <span>{{item.OrgName}}</span>
+                    {{/if}}
+                    <span>{{item.CancelerName}}撤回</span>      
+                </p>
+            {{/if}}
+            {{if item.RepairApplyState==2}}
+                <!--派工信息-->
+                <p>
+                    <span>{{item.ResponseDate}}</span>
+                    <span>{{item.IntegratorName}}派工</span>
+                    <span>{{item.ServiceHeaderName}}</span>
+                    <span>{{item.ServiceHeaderContactNumber}}</span>
+                    <span>预计{{item.PlanStartDate}}到达</span>
+                </p>
+            {{/if}}
+                {{if item.RepairApplyState==1||item.DealType==1}}
+                <!--建议措施-->
+                <p>
+                    <span>{{item.ResponseDate}}</span>
+                    <span>{{item.IntegratorName}}</span>
+                    <span>{{item.ResponserName}}给出建议措施</span>
+                </p>
+                {{/if}}
+            {{if item.RepairApplyState>=1}}
+                <!--响应信息-->
+                <p>
+                    <span>{{item.ResponseDate}}</span>
+                    {{if item.roleType!=1}}
+                    <span>{{item.IntegratorName}}</span>
+                    {{/if}}
+                    <span>{{item.ResponserName}}</span>
+                    <span>响应</span>
+                </p>
+            {{/if}}
+            {{if item.RepairApplyState>=0}}
+                <!--创建信息-->
+                <p>
+                    <span>{{item.ApplyDate}}</span>
+                    {{if item.roleType!=4}}
+                     <span>{{item.OrgName}}</span>
+                    {{/if}}
+                    <span>{{item.ApplyerName}}创建报修单</span>
+                </p>
+            {{/if}}
         {{/if}}
     </div>
 </script>
@@ -434,13 +450,14 @@
     $(function () {
         domin.bingEvent();
         domin.initControl();
-        domin.loadingData();
+        domin.initPage();
     });
     
     var domin = (function (obj) { return obj; }(new function () {
 
         var slideing = new slidepage();//保修数据滑动加载
         var slideend = new slidepage();//结束数据滑动加载
+        var Isloading = false;//是否加载进行中的报修单
         var Isloadend = false;//是否加载了保修结束订单
         //求时间差
         template.defaults.imports.getInervaldate = function (ApplyDate,faultDate) {
@@ -459,6 +476,19 @@
             return time;
         }
 
+        //页面初始化
+        function initPage() {
+            var tab_order = client.localStorage.getStorage("tab_order_teacher");
+            if (tab_order == 1) {
+                $('.tab-link').eq(1).click();
+                client.localStorage.removeStorage("tab_order_teacher");
+            }
+            else {
+                Isloading = true;
+                loadingData();
+            }
+        }
+
         //事件绑定
         function bingEvent() {
             //tab的切换
@@ -470,11 +500,16 @@
                 if (index == 1 && Isloadend == false) {
                     Isloadend = true;
                     //加载保修结束订单
-                    domin.loadendData();
-                }              
+                    loadendData();
+                }
+                if (index == 0 && Isloading == false) {
+                    Isloading = true;
+                    //加载保修进行中订单
+                    loadingData();
+                }
             });
 
-            //根据时间查询保修单
+            //根据时间查询报修单
             $('.search').on("click", function () {
                 $('.formend .card').remove();
                 var startDate = $('input[name=startDate]').val();
@@ -501,11 +536,13 @@
         function bingElement() {
             //绑定详情事件
             $('.card').off("click").on("click", function () {
+                var index = $('.active').index();
+                client.localStorage.setStorage("tab_order_teacher", index);
                 var RecordID = $(this).attr("data-ID");
                 var RepairApplyState = $(this).attr("data-RepairApplyState");////报修单状态
                 var DealType = $(this).attr("data-DealType");////响应方式，0-派工，1-建议措施
-                if (RepairApplyState < 3 || DealType == 1 || RepairApplyState==7) {
-                    //查看保修单详情
+                if (RepairApplyState < 3 || DealType == 1 || RepairApplyState==8) {
+                    //查看报修单详情
                     location.href=client.baseUrl+"/Form/Detail?ID=" + RecordID;
                 }
                 else {
@@ -528,7 +565,7 @@
                 var RepairApplyState = $(this).parents(".card").attr("data-RepairApplyState");//报修单状态
                 var DealType = $(this).parents(".card").attr("data-DealType");////响应方式，0-派工，1-建议措施
                 var param = {};
-                if (RepairApplyState < 3 || DealType == 1 || RepairApplyState == 7) {
+                if (RepairApplyState < 3 || DealType == 1 || RepairApplyState ==8) {
                     sUrl ="/Form/GetInfoById";
                     param.ID = RecordID;
                 }
@@ -555,7 +592,7 @@
             $(".opinion").off("click").on("click", function (event) {
                 event.stopPropagation();
                 var RecordID = $(this).parents(".card").attr("data-ID");
-                //获取保修单详情
+                //获取报修单详情
                 client.ajax.getRequest("/Form/GetInfoById", { ID: RecordID }, function (r) {
                     var info = JSON.parse(r.data.info);
                     var opinion = info.ResponseOpinion;
@@ -571,8 +608,10 @@
                                   submitDatas = {};
                                   submitDatas.ID = RecordID;
                                   client.ajax.postRequest("/Form/ConfirmRepairApply", { submitDatas: JSON.stringify(submitDatas) }, function (r) {
-                                      
                                       $.toast(r.info);
+                                      setTimeout(function () {
+                                          location.reload();
+                                      },1000)
                                   });
                               }
                           },
@@ -589,7 +628,7 @@
             slideing.pageParameter.page = 1;
             slideing.pageParameter.rows = 10;
             slideing.pageParameter.tipId = '.forming';
-            slideing.pageParameter.tip = "暂无进行中的保修单";
+            slideing.pageParameter.tip = "暂无进行中的报修单";
             slideing.pageParameter.callback = function (r) {
                 r.rows = r.rows.sort(compare);
                 var html = template("formingList", { list: r.rows });
@@ -619,7 +658,7 @@
             slideend.pageParameter.page = 1;
             slideend.pageParameter.rows = 10;
             slideend.pageParameter.tipId = '.formend';
-            slideend.pageParameter.tip = "暂无结束的保修单";
+            slideend.pageParameter.tip = "暂无结束的报修单";
             slideend.pageParameter.callback = function (r) {
                 var html = template("formendList", { list: r.rows });
                 $('.formend').append(html);
@@ -629,6 +668,7 @@
         }
 
         return {
+            initPage:initPage,
             bingEvent: bingEvent,
             initControl:initControl,
             loadingData: loadingData,

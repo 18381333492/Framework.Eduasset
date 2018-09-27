@@ -405,7 +405,7 @@
                 </ul>
             </div>
         </form>
-        @if (roleType == RoleType.RepairUnit)
+        @if (roleType == RoleType.RepairUnit&& Model.RepairApplyState ==0)
         {
             <div class="footter" data-RoleType="@((int)RoleType.RepairUnit)">
                 <a><img src="~/Content/img/tijiao_icon.png" />响应</a>

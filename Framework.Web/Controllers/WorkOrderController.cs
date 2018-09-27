@@ -77,6 +77,40 @@ namespace Framework.Web.Controllers
         }
 
         /// <summary>
+        /// 学校主管统计
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult ManagerCount()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// 按门牌号统计某月的维修费用
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult AnalysisRepairAmountByHouseNo()
+        {
+            var nowDate = DateTime.Now;
+            Parameter.method = "AnalysisRepairAmountByHouseNo";
+            Parameter.ArgsArray.Add("orgCode",LoginStatus.OrgCode);
+            Parameter.ArgsArray.Add("year", nowDate.Year);
+            Parameter.ArgsArray.Add("month", nowDate.Month);
+            var respone = HttpHelper.HttpGet(Parameter);
+            if (respone.Code == 1)
+            {
+                result.success = true;
+                result.data = JsonHelper.ToJsonString(respone.Data);          
+            }
+            else
+            {
+                result.success = false;
+                result.info = "获取数据失败";
+            }
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
         /// 分页获取工单列表
         /// </summary>
         /// <returns></returns>
@@ -270,6 +304,29 @@ namespace Framework.Web.Controllers
             return Json(result);
         }
 
+        /// <summary>
+        /// 结束工单
+        /// </summary>
+        /// <param name="submitDatas"></param>
+        /// <returns></returns>
+        public ActionResult FinishWorkOrder(string submitDatas)
+        {
+            Parameter.method = "FinishWorkOrder";
+            JObject job = JsonHelper.Deserialize<JObject>(submitDatas);
+            job.Add(new JProperty("FinisherName", LoginStatus.RealName));
+            string sBody = string.Format("submitDatas={0}", job.ToString());
+            var respone = HttpHelper.HttpPost(Parameter, sBody);
+            if (respone.Code == 1)
+            {
+                result.success = true;
+                result.info = "操作成功";
+            }
+            else
+            {
+                result.info = "操作失败";
+            }
+            return Json(result);
+        }
 
         /// <summary>
         ///  获取工单详情
