@@ -33,6 +33,15 @@ namespace Framework.Web.Controllers
         }
 
         /// <summary>
+        /// 维修单位的维修任务列表
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult RepairTask()
+        {
+            return View();
+        }
+
+        /// <summary>
         /// 维修人员的任务
         /// </summary>
         /// <returns></returns>

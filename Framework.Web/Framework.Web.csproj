@@ -283,6 +283,7 @@
     <Content Include="Views\WorkOrder\DirectlyInsert.cshtml" />
     <Content Include="Views\WorkOrder\History.cshtml" />
     <Content Include="Views\WorkOrder\Count.cshtml" />
+    <Content Include="Views\Form\RepairTask.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

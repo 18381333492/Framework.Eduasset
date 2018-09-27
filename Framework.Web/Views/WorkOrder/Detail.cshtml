@@ -370,7 +370,7 @@
                             <div class="item-inner clear">
                                 <div class="item-title label">故障原因</div>
                                 <div class="item-input">
-                                    <input type="text" name="FaultReason" />
+                                    <input type="text" name="FaultReason" value="@Model.FaultReason" />
                                 </div>
                             </div>
                         </div>
@@ -381,7 +381,7 @@
                             <div class="item-inner clear">
                                 <div class="item-title label">故障处理</div>
                                 <div class="textarea_box">
-                                    <textarea name="DealWay"></textarea>
+                                    <textarea name="DealWay">@Model.DealWay</textarea>
                                     <div class="clear">
                                     @if (Model.DealPicPath1!= null)
                                     {

@@ -425,7 +425,7 @@
     <div class="list-block last_div" style="margin-top: 5px;">
         <ul>
             <li>
-                <button class="add_box">新增维修</button>
+                <button class="add_box">新增配件</button>
             </li>
             <li>
                 <div class="item-content">
@@ -519,14 +519,7 @@
                 padding-right :15px;">审批人</p>
                         <div class="multsel" defval="0" style="width:60%">
                             <span class="view">选择值</span>
-                            <div class="selist">
-                                @*<a class="seitem" value="select1">选择项一</a>
-                        <a class="seitem" value="select2">选择项二</a>
-                        <a class="seitem" value="select3">选择项三</a>
-                        <a class="seitem" value="select4">选择项四</a>
-                        <a class="seitem" value="select5">选择项五</a>
-                        <a class="seitem" value="select6">选择项六</a>*@
-                            </div>
+                            <div class="selist"></div>
                         </div>
                     </div>
                 </div> 
@@ -545,9 +538,9 @@
 </body>
 <!--增加保修模板-->
 <script id="AddForm" type="text/html">
-    <div id="formDiv{{Order}}" class="list-block autoform cancelform">
+    <div class="list-block autoform cancelform">
         <ul>
-            <li>
+            @*<li>
                 <div class="item-content">
                     <div class="item-media"><i class="icon icon-form-email"></i></div>
                     <div class="item-inner">
@@ -602,8 +595,6 @@
                                 <div class="addImage" data-Type="addImage_question" style="position:relative;float:left;margin-left:5px;">
                                     <img class="img" src="/eduasset_chat/jquery/img/upload_img.png" />
                                 </div>
-                                @*<img class="addImage img" data-Type="addImage_question"  src="/jquery/img/upload_img.png" />*@
-                                @*<img src="~/Content/img/del.png" class="del">*@
                             </div>
                         </div>
                     </div>
@@ -631,13 +622,11 @@
                                 <div class="addImage" data-Type="addImage_handle" style="position:relative;float:left;margin-left:5px;">
                                     <img class="img" src="/eduasset_chat/jquery/img/upload_img.png" />
                                 </div>
-                                @*<img class="addImage img" data-Type="addImage_handle" src="/jquery/img/upload_img.png" />*@
-                                @*<img src="~/Content/img/del.png" class="del">*@
                             </div>
                         </div>
                     </div>
                 </div>
-            </li>
+            </li>*@
             <li>
                 <div class="item-content">
                     <div class="item-media"><i class="icon icon-form-email"></i></div>
@@ -693,6 +682,9 @@
                     </div>
                 </div>
             </li>
+            @*<li>
+                <button class="add_box cancel_btn">删除配件</button>
+            </li>*@
         </ul>
     </div>
 </script>
@@ -875,11 +867,11 @@
 
             //增加维修
             $('.add_box').on("click", function (event) {
-                DeviceCount = DeviceCount + 1;
-                var html = template("AddForm", { Order: DeviceCount });
+                //DeviceCount = DeviceCount + 1;
+                var html = template("AddForm")();;
                 $(html).insertBefore(".last_div");
                 //绑定事件
-                bingElement(DeviceCount);
+               // bingElement(DeviceCount);
             });
 
             //直接创建工单
@@ -902,33 +894,36 @@
                 submitDatas.ServicePersons = $('input[name=ServicePersons]').val();//维修人员
                 submitDatas.ToApprovIds = $('#ToApprovIds').val();
                 submitDatas.ToApprovNames = $('#ToApprovNames').val();
+                //设备相关信息
+                var obj = {
+                    DeviceCode: $('select[name=DeviceCode]').val(),
+                    StorePlace: $('input[name=StorePlace]').val(),
+                    FaultName: $('input[name=FaultName]').val(),
+                    FaultDesc: $('textarea[name=FaultDesc]').val(),
+                    FaultReason: $('input[name=FaultReason]').val(),
+                    DealWay: $('textarea[name=DealWay]').val(),
+                }
+                var questionImages = $('div[data-Type=addImage_question]');
+                var handleImages = $('div[data-Type=addImage_handle]');
+                for (var i = 1; i < questionImages.length; i++) {
+                    obj["FaultPicPath" + i] = $(questionImages).eq(i - 1).find(".img").attr("src");
+                }
+                for (var i = 1; i < handleImages.length; i++) {
+                    obj["DealPicPath" + i] = $(handleImages).eq(i - 1).find(".img").attr("src");
+                }
+                obj.Parts = [];//配件数组列表
+                //配件相关信息
                 var elementArray = $('.autoform');
                 $(elementArray).each(function (index, element) {
-                    var obj = {
-                        DeviceCode: $('select[name=DeviceCode]', element).val(),
-                        StorePlace: $('input[name=StorePlace]', element).val(),
-                        FaultName: $('input[name=FaultName]', element).val(),
-                        FaultDesc: $('textarea[name=FaultDesc]', element).val(),
-                        FaultReason: $('input[name=FaultReason]', element).val(),
-                        DealWay: $('textarea[name=DealWay]', element).val(),
-                    }
-                    var questionImages = $('div[data-Type=addImage_question]', element);
-                    var handleImages = $('div[data-Type=addImage_handle]', element);
-                    for (var i = 1; i < questionImages.length; i++) {
-                        obj["FaultPicPath" + i] = $(questionImages).eq(i - 1).find(".img").attr("src");
-                    }
-                    for (var i = 1; i < handleImages.length; i++) {
-                        obj["DealPicPath" + i] = $(handleImages).eq(i - 1).find(".img").attr("src");
-                    }
-                    obj.Parts = [{
+                    obj.Parts.push({
                         PartName: $('input[name=PartName]', element).val(),
                         ProductModel: $('input[name=ProductModel]', element).val(),
                         ConsumeNumber: $('input[name=ConsumeNumber]', element).val(),
                         NumberUnit: $('input[name=NumberUnit]', element).val(),
                         Price: $('input[name=Price]', element).val(),
-                    }];
-                    Devices.push(obj);
+                    });
                 });
+                Devices.push(obj);
                 submitDatas.Devices = Devices;//设备列表信息
                 client.ajax.postRequest("/WorkOrder/DirectlyInsert", { submitDatas: JSON.stringify(submitDatas) }, function (r) {
                     $.hideLoading();

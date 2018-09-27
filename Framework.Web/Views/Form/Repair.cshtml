@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "维修单位保修单";
+    ViewBag.Title = "维修单位报修单";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <style>
@@ -188,13 +188,13 @@
                 <input type="text" name="ServiceHeaderContactNumber" style="width:150px;border:1px solid #cacaca" />
             </p>
             <p>
-                <span>预计开始时间:</span>
+                <span>预计到达时间:</span>
                 <input type="text" name="PlanStartDate" style="width:150px;border:1px solid #cacaca" />
             </p>
-            <p>
+            @*<p>
                 <span>预计结束时间:</span>
                 <input type="text" name="PlanEndDate" style="width:150px;border:1px solid #cacaca" />
-            </p>
+            </p>*@
         </div>
     </form>
 </script>
@@ -248,7 +248,7 @@
                 });
                 //时间插件的绑定
                 $("input[name=PlanStartDate]").datetimePicker();
-                $("input[name=PlanEndDate]").datetimePicker();
+                //$("input[name=PlanEndDate]").datetimePicker();
                 //数据绑定
                 var html = [];
                 var i = 0;
@@ -328,7 +328,7 @@
                 submitDatas.ServiceHeaderName = GetContactNumber(param.ServiceHeaderId).RealName;
                 submitDatas.ServiceHeaderContactNumber = param.ServiceHeaderContactNumber;
                 submitDatas.PlanStartDate = param.PlanStartDate;
-                submitDatas.PlanEndDate = param.PlanEndDate;
+               // submitDatas.PlanEndDate = param.PlanEndDate;
             }
             else {
                 submitDatas.ResponseOpinion = param.ResponseOpinion;//建议

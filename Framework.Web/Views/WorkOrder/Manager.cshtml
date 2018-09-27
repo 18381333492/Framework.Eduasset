@@ -127,7 +127,7 @@
 <script id="WorkOrderList" type="text/html">
     {{each list item index}}
     <div class="card" data-ID="{{item.RecordID}}">
-        <div class="card-footer"><span>{{item.FaultDate}}</span></div>
+        <div class="card-footer"><span>{{item.DealDate}}</span></div>
         <div class="card-footer">
             <span>{{item.IntegratorName}}-{{item.DispatcherName}}</span>
         </div>
@@ -182,7 +182,6 @@
             slideing.pageParameter.rows = 10;
             slideing.pageParameter.tip = "暂无待审批的工单";
             slideing.pageParameter.callback = function (r) {
-                debugger
                 var html = template("WorkOrderList", { list: r.rows });
                 $('.WorkOrderList').append(html);
                 bingEvent();

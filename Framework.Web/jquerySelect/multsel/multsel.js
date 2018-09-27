@@ -28,7 +28,10 @@ function multselInit(){
 		}else{
 			$_this.addClass('checked');
 		}
+		$_sel.find("span.view").click();
+
 		multselCheck($_this.parent(".selist"));
+
 	});
 	
 	//$(document).off("click").on("click",function(e){

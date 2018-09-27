@@ -378,5 +378,6 @@ namespace Framework.Web.Controllers
                 result.info = "获取数据失败";
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+
     }
 }
