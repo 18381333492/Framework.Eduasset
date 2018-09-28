@@ -490,7 +490,15 @@
 <script src="~/jquerySelect/multsel/multsel.js"></script>
 <script type="text/javascript">
     $(function () {
-        domin.initHouseList();//初始化门牌号列表
+
+        var houseCode = '@ViewBag.houseCode';//页面带进来的houseCode
+        if (houseCode) {
+            //存在
+            domin.initPage(houseCode);
+        }
+        else {
+            domin.initHouseList();//初始化门牌号列表
+        }
         domin.bingEvent();
         domin.initControl();
         domin.loadWeChatConfig();//加载微信配置 
@@ -622,7 +630,7 @@
             //扫一扫事件绑定
             $('#codeScan').on("click", function () {
                 WeChat.scanQRCode(function (res) {
-                    houseInfo.houseCode = res.resultStr;//获取扫描的教室编码
+                    houseInfo.houseCode = res.resultStr.split("=")[1];//获取扫描的教室编码
                     if (houseInfo.houseCode) {
                         //获取教室信息
                         GetHouseInfoByHouseCode();
@@ -721,6 +729,12 @@
             $('select[name=DeviceName]').change(function () {
                 initDeviceDetail();
             });
+        }
+
+        //初始化页面
+        function initPage(houseCode) {
+            houseInfo.houseCode = houseCode;
+            GetHouseInfoByHouseCode();
         }
 
         //根据门牌号二维码获取教室信息
@@ -848,6 +862,7 @@
         }
 
         return {
+            initPage:initPage,
             initControl:initControl,
             bingEvent: bingEvent,
             loadWeChatConfig: loadWeChatConfig,

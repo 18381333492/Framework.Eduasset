@@ -112,6 +112,7 @@
 <script type="text/javascript">
     $(function () {
         try {
+            var houseCode='@ViewBag.houseCode';
             var state = true;
             var userInfo = client.localStorage.getStorage("userinfo");
             if (userInfo) {
@@ -141,13 +142,19 @@
                         }
                         setTimeout(function () {
                             if (r.data == 4) {//老师
-                                location.href =client.baseUrl+"/Form/Teacher";
+                                if (houseCode)
+                                    location.href = client.baseUrl + "/Form/Insert?houseCode=" + houseCode;
+                                else
+                                    location.href = client.baseUrl + "/Form/Teacher";
                             }
                             if (r.data == 1) {//维修单位
                                 location.href = client.baseUrl + "/Form/Repair";
                             }
                             if (r.data == 2) {//维修人员
-                                location.href = client.baseUrl + "/Form/RepairMan";
+                                if (houseCode)
+                                    location.href = client.baseUrl + "/WorkOrder/DirectlyInsert?houseCode=" + houseCode;
+                                else
+                                    location.href = client.baseUrl + "/Form/RepairMan";
                             }
                             if (r.data == 3) {//学校领导
                                 location.href = client.baseUrl + "/WorkOrder/Manager";

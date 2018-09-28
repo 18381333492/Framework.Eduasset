@@ -87,10 +87,11 @@ namespace Framework.Web.Controllers
         /// 添加报修单
         /// </summary>
         /// <returns></returns>
-        public ActionResult Insert(string submitDatas)
+        public ActionResult Insert(string houseCode,string submitDatas)
         {
             if (!Request.IsAjaxRequest())
             {
+                ViewBag.houseCode = houseCode;
                 return View(LoginStatus);
             }
             else

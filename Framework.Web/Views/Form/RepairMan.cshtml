@@ -117,7 +117,7 @@
     <div class="content">
         <div class="content-block">
             <div class="list formlist">
-                <div style="text-align:center;display:none" class="no_tip">
+                <div style="text-align:center;display:none;margin-top:30px" class="no_tip">
                     <i style="font-size:20px;" class="iconfont icon-wushuju"></i><span></span>
                 </div>
             </div>
@@ -134,7 +134,7 @@
                 <span>待处理</span>
             {{/if}}
             {{if item.RepairApplyState==3|| item.RepairApplyState==4}}
-                <span>等待审批</span>
+                <span>待审批</span>
             {{/if}}
             {{if item.RepairApplyState==5}}
                 <span>执行中</span>
@@ -216,7 +216,7 @@
             slideing.pageParameter.params = "repairApplyState=2,3,4,5,6";
             slideing.pageParameter.page = 1;
             slideing.pageParameter.rows = 10;
-            slideing.pageParameter.tip = "暂无待创建该工单的保修单";
+            slideing.pageParameter.tip = "暂无待创建工单的报修单";
             slideing.pageParameter.callback = function (r) {
                 r.rows = r.rows.sort(compare);
                 var html = template("formList", { list: r.rows });

@@ -550,7 +550,7 @@
                             </div>
                         </div>
                     </li>
-                    <li class="last">
+                    <li>
                         <div class="item-content">
                             <div class="item-media"><i class="icon icon-form-email"></i></div>
                             <div class="item-inner">
@@ -605,15 +605,15 @@
                    }
                     @if(roleType == RoleType.School&& Convert.ToInt32(Model.WorkOrderState)==3)
                     {
-                        <li class="last">
+                        <li>
                             <div class="item-content">
                                 <div class="item-media"><i class="icon icon-form-email"></i></div>
                                 <div class="item-inner">
                                     <div class="item-title label">服务评价</div>
-                                    <div class="item-input">
-                                        <label><input type="radio" name="SureLevel" value="0">满意</label> 
-                                        <label><input type="radio" name="SureLevel" value="1">一般</label> 
-                                        <label><input type="radio" name="SureLevel" value="2">较差</label> 
+                                    <div class="radio_box">
+                                        <label><input type="radio" name="SureLevel" value="0">满意</label>
+                                        <label><input type="radio" name="SureLevel" value="1">一般</label>
+                                        <label><input type="radio" name="SureLevel" value="2">较差</label>
                                     </div>
                                 </div>
                             </div>
@@ -675,11 +675,13 @@
 </script>
 <script type="text/javascript">
     $(function () {
+        $('.list-block').last().find("li").last().addClass("last");
         $('.footter').on("click", function () {
             var ID = $('#RecordID').val();
             var RoleType = $(this).attr("data-RoleType");
             if (RoleType == 4) {
                 //工单评价
+                var submitDatas = {};
                 submitDatas.ID = ID;
                 submitDatas.SureLevel = $('input[name=SureLevel]:checked').val();
                 submitDatas.SureOpinion = $('textarea[name=SureOpinion]').val();

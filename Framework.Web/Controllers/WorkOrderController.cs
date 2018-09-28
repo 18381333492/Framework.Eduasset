@@ -183,10 +183,11 @@ namespace Framework.Web.Controllers
         /// </summary>
         /// <param name="submitDatas"></param>
         /// <returns></returns>
-        public ActionResult DirectlyInsert(string submitDatas)
+        public ActionResult DirectlyInsert(string houseCode,string submitDatas)
         {
             if(!Request.IsAjaxRequest())
             {
+                ViewBag.houseCode = houseCode;
                 return View(LoginStatus);
             }
             else
@@ -239,7 +240,7 @@ namespace Framework.Web.Controllers
         /// <returns></returns>
         public ActionResult SureWorkOrder(string submitDatas)
         {
-            Parameter.method = "CancelWorkOrder";
+            Parameter.method = "SureWorkOrder";
             JObject job = JsonHelper.Deserialize<JObject>(submitDatas);
             job.Add(new JProperty("SurerName", LoginStatus.RealName));
             string sBody = string.Format("submitDatas={0}", job.ToString());

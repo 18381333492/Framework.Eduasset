@@ -155,7 +155,7 @@
             <span>{{item.IntegratorName}}</span>
             <span>{{item.DispatcherName}}</span>
             {{if item.WorkOrderState==0}}
-                <span>待审批</span>
+                <span>等待审批</span>
             {{/if}}
             {{if item.WorkOrderState==1}}
                 <span>驳回待重新提交</span>
@@ -189,6 +189,12 @@
         <div class="card-footer">
             <span>{{item.IntegratorName}}</span>
             <span>{{item.DispatcherName}}</span>
+            {{if item.WorkOrderState==4}}
+            <span>已结束</span>
+            {{/if}}
+            {{if item.WorkOrderState==5}}
+            <span>已撤销</span>
+            {{/if}}
         </div>
         <div class="card-header">
             <span>{{item.FaultName}}</span>
@@ -207,7 +213,7 @@
 </script>
 <script id="FormProgress" type="text/html">
     <div style="text-align:left;font-size:12px;">
-        {{if item.WorkOrderState>=2}}
+        {{if item.WorkOrderState>=2&&item.WorkOrderState!=5}}
         <!--通过审批-->
         <p>
             <span>{{item.ApproveDate}}</span>
@@ -215,7 +221,7 @@
             <span>{{item.ApproveName}}审批通过</span>
         </p>
         {{/if}}
-        {{if item.WorkOrderState>=1}}
+        {{if item.WorkOrderState==1}}
         <!--不通过审批-->
         <p>
             <span>{{item.ApproveDate}}</span>
@@ -223,19 +229,17 @@
             <span>{{item.ApproveName}}审批不通过</span>
         </p>
         {{/if}}
-        {{if item.WorkOrderState==4}}
-        <!--报修单撤回-->
+        {{if item.WorkOrderState==5}}
+        <!--工单撤销-->
         <p>
             <span>{{item.CancelDate}}</span>
-            {{if item.roleType!=4}}
-            <span>{{item.OrgName}}</span>
-            {{/if}}
-            <span>{{item.CancelerName}}撤回</span>
+            <span>{{item.IntegratorName}}</span>
+            <span>{{item.CancelerName}}撤销</span>
         </p>
         {{/if}}    
         <!--派工信息-->
         <p>
-            <span>{{item.ResponseDate}}</span>
+            <span>{{item.DispatchDate}}</span>
             <span>{{item.IntegratorName}}派工</span>
             <span>{{item.ServiceHeaderName}}</span>
             <span>{{item.ServiceHeaderContactNumber}}</span>
@@ -243,11 +247,11 @@
         </p>
         <!--响应信息-->
         <p>
-            <span>{{item.ResponseDate}}</span>
+            <span>{{item.DispatchDate}}</span>
             {{if item.roleType!=1}}
             <span>{{item.IntegratorName}}</span>
             {{/if}}
-            <span>{{item.ResponserName}}</span>
+            <span>{{item.DispatcherName}}</span>
             <span>响应</span>
         </p>
         <!--创建信息-->

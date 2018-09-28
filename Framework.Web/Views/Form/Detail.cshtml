@@ -442,18 +442,15 @@
                 <input type="text" name="ServiceHeaderContactNumber" style="width:150px;border:1px solid #cacaca" />
             </p>
             <p>
-                <span>预计开始时间:</span>
+                <span>预计到达时间:</span>
                 <input type="text" name="PlanStartDate" style="width:150px;border:1px solid #cacaca" />
-            </p>
-            <p>
-                <span>预计结束时间:</span>
-                <input type="text" name="PlanEndDate" style="width:150px;border:1px solid #cacaca" />
             </p>
         </div>
     </form>
 </script>
 <script type="text/javascript">
     var ServicePersonArray = [];//维修人员列表
+    GetServicePersonListByIntegratorCode();
     $(function () {
         $('.footter').on("click", function () {
             var ID = $('#RecordID').val();
@@ -471,7 +468,7 @@
                 });
                 //时间插件的绑定
                 $("input[name=PlanStartDate]").datetimePicker();
-                $("input[name=PlanEndDate]").datetimePicker();
+                //$("input[name=PlanEndDate]").datetimePicker();
                 //数据绑定
                 var html = [];
                 var i = 0;
@@ -536,7 +533,7 @@
             submitDatas.ServiceHeaderName = GetContactNumber(param.ServiceHeaderId).RealName;
             submitDatas.ServiceHeaderContactNumber = param.ServiceHeaderContactNumber;
             submitDatas.PlanStartDate = param.PlanStartDate;
-            submitDatas.PlanEndDate = param.PlanEndDate;
+            //submitDatas.PlanEndDate = param.PlanEndDate;
         }
         else {
             submitDatas.ResponseOpinion = param.ResponseOpinion;//建议
@@ -548,7 +545,6 @@
             setTimeout(function () {
                 location.href =client.baseUrl+"/Form/Repair";
             }, 500);
-            location.href = "";
         }, function (r) {
             $.hideLoading();
             $.toast(r.info, "text");
@@ -560,5 +556,17 @@
         client.ajax.getRequest("/Form/GetServicePersonListByIntegratorCode", null, function (r) {
             ServicePersonArray = JSON.parse(r.data);
         });
+    }
+
+    //根据维修人员ID获取维修人员信息
+    function GetContactNumber(ID) {
+        var person = {}
+        $(ServicePersonArray).each(function (index, item) {
+            if (item.RecordID == ID) {
+                person = item;
+                return false;
+            }
+        });
+        return person;
     }
 </script>

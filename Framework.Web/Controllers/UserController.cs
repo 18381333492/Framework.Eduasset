@@ -18,10 +18,11 @@ namespace Framework.Web.Controllers
         /// <param name="psd"></param>
         /// <returns></returns>
         [NoLogin]
-        public ActionResult Login(string userName,string psd)
+        public ActionResult Login(string userName,string psd,string houseCode)
         {
             if (!Request.IsAjaxRequest())
             {
+                ViewBag.houseCode = houseCode;
                 return View();
             }
             else

@@ -73,20 +73,31 @@
             margin: 0 3%;
             border-bottom: 1px dashed #888;
         }
-
     .add_box {
         background: -moz-linear-gradient(left,#2e8cbf,#3fbfe6); /*Mozilla*/
         background: -webkit-gradient(linear,0 50%,100% 50%,from(#2e8cbf),to(#3fbfe6)); /*Old gradient for webkit*/
         background: -webkit-linear-gradient(left,#2e8cbf,#3fbfe6); /*new gradient for Webkit*/
         background: -o-linear-gradient(left,#2e8cbf,#3fbfe6); /*Opera11*/
-        font-size: 14px;
+          font-size: 14px;
         border: none;
         height: 2rem;
         line-height: 2rem;
         color: white;
-        width: 62%;
+        width: 60%;
         border-radius: 5px;
-        margin-left: 34%;
+    }
+    .cancel_box {
+        background: -moz-linear-gradient(left,#8a4444,red); /*Mozilla*/
+        background: -webkit-gradient(linear,0 50%,100% 50%,from(#8a4444),to(red)); /*Old gradient for webkit*/
+        background: -webkit-linear-gradient(left,#8a4444,red); /*new gradient for Webkit*/
+        background: -o-linear-gradient(left,#8a4444,red); /*Opera11*/
+          font-size: 14px;
+        border: none;
+        height: 2rem;
+        line-height: 2rem;
+        color: white;
+        width: 35%;
+        border-radius: 5px;
     }
 
     .email_box {
@@ -438,6 +449,7 @@
              <div class="list-block last_div" style="margin-top: 5px;">
                 <ul>
                     <li>
+                        <button class="cancel_box">删除配件</button>
                         <button class="add_box">新增配件</button>
                     </li>
                     <li>
@@ -485,12 +497,6 @@
                                 <div class="multsel" defval="0" style="width:60%">
                                     <span class="view">选择值</span>
                                     <div class="selist">
-                                        @*<a class="seitem" value="select1">选择项一</a>
-                            <a class="seitem" value="select2">选择项二</a>
-                            <a class="seitem" value="select3">选择项三</a>
-                            <a class="seitem" value="select4">选择项四</a>
-                            <a class="seitem" value="select5">选择项五</a>
-                            <a class="seitem" value="select6">选择项六</a>*@
                                     </div>
                                 </div>
                             </div>
@@ -511,7 +517,7 @@
 </body>
 <!--新增配件-->
 <script type="text/html" id="AddForm">
-    <div class="list-block autoform">
+    <div class="list-block autoform cancelform">
         <ul>
             <li>
                 <div class="item-content">
@@ -679,6 +685,12 @@
                 var html = template("AddForm")();
                 $(html).insertBefore(".last_div");
             });
+
+            //删除配件
+            $('.cancel_box').on("click", function (event) {
+                $('.cancelform').last().remove();
+            });
+
 
             //提交工单
             $('.footter').on("click", function () {

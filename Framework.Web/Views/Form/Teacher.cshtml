@@ -284,7 +284,8 @@
 </body>
 <script id="formingList" type="text/html">
     {{each list item index}}
-        <div class="card" data-ID="{{item.RecordID}}" data-RepairApplyState="{{item.RepairApplyState}}">
+        <div class="card" data-ID="{{item.RecordID}}" data-RepairApplyState="{{item.RepairApplyState}}"
+             data-ResponseDate="{{item.DispatchDate}}" data-ResponserName="{{item.DispatcherName}}">
             <div class="card-footer"><span>{{item.ApplyDate}}</span></div>
             <div class="card-header">
                 <span>{{item.FaultName}}</span>
@@ -322,7 +323,9 @@
                     {{if item.RepairApplyState==6}}
                         <a class="button see_box parse_form">服务评价</a>
                     {{/if}}
+                    {{if item.RepairApplyState!=6}}
                     <a class="button see_box progress">查看进度</a>
+                    {{/if}}
                 </span>
             </div>
         </div>
@@ -330,7 +333,8 @@
 </script>
 <script id="formendList" type="text/html">
     {{each list item index}}
-    <div class="card" data-ID="{{item.RecordID}}" data-RepairApplyState="{{item.RepairApplyState}}" data-DealType="{{item.DealType}}">
+    <div class="card" data-ID="{{item.RecordID}}" data-RepairApplyState="{{item.RepairApplyState}}" data-DealType="{{item.DealType}}"
+           data-ResponseDate="{{item.DispatchDate}}" data-ResponserName="{{item.DispatcherName}}">
         <div class="card-footer"><span>{{item.ApplyDate}}</span></div>
         <div class="card-header">
             <span>{{item.FaultName}}</span>
@@ -378,33 +382,33 @@
                 <span>{{item.ApplyerName}}创建报修单</span>
             </p>
         {{else}}
-            {{if item.WorkOrderState>=2}}
+            {{if item.WorkOrderState>=2&&item.WorkOrderState!=5}}
             <!--通过审批-->
             <p>
                 <span>{{item.ApproveDate}}</span>
-                <span>{{item.IntegratorName}}</span>
+                <span>{{item.OrgName}}</span>
                 <span>{{item.ApproveName}}审批通过</span>
             </p>
             {{/if}}
-            {{if item.WorkOrderState>=1}}
+            {{if item.WorkOrderState==1}}
                 <!--不通过审批-->
                 <p>
                     <span>{{item.ApproveDate}}</span>
-                    <span>{{item.IntegratorName}}</span>
+                    <span>{{item.OrgName}}</span>
                     <span>{{item.ApproveName}}审批不通过</span>
                 </p>
             {{/if}}
-            {{if item.WorkOrderState==4}}
-                <!--报修单撤回-->
+            {{if item.WorkOrderState==5}}
+                <!--工单撤回-->
                 <p>
                     <span>{{item.CancelDate}}</span>
                     {{if item.roleType!=4}}
                     <span>{{item.OrgName}}</span>
                     {{/if}}
-                    <span>{{item.CancelerName}}撤回</span>      
+                    <span>{{item.CancelerName}}撤销</span>      
                 </p>
             {{/if}}
-            {{if item.RepairApplyState==2}}
+            {{if item.RepairApplyState>=2&&item.DealType!=1}}
                 <!--派工信息-->
                 <p>
                     <span>{{item.ResponseDate}}</span>
@@ -564,6 +568,8 @@
                 var RecordID = $(this).parents(".card").attr("data-ID");
                 var RepairApplyState = $(this).parents(".card").attr("data-RepairApplyState");//报修单状态
                 var DealType = $(this).parents(".card").attr("data-DealType");////响应方式，0-派工，1-建议措施
+                var ResponseDate = $(this).parents(".card").attr("data-ResponseDate");//响应的时间
+                var ResponserName = $(this).parents(".card").attr("data-ResponserName");//响应人
                 var param = {};
                 if (RepairApplyState < 3 || DealType == 1 || RepairApplyState ==8) {
                     sUrl ="/Form/GetInfoById";
@@ -575,8 +581,12 @@
                 }
                 client.ajax.getRequest(sUrl, param, function (r) {
                     var info = JSON.parse(r.data.info);
+                    //追加的信息
                     info.roleType = r.data.roleType;
                     info.RepairApplyState = RepairApplyState;
+                    info.DealType = DealType;
+                    info.ResponseDate = ResponseDate;//响应的时间
+                    info.ResponserName = ResponserName;//响应人
                     var html = template("FormProgress", { item: info });
                     $.modal({
                         title: " ",

@@ -74,7 +74,7 @@
             margin: 0 3%;
             border-bottom: 1px dashed #888;
         }
-
+        
     .add_box {
         background: -moz-linear-gradient(left,#2e8cbf,#3fbfe6); /*Mozilla*/
         background: -webkit-gradient(linear,0 50%,100% 50%,from(#2e8cbf),to(#3fbfe6)); /*Old gradient for webkit*/
@@ -85,9 +85,21 @@
         height: 2rem;
         line-height: 2rem;
         color: white;
-        width: 62%;
+        width: 60%;
         border-radius: 5px;
-        margin-left: 34%;
+    }
+    .cancel_box {
+        background: -moz-linear-gradient(left,#8a4444,red); /*Mozilla*/
+        background: -webkit-gradient(linear,0 50%,100% 50%,from(#8a4444),to(red)); /*Old gradient for webkit*/
+        background: -webkit-linear-gradient(left,#8a4444,red); /*new gradient for Webkit*/
+        background: -o-linear-gradient(left,#8a4444,red); /*Opera11*/
+          font-size: 14px;
+        border: none;
+        height: 2rem;
+        line-height: 2rem;
+        color: white;
+        width: 35%;
+        border-radius: 5px;
     }
 
     .email_box {
@@ -230,7 +242,7 @@
                     <div class="item-inner">
                         <div class="item-title label">报修时间</div>
                         <div class="item-input">
-                            <input type="text" name="FaultDate" class="select_box" />
+                            <input type="text" name="FaultDate" class="select_box" value="@DateTime.Now.ToString("yyyy-MM-dd HH:mm")" />
                         </div>
                     </div>
                 </div>
@@ -425,6 +437,7 @@
     <div class="list-block last_div" style="margin-top: 5px;">
         <ul>
             <li>
+                <button class="cancel_box">删除配件</button>
                 <button class="add_box">新增配件</button>
             </li>
             <li>
@@ -682,9 +695,6 @@
                     </div>
                 </div>
             </li>
-            @*<li>
-                <button class="add_box cancel_btn">删除配件</button>
-            </li>*@
         </ul>
     </div>
 </script>
@@ -694,6 +704,10 @@
 <script src="~/jquerySelect/multsel/multselwork.js"></script>
 <script type="text/javascript">
     $(function () {
+        var houseCode = '@ViewBag.houseCode';
+        if (houseCode) {
+            domin.initPage(houseCode);
+        }
         domin.bingEvent();
         domin.initControl();
         domin.loadWeChatConfig();//加载微信配置
@@ -831,7 +845,7 @@
             //扫一扫事件绑定
             $('#codeScan').on("click", function () {
                 WeChat.scanQRCode(function (res) {
-                    houseInfo.houseCode = res.resultStr;//获取扫描的教室编码
+                    houseInfo.houseCode = res.resultStr.split('=')[1];//获取扫描的教室编码
                     if (houseInfo.houseCode) {
                         //获取教室信息
                         GetHouseInfoByHouseCode();
@@ -865,13 +879,18 @@
                
             });
 
-            //增加维修
+            //增加配件
             $('.add_box').on("click", function (event) {
                 //DeviceCount = DeviceCount + 1;
                 var html = template("AddForm")();;
                 $(html).insertBefore(".last_div");
                 //绑定事件
                // bingElement(DeviceCount);
+            });
+
+            //删除配件
+            $('.cancel_box').on("click", function (event) {
+                $('.cancelform').last().remove();
             });
 
             //直接创建工单
@@ -943,7 +962,7 @@
                 var className = $('select[name=HouseNo]').find("option:checked").attr("data-class");
                 $('input[name=ClassName]').val(className);
                 //初始化设备列表
-                initDeviceList();
+                loadDeviceList();
                 //清空增加的保修
                 $('.cancelform').remove();
             });
@@ -964,6 +983,12 @@
             $('select[name=DeviceName]').change(function () {
                 initDeviceDetail();
             });
+        }
+
+        ///初始化页面
+        function initPage(houseCode) {
+            houseInfo.houseCode = houseCode;
+            GetHouseInfoByHouseCode();
         }
 
         //根据门牌号二维码获取教室信息
@@ -1085,6 +1110,7 @@
         }
 
         return {
+            initPage:initPage,
             initControl:initControl,
             bingEvent: bingEvent,
             loadWeChatConfig: loadWeChatConfig,
