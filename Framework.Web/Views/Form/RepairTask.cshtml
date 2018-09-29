@@ -310,7 +310,7 @@
         var slideing = new slidepage();
         var slideend = new slidepage();
         var Isloading = false;//是否加载了执行中订单
-        var Isloadend = false;//是否加载了保修结束订单
+        var Isloadend = false;//是否加载了报修结束订单
 
         //求时间差
         template.defaults.imports.getInervaldate = function (StartTime, EndTime) {
@@ -357,7 +357,7 @@
                 $('.content_list').eq(index).removeClass("hide");
                 if (index == 1 && Isloadend == false) {
                     Isloadend = true;
-                    //加载保修结束订单
+                    //加载报修结束订单
                     loadWorkOrderEndData();
                 }
                 if (index == 0 && Isloading == false) {
@@ -439,7 +439,7 @@
             slideing.initslide();
         }
 
-        //加载保修结束订单
+        //加载报修结束订单
         function loadWorkOrderEndData() {
             slideend.pageParameter.url = "/Form/GetRepairApplyList";
             slideend.pageParameter.params = "repairApplyState=7,8";

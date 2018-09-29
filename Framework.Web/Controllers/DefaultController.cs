@@ -13,19 +13,19 @@ namespace Framework.Web.Controllers
         {
             if (LoginStatus.RoleType == RoleType.School)
             {
-                return Redirect("/Form/Teacher");
+                return Redirect("~/Form/Teacher");
             }
             if (LoginStatus.RoleType == RoleType.RepairUnit)
             {
-                return Redirect("/Form/Repair");
+                return Redirect("~/Form/Repair");
             }
             if (LoginStatus.RoleType == RoleType.RepairMan)
             {
-                return Redirect("/Form/RepairMan");
+                return Redirect("~/Form/RepairMan");
             }
             if (LoginStatus.RoleType == RoleType.Manager)
             {
-                return Redirect("/WorkOrder/Manager");
+                return Redirect("~/WorkOrder/Manager");
             }
             return View();
         }
@@ -43,25 +43,25 @@ namespace Framework.Web.Controllers
                 LoginStatus = (LoginCacheInfo)Session[SessionKey];
                 if (LoginStatus.RoleType == RoleType.School)
                 {//跳转报修页面
-                    return Redirect("/Form/Insert?houseCode="+ houseCode);
+                    return Redirect("~/Form/Insert?houseCode="+ houseCode);
                 }
                 if (LoginStatus.RoleType == RoleType.RepairUnit)
                 {
-                    return Redirect("/Form/Repair");
+                    return Redirect("~/Form/Repair");
                 }
                 if (LoginStatus.RoleType == RoleType.RepairMan)
                 {//跳转直接创建工单页面
-                    return Redirect("/WorkOrder/DirectlyInsert?houseCode=" + houseCode);
+                    return Redirect("~/WorkOrder/DirectlyInsert?houseCode=" + houseCode);
                 }
                 if (LoginStatus.RoleType == RoleType.Manager)
                 {
-                    return Redirect("/WorkOrder/Manager");
+                    return Redirect("~/WorkOrder/Manager");
                 }
-                return Redirect("/User/Login");
+                return Redirect("~/User/Login");
             }
             else
             {
-                return Redirect("/User/Login?houseCode="+ houseCode);
+                return Redirect("~/User/Login?houseCode="+ houseCode);
             }
         }
     }

@@ -549,7 +549,7 @@
     <input id="ToApprovIds" type="hidden" />
     <input id="ToApprovNames" type="hidden" />
 </body>
-<!--增加保修模板-->
+<!--增加报修模板-->
 <script id="AddForm" type="text/html">
     <div class="list-block autoform cancelform">
         <ul>
@@ -723,7 +723,7 @@
             HouseNo: '',
         };
         var DeviceArray = [];//设备信息的数组
-        var DeviceCount = 0;//添加保修的个数
+        var DeviceCount = 0;//添加报修的个数
         var WeChat = new wxhelper();
 
         var localIds = [];
@@ -963,7 +963,7 @@
                 $('input[name=ClassName]').val(className);
                 //初始化设备列表
                 loadDeviceList();
-                //清空增加的保修
+                //清空增加的报修
                 $('.cancelform').remove();
             });
 

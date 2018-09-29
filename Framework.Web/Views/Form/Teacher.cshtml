@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "保修首页";
+    ViewBag.Title = "报修首页";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <style>
@@ -455,10 +455,10 @@
     
     var domin = (function (obj) { return obj; }(new function () {
 
-        var slideing = new slidepage();//保修数据滑动加载
+        var slideing = new slidepage();//报修数据滑动加载
         var slideend = new slidepage();//结束数据滑动加载
         var Isloading = false;//是否加载进行中的报修单
-        var Isloadend = false;//是否加载了保修结束订单
+        var Isloadend = false;//是否加载了报修结束订单
         //求时间差
         template.defaults.imports.getInervaldate = function (ApplyDate, faultDate) {
             if (ApplyDate && faultDate) {
@@ -504,12 +504,12 @@
                 $('.content_list').eq(index).removeClass("hide");
                 if (index == 1 && Isloadend == false) {
                     Isloadend = true;
-                    //加载保修结束订单
+                    //加载报修结束订单
                     loadendData();
                 }
                 if (index == 0 && Isloading == false) {
                     Isloading = true;
-                    //加载保修进行中订单
+                    //加载报修进行中订单
                     loadingData();
                 }
             });
@@ -524,7 +524,7 @@
                 slideend.slideRequest();
             });
 
-            //添加保修跳转
+            //添加报修跳转
             $('.footter').on("click", function () {
                 location.href =client.baseUrl+"/Form/Insert";
             });
@@ -662,7 +662,7 @@
             }
         }
 
-        //加载保修结束订单
+        //加载报修结束订单
         function loadendData() {
             slideend.pageParameter.url = "/Form/GetRepairApplyList";
             slideend.pageParameter.params = "state=1";
