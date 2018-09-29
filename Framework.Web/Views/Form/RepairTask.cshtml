@@ -169,7 +169,7 @@
             <span>{{item.FaultName}}</span> 
         </div>
         <div class="card-footer">
-            <span>到场时间:{{getInervaldate(item.DispatchDate,item.FactStartDate)}}</span>
+            <span>到场时间:{{getInervaldate(item.ApplyDate,item.ArriveDate)}}</span>
         </div>
         <div class="card-footer">
             <span>处理时间:{{getInervaldate(item.FactStartDate,item.FactEndDate)}}</span>
@@ -200,7 +200,7 @@
            
         </div>
         <div class="card-footer">
-            <span>到场时间:{{getInervaldate(item.DispatchDate,item.FactStartDate)}}</span>
+            <span>到场时间:{{getInervaldate(item.ApplyDate,item.ArriveDate)}}</span>
         </div>
         <div class="card-footer">
             <span>处理时间:{{getInervaldate(item.FactStartDate,item.FactEndDate)}}</span>
@@ -432,7 +432,6 @@
             slideing.pageParameter.tipId = '.WorkOrderIng';
             slideing.pageParameter.tip = "暂无执行中的维修任务";
             slideing.pageParameter.callback = function (r) {
-                debugger
                 var html = template("WorkOrderIngList", { list: r.rows });
                 $('.WorkOrderIng').append(html);
                 bingElement();

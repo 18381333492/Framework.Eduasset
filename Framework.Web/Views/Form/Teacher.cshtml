@@ -312,7 +312,7 @@
             </div>
             <div class="card-footer">
                 {{if item.RepairApplyState>=3}}
-                     <span>到场时间:{{getInervaldate(item.ApplyDate,item.FactStartDate)}}</span>
+                     <span>到场时间:{{getInervaldate(item.ApplyDate,item.ArriveDate)}}</span>
                 {{else}}
                      <span></span>
                 {{/if}}
@@ -350,11 +350,7 @@
             {{/if}}
         </div>
         <div class="card-footer">
-            {{if item.DealType==0&&item.RepairApplyState==6}}
-                <span>到场时间:{{getInervaldate(item.ApplyDate,item.FactStartDate)}}</span>
-            {{else}}
-                <span></span>
-            {{/if}}
+                <span>到场时间:{{getInervaldate(item.ApplyDate,item.ArriveDate)}}</span>
             <span>
                 <a class="button see_box progress">进度记录</a>
             </span>
@@ -464,20 +460,25 @@
         var Isloading = false;//是否加载进行中的报修单
         var Isloadend = false;//是否加载了保修结束订单
         //求时间差
-        template.defaults.imports.getInervaldate = function (ApplyDate,faultDate) {
-            //获取两个时间差       
-            var stime = Date.parse(new Date(ApplyDate.replace(/-/g, "/")));
-            var etime = Date.parse(new Date(faultDate.replace(/-/g, "/")));
-            var usedTime = etime - stime;  //两个时间戳相差的毫秒数
-            var days = Math.floor(usedTime / (24 * 3600 * 1000));
-            //计算出小时数
-            var leave1 = usedTime % (24 * 3600 * 1000);    //计算天数后剩余的毫秒数
-            var hours = Math.floor(leave1 / (3600 * 1000));
-            //计算相差分钟数
-            var leave2 = leave1 % (3600 * 1000);        //计算小时数后剩余的毫秒数
-            var minutes = Math.floor(leave2 / (60 * 1000));
-            var time = days + "天" + hours + "小时" + minutes + "分钟";
-            return time;
+        template.defaults.imports.getInervaldate = function (ApplyDate, faultDate) {
+            if (ApplyDate && faultDate) {
+                //获取两个时间差       
+                var stime = Date.parse(new Date(ApplyDate.replace(/-/g, "/")));
+                var etime = Date.parse(new Date(faultDate.replace(/-/g, "/")));
+                var usedTime = etime - stime;  //两个时间戳相差的毫秒数
+                var days = Math.floor(usedTime / (24 * 3600 * 1000));
+                //计算出小时数
+                var leave1 = usedTime % (24 * 3600 * 1000);    //计算天数后剩余的毫秒数
+                var hours = Math.floor(leave1 / (3600 * 1000));
+                //计算相差分钟数
+                var leave2 = leave1 % (3600 * 1000);        //计算小时数后剩余的毫秒数
+                var minutes = Math.floor(leave2 / (60 * 1000));
+                var time = days + "天" + hours + "小时" + minutes + "分钟";
+                return time;
+            }
+            else {
+                return "";
+            }
         }
 
         //页面初始化

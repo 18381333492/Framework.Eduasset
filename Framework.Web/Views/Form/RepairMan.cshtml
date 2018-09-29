@@ -164,7 +164,7 @@
             <span>{{item.FaultName}}</span>
         </div>
         <div class="card-footer">
-            <span>到场时间:{{getInervaldate(item.DispatchDate,item.FactStartDate)}}</span>
+            <span>到场时间:{{getInervaldate(item.ApplyDate,item.ArriveDate)}}</span>
         </div>
         <div class="card-footer">
             <span>处理时间:{{getInervaldate(item.FactStartDate,item.FactEndDate)}}</span>
@@ -184,12 +184,14 @@
 <script src="~/Scripts/wxhelper.js"></script>
 <script type="text/javascript">
     $(function () {
+        domin.bingScan();
         domin.loadformList();
         domin.loadWeChatConfig();
     });
 
     var domin = (function (obj) { return obj; }(new function () {
 
+        var WeChat = new wxhelper();
         var slideing = new slidepage();//保修数据滑动加载
         //求时间差
         template.defaults.imports.getInervaldate = function (StartTime, EndTime) {
@@ -232,8 +234,21 @@
             //扫一扫事件绑定
             $('#codeScan').on("click", function () {
                 WeChat.scanQRCode(function (res) {
-                   // houseInfo.houseCode = res.resultStr.split("=")[1];//获取扫描的教室编码
+                    var houseCode = res.resultStr.split("=")[1];//获取扫描的教室编码
+                    ArriveConfirmRepairApply(houseCode);
                 });
+            });
+        }
+
+        //到场确认
+        function ArriveConfirmRepairApply(houseCode) {
+            client.ajax.postRequest("/Form/ArriveConfirmRepairApply", { houseCode: houseCode }, function (r) {
+                $.toast("确认成功");
+                setTimeout(function () {
+                    location.reload();
+                },1000);
+            }, function (r) {
+                $.toast(r.info,"text");
             });
         }
 
@@ -284,6 +299,7 @@
         }
 
         return {
+            bingScan:bingScan,
             bingEvent: bingEvent,
             loadformList: loadformList,
             loadWeChatConfig: loadWeChatConfig

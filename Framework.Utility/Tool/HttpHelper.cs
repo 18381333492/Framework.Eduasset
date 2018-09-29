@@ -160,6 +160,7 @@ namespace Framework.Utility
                 logger.Fatal(ex);
             }
             logger.Info("请求的Url:" + sUrl);
+            logger.Info("POST参数:" + PostData);
             logger.Info("返回的结果:" + sResult);
             return Respone;
         }

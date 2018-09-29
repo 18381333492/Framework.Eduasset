@@ -386,5 +386,27 @@ namespace Framework.Web.Controllers
                 result.info = "获取数据失败";
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+
+        /// <summary>
+        /// 报修单到场确认
+        /// </summary>
+        /// <param name="houseCode"></param>
+        /// <returns></returns>
+        public ActionResult ArriveConfirmRepairApply(string houseCode)
+        {
+            Parameter.method = "ArriveConfirmRepairApply";//报修单到场确认
+            string sBody = string.Format("houseCode={0}", houseCode);
+            var respone = HttpHelper.HttpPost(Parameter, sBody);
+            if (respone.Code == 1)
+            {
+                result.success = true;
+                result.info = "确认成功";
+            }
+            else
+            {
+                result.info = "确认失败";
+            }
+            return Json(result);
+        }
     }
 }
