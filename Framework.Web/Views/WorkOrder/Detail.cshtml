@@ -456,17 +456,20 @@
                                 </div>
                             </div>
                         </li>
-                        <li>
-                            <div class="item-content">
-                                <div class="item-media"><i class="icon icon-form-email"></i></div>
-                                <div class="item-inner">
-                                    <div class="item-title label">单价</div>
-                                    <div class="item-input">
-                                        <input type="text" name="Price" class="select_box" value="@item.Price" />
+                        @if (!(roleType==RoleType.School && Convert.ToInt32(Model.WorkOrderState) == 3))
+                        {
+                            <li>
+                                <div class="item-content">
+                                    <div class="item-media"><i class="icon icon-form-email"></i></div>
+                                    <div class="item-inner">
+                                        <div class="item-title label">单价</div>
+                                        <div class="item-input">
+                                            <input type="text" name="Price" class="select_box" value="@item.Price" />
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </li>
+                            </li>
+                        }
                     </ul>
                 </div>
             }

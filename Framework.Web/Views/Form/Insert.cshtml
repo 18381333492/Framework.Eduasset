@@ -80,14 +80,27 @@
         background: -webkit-gradient(linear,0 50%,100% 50%,from(#2e8cbf),to(#3fbfe6)); /*Old gradient for webkit*/
         background: -webkit-linear-gradient(left,#2e8cbf,#3fbfe6); /*new gradient for Webkit*/
         background: -o-linear-gradient(left,#2e8cbf,#3fbfe6); /*Opera11*/
-         font-size: 14px;
+          font-size: 14px;
         border: none;
         height: 2rem;
         line-height: 2rem;
         color: white;
-        width: 62%;
+        width: 60%;
         border-radius: 5px;
-        margin-left: 31%;
+    }
+
+        .cancel_box {
+        background: -moz-linear-gradient(left,#8a4444,red); /*Mozilla*/
+        background: -webkit-gradient(linear,0 50%,100% 50%,from(#8a4444),to(red)); /*Old gradient for webkit*/
+        background: -webkit-linear-gradient(left,#8a4444,red); /*new gradient for Webkit*/
+        background: -o-linear-gradient(left,#8a4444,red); /*Opera11*/
+          font-size: 14px;
+        border: none;
+        height: 2rem;
+        line-height: 2rem;
+        color: white;
+        width: 35%;
+        border-radius: 5px;
     }
 
     .email_box {
@@ -363,6 +376,14 @@
             </div>
         </form>
         <!--增加按钮-->
+        <div class="list-block" style="margin-top: 5px;">
+            <ul style="border:none">
+                <li>
+                    <button class="cancel_box">删除报修</button>
+                    <button class="add_box">新增报修</button>
+                </li>
+            </ul>
+        </div>
         <div style="margin-bottom:150px;margin-top:10px">
             <div>
                 <p style="float: left;
@@ -376,15 +397,14 @@
                     </div>
                 </div>
             </div>
-            <div class="list-block" style="margin-top: 5px;">
+            @*<div class="list-block" style="margin-top: 5px;">
                 <ul>
                     <li class="last">
                         <button class="add_box">增加报修</button>
                     </li>
                 </ul>
-            </div>
-        </div>
-       
+            </div>*@
+        </div>   
         <!--提交按钮-->
         <div class="footter">
             <a><img src="~/Content/img/tijiao_icon.png" />提交</a>
@@ -667,6 +687,12 @@
                 bingElement(DeviceCount);
             });
 
+            //删除报修
+            $('.cancel_box').on("click", function (event) {
+                DeviceCount = DeviceCount - 1;
+                $('.cancelform').last().remove();
+            });
+
             //提交报修单
             $('.footter').on("click", function () {
                 $.showLoading("正在提交");
@@ -763,12 +789,15 @@
 
         //初始化抄送人下拉列表
         function initCopyPersonList() {
+            var my = $('#ApplyerName').val();//本人不可选
             client.ajax.getRequest("/Form/GetCopyPersonList", { OrgCode: houseInfo.OrgCode }, function (r) {
                 $('.selist').empty();
                 var personArray = JSON.parse(r.data);
                 var html = [];
                 $(personArray).each(function () {
-                    html.push('<a class="seitem" value="' + this.RecordID + '">' + this.RealName + '</a>')
+                    if (my != this.RealName) {
+                        html.push('<a class="seitem" value="' + this.RecordID + '">' + this.RealName + '</a>')
+                    }
                 });
                 $('.selist').html(html.join(''));
                 multselInit();
