@@ -228,7 +228,7 @@
                             <div class="item-inner">
                                 <div class="item-title label">班级</div>
                                 <div class="item-input">
-                                    <input type="text" name="ClassName">
+                                    <input type="text" name="ClassName" readonly>
                                 </div>
                             </div>
                         </div>
@@ -619,7 +619,7 @@
             });
 
             //切换设备名称事件绑定
-            $('select[name=DeviceName]', divId).change(function () {
+            $('select[name=DeviceCode]', divId).change(function () {
                 initDeviceDetail(divId);
             });
             //时间控件的绑定
@@ -695,26 +695,44 @@
 
             //提交报修单
             $('.footter').on("click", function () {
-                $.showLoading("正在提交");
                 var submitDatas = {};
                 var Devices = [];
-                submitDatas.HouseNo = $('select[name=HouseNo]').val();
-                submitDatas.ClassName = $('input[name=ClassName]').val();
-                submitDatas.FaultDate = $('input[name=FaultDate]').val();
-                submitDatas.Linkman = $('input[name=Linkman]').val();
-                submitDatas.ContactNumber = $('input[name=ContactNumber]').val();
+                submitDatas.HouseNo =$('select[name=HouseNo]').val();
+                submitDatas.ClassName =$('input[name=ClassName]').val();
+                submitDatas.FaultDate =$.trim($('input[name=FaultDate]').val());
+                submitDatas.Linkman =$.trim($('input[name=Linkman]').val());
+                submitDatas.ContactNumber =$.trim($('input[name=ContactNumber]').val());
                 submitDatas.ApplyerName = $('#ApplyerName').val();
                 submitDatas.CopyToIds = $('#CopyToIds').val();//抄送人IDs
                 submitDatas.CopyToNames = $('#CopyToNames').val();//抄送人姓名
+                if (submitDatas.FaultDate.length == 0)
+                    return $.toast("请输入报修时间", "text");
+                if (submitDatas.Linkman.length == 0)
+                    return $.toast("请输入联系人", "text");
+                if (submitDatas.ContactNumber.length == 0)
+                    return $.toast("请输入联系电话", "text");
+                var IsSuccess = true;
+                var Tip = "";
                 var elementArray = $('.autoform');
                 $(elementArray).each(function (index, element) {
                     var obj = {
                         DeviceCode: $('select[name=DeviceCode]', element).val(),
                         StorePlace: $('input[name=StorePlace]', element).val(),
-                        FaultName: $('input[name=FaultName]', element).val(),
+                        FaultName: $.trim($('input[name=FaultName]', element).val()),
                         FaultDesc: $('textarea[name=FaultDesc]', element).val(),
                         RequireStartDate: $('input[name=RequireStartDate]', element).val(),
                         RequireEndDate: $('input[name=RequireEndDate]', element).val(),
+                    }
+                    //判断字段
+                    if (obj.DeviceCode.length == 0) {
+                        IsSuccess = false;
+                        Tip = "请选择设置名称";
+                        return false;
+                    }
+                    if (obj.FaultName.length == 0) {
+                        IsSuccess = false;
+                        Tip = "请输入故障现象";
+                        return false;
                     }
                     var images = $('.upload_img', element);
                     for (var i = 1; i <=images.length; i++) {
@@ -722,7 +740,10 @@
                     }
                     Devices.push(obj);
                 });
+                if (IsSuccess == false)
+                    return $.toast(Tip, "text");
                 submitDatas.Devices = Devices;//设备列表信息
+                $.showLoading("正在提交");
                 client.ajax.postRequest("/Form/Insert", { submitDatas: JSON.stringify(submitDatas) }, function (r) {
                     $.hideLoading();
                     $.toast("报修成功");
@@ -752,7 +773,7 @@
             });
 
             //切换设备名称事件绑定
-            $('select[name=DeviceName]').change(function () {
+            $('select[name=DeviceCode]').change(function () {
                 initDeviceDetail();
             });
         }

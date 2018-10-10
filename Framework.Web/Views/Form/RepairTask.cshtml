@@ -146,6 +146,7 @@
             </div>
         </div>
     </div>
+    <input id="UserID" type="hidden" name="UserID" value="@Model.UserID" />
 </body>
 <script id="WorkOrderIngList" type="text/html">
     {{each list item index}}
@@ -153,8 +154,8 @@
           data-ResponseDate="{{item.DispatchDate}}" data-ResponserName="{{item.DispatcherName}}">
         <div class="card-footer"><span>{{item.ApplyDate}}</span></div>
         <div class="card-footer">
-            <span>{{item.OrgName}}</span>
-            <span>{{item.DispatcherName}}</span>
+            <span>{{item.OrgName}}{{item.HouseNo}}</span>
+            <span>{{item.ServiceHeaderName}}</span>
             {{if item.RepairApplyState==1||item.RepairApplyState==2}}
                 <span>已响应</span>
             {{/if}}
@@ -170,11 +171,24 @@
         </div>
         <div class="card-footer">
             <span>到场时间:{{getInervaldate(item.ApplyDate,item.ArriveDate)}}</span>
+            <span>
+                {{if item.RepairApplyState==2&&(!item.ArriveDate)&&item.ServiceHeaderId==UserID}}
+                <a class="button see_box scan">到场确认</a>
+                {{/if}}
+            </span>
         </div>
         <div class="card-footer">
-            <span>处理时间:{{getInervaldate(item.FactStartDate,item.FactEndDate)}}</span>
             <span>
-                <a class="button see_box progress">查看进度</a>
+                处理时间:{{getInervaldate(item.FactStartDate,item.FactEndDate)}}
+            </span>
+            <span> 
+                {{if item.RepairApplyState==2&&item.ServiceHeaderId==UserID}}
+                <a class="button see_box create">创建工单</a>
+                {{/if}}
+                {{if item.RepairApplyState==5&&item.ServiceHeaderId==UserID}}
+                <a class="button see_box over">结束工单</a>
+                {{/if}}
+                <a class="button see_box progress">查看进度</a>        
             </span>
         </div>
     </div>
@@ -186,8 +200,8 @@
          data-ResponseDate="{{item.DispatchDate}}" data-ResponserName="{{item.DispatcherName}}">
         <div class="card-footer"><span>{{item.ApplyDate}}</span></div>
         <div class="card-footer">
-            <span>{{item.OrgName}}</span>
-            <span>{{item.DispatcherName}}</span>
+            <span>{{item.OrgName}}{{item.HouseNo}}</span>
+            <span>{{item.ServiceHeaderName}}</span>
             {{if item.RepairApplyState==7}}
             <span>已结束</span>
             {{/if}}
@@ -299,14 +313,18 @@
         {{/if}}
     </div>
 </script>
+<script src="~/Scripts/jweixin-1.2.0.js"></script>
+<script src="~/Scripts/wxhelper.js"></script>
 <script type="text/javascript">
     $(function () {
+        domin.loadWeChatConfig();
         domin.bingEvent();
         domin.initPage();
     });
 
     var domin = (function (obj) { return obj; }(new function () {
 
+        var WeChat = new wxhelper();
         var slideing = new slidepage();
         var slideend = new slidepage();
         var Isloading = false;//是否加载了执行中订单
@@ -332,6 +350,20 @@
             else {
                 return "";
             }
+        }
+
+        //注入微信配置
+        function loadWeChatConfig() {
+            client.ajax.getRequest("/WeChat/GetWeChatConfig", null, function (r) {
+                //获取微信配置
+                var appId = r.data.appId;
+                var timestamp = r.data.timestamp;
+                var nonceStr = r.data.noncestr;
+                var signature = r.data.signature;
+                WeChat.config(appId, timestamp, nonceStr, signature);
+            }, function (r) {
+                alert(r.info);
+            });
         }
 
         //初始化页面
@@ -421,6 +453,40 @@
                     });
                 });
             });
+
+            //创建工单
+            $('.create').off("click").on("click", function (event) {
+                event.stopPropagation();
+                var RecordID = $(this).parents(".card").attr("data-ID");
+                location.href = client.baseUrl + "/WorkOrder/Insert?ID=" + RecordID;
+            });
+
+            //结束工单
+            $('.over').off("click").on("click", function (event) {
+                event.stopPropagation();
+                $(this).parents(".card").click();
+            });
+
+            //到场确认
+            $('.scan').off("click").on("click", function (event) {
+                event.stopPropagation();
+                WeChat.scanQRCode(function (res) {
+                    var houseCode = res.resultStr.split("=")[1];//获取扫描的教室编码
+                    ArriveConfirmRepairApply(houseCode);
+                });
+            });
+        }
+
+        //到场确认
+        function ArriveConfirmRepairApply(houseCode) {
+            client.ajax.postRequest("/Form/ArriveConfirmRepairApply", { houseCode: houseCode }, function (r) {
+                $.toast("确认成功");
+                setTimeout(function () {
+                    location.reload();
+                }, 1000);
+            }, function (r) {
+                $.toast(r.info, "text");
+            });
         }
 
         //加载进行中数据
@@ -432,7 +498,8 @@
             slideing.pageParameter.tipId = '.WorkOrderIng';
             slideing.pageParameter.tip = "暂无执行中的维修任务";
             slideing.pageParameter.callback = function (r) {
-                var html = template("WorkOrderIngList", { list: r.rows });
+                var UserID = $('#UserID').val();
+                var html = template("WorkOrderIngList", { list: r.rows, UserID: UserID });
                 $('.WorkOrderIng').append(html);
                 bingElement();
             }
@@ -459,7 +526,8 @@
             initPage:initPage,
             bingEvent: bingEvent,
             loadWorkOrderIngData: loadWorkOrderIngData,
-            loadWorkOrderEndData: loadWorkOrderEndData
+            loadWorkOrderEndData: loadWorkOrderEndData,
+            loadWeChatConfig: loadWeChatConfig
         }
     }));
 </script>

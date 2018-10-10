@@ -731,7 +731,8 @@
                     $.hideLoading();
                     $.toast("创建成功");
                     setTimeout(function () {
-                        location.href =client.baseUrl+"/Form/RepairMan";
+                        history.back();
+                        //location.href =client.baseUrl+"/Form/RepairMan";
                     },500)
                 }, function (r) {
                     $.hideLoading();

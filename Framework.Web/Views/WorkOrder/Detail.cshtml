@@ -519,7 +519,7 @@
                                 </div>
                             </div>
                         </div>
-                    </li>
+                    </li>    
                     <li>
                         <div class="item-content">
                             <div class="item-media"><i class="icon icon-form-email"></i></div>
@@ -636,7 +636,8 @@
                 </ul>
             </div>
         </form>
-        @if (roleType == RoleType.RepairMan && Convert.ToInt32(Model.WorkOrderState) ==2)
+        @if ((roleType == RoleType.RepairMan && Convert.ToInt32(Model.WorkOrderState) ==2)||
+            (roleType == RoleType.RepairUnit && Convert.ToInt32(Model.WorkOrderState) == 2))
         {
             <div class="footter over" data-RoleType="@((int)RoleType.RepairMan)">
                 <a><img src="~/Content/img/tijiao_icon.png" />结束</a>
@@ -679,6 +680,12 @@
 <script type="text/javascript">
     $(function () {
         $('.list-block').last().find("li").last().addClass("last");
+        var roleType = '@((int)RoleType.RepairMan)';
+        var WorkOrderState = '@Model.WorkOrderState'
+        if (roleType == 2 && WorkOrderState == 2) {
+            $("input[name=FactStartDate]").datetimePicker();//初始化时间控件
+            $("input[name=FactEndDate]").datetimePicker();//初始化时间控件
+        }
         $('.footter').on("click", function () {
             var ID = $('#RecordID').val();
             var RoleType = $(this).attr("data-RoleType");
@@ -732,8 +739,14 @@
                         title: '提示',
                         text: '确定要结束工单？',
                         onOK: function (input) {
+                            var FactStartDate = $.trim($('input[name=FactStartDate]').val());
+                            var FactEndDate = $.trim($('input[name=FactEndDate]').val());
+                            if (FactStartDate.length == 0) return $.toast("请填写实际开始时间", "text");
+                            if (FactEndDate.length == 0) return $.toast("请填写结束开始时间", "text");
                             var submitDatas = {};
                             submitDatas.ID = ID;
+                            submitDatas.FactStartDate = FactStartDate;
+                            submitDatas.FactEndDate = FactEndDate;
                             client.ajax.postRequest("/WorkOrder/FinishWorkOrder", { submitDatas: JSON.stringify(submitDatas) }, function (r) {
                                 $.toast(r.info);
                                 setTimeout(function () {

@@ -38,7 +38,7 @@ namespace Framework.Web.Controllers
         /// <returns></returns>
         public ActionResult RepairTask()
         {
-            return View();
+            return View(LoginStatus);
         }
 
         /// <summary>
