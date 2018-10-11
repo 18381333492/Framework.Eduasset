@@ -358,91 +358,136 @@
     </div>
     {{/each}}
 </script>
-<script  id="FormProgress" type="text/html">
+<script id="FormProgress" type="text/html">
     <div style="text-align:left;font-size:12px;">
         {{if item.RepairApplyState==8}}
-            <!--撤销信息-->
-            <p>
-                <span>{{item.CancelDate}}</span>
-                {{if item.roleType!=4}}
-                <span>{{item.OrgName}}</span>
-                {{/if}}
-                <span>{{item.CancelerName}}撤销报修单</span>
-            </p>
-            <!--创建信息-->
-            <p>
-                <span>{{item.ApplyDate}}</span>
-                {{if item.roleType!=4}}
-                <span>{{item.OrgName}}</span>
-                {{/if}}
-                <span>{{item.ApplyerName}}创建报修单</span>
-            </p>
+        <!--撤销信息-->
+        <p>
+            <span>{{item.CancelDate}}</span>
+            {{if item.roleType!=4}}
+            <span>{{item.OrgName}}</span>
+            {{/if}}
+            <span>{{item.CancelerName}}撤销报修单</span>
+        </p>
+        <!--创建信息-->
+        <p>
+            <span>{{item.ApplyDate}}</span>
+            {{if item.roleType!=4}}
+            <span>{{item.OrgName}}</span>
+            {{/if}}
+            <span>{{item.ApplyerName}}创建报修单</span>
+        </p>
         {{else}}
-            {{if item.WorkOrderState>=2&&item.WorkOrderState!=5}}
-            <!--通过审批-->
-            <p>
-                <span>{{item.ApproveDate}}</span>
-                <span>{{item.OrgName}}</span>
-                <span>{{item.ApproveName}}审批通过</span>
-            </p>
+        {{if item.WorkOrderState>1&&item.WorkOrderState<5 }}
+        <!--评价工单-->
+        {{if item.WorkOrderState>=4}}
+        <p>
+            <span>{{item.SureDate}}</span>
+            {{if item.SurerName}}
+            {{if item.roleType!=4}}
+            <span>{{item.OrgName}}</span>
             {{/if}}
-            {{if item.WorkOrderState==1}}
-                <!--不通过审批-->
-                <p>
-                    <span>{{item.ApproveDate}}</span>
-                    <span>{{item.OrgName}}</span>
-                    <span>{{item.ApproveName}}审批不通过</span>
-                </p>
+            <span>{{item.SurerName}}</span>
+            <span>进行了评价</span>
+            {{else}}
+            <span>{{item.SureOpinion}}</span>
             {{/if}}
-            {{if item.WorkOrderState==5}}
-                <!--工单撤回-->
-                <p>
-                    <span>{{item.CancelDate}}</span>
-                    {{if item.roleType!=4}}
-                    <span>{{item.OrgName}}</span>
-                    {{/if}}
-                    <span>{{item.CancelerName}}撤销</span>      
-                </p>
+        </p>
+        {{/if}}
+        <!--结束工单-->
+        {{if item.WorkOrderState>=3}}
+        <p>
+            <span>{{item.DealDate}}</span>
+            <span>{{item.IntegratorName}}</span>
+            <span>{{item.ServiceHeaderName}}</span>
+            <span>结束工单</span>
+        </p>
+        {{/if}}
+        {{if item.WorkOrderState>=2}}
+        <!--通过审批-->
+        <p>
+            <span>{{item.ApproveDate}}</span>
+            <span>{{item.OrgName}}</span>
+            <span>{{item.ApproveName}}</span>
+            <span>审批通过</span>
+        </p>
+        {{/if}}
+        {{else}}
+        {{if item.WorkOrderState==1}}
+        <!--不通过审批-->
+        <p>
+            <span>{{item.ApproveDate}}</span>
+            <span>{{item.OrgName}}</span>
+            <span>{{item.ApproveName}}审批不通过</span>
+        </p>
+        {{/if}}
+        {{if item.WorkOrderState==5}}
+        <!--工单撤回-->
+        <p>
+            <span>{{item.CancelDate}}</span>
+            <span>{{item.IntegratorName}}</span>
+            <span>{{item.CancelerName}}</span>
+            <span>撤销工单</span>
+        </p>
+        {{/if}}
+        {{/if}}
+        <!--创建工单-->
+        {{if item.WorkOrderState>=0}}
+        <p>
+            <span>{{item.DealDate}}</span>
+            <span>{{item.IntegratorName}}</span>
+            <span>{{item.ServiceHeaderName}}</span>
+            <span>创建工单</span>
+        </p>
+        {{/if}}
+        <!--到场时间-->
+        {{if item.ArriveDate}}
+        <p>
+            <span>{{item.ArriveDate}}</span>
+            <span>{{item.IntegratorName}}</span>
+            <span>{{item.ServiceHeaderName}}</span>
+            <span>到场</span>
+        </p>
+        {{/if}}
+        {{if item.RepairApplyState>=2&&item.DealType!=1}}
+        <!--派工信息-->
+        <p>
+            <span>{{item.ResponseDate}}</span>
+            <span>{{item.IntegratorName}}派工</span>
+            <span>{{item.ServiceHeaderName}}</span>
+            <span>{{item.ServiceHeaderContactNumber}}</span>
+            <span>预计{{item.PlanArriveDate}}到达</span>
+        </p>
+        {{/if}}
+        {{if item.RepairApplyState==1||item.DealType==1}}
+        <!--建议措施-->
+        <p>
+            <span>{{item.ResponseDate}}</span>
+            <span>{{item.IntegratorName}}</span>
+            <span>{{item.ResponserName}}给出建议措施</span>
+        </p>
+        {{/if}}
+        {{if item.RepairApplyState>=1}}
+        <!--响应信息-->
+        <p>
+            <span>{{item.ResponseDate}}</span>
+            {{if item.roleType!=1}}
+            <span>{{item.IntegratorName}}</span>
             {{/if}}
-            {{if item.RepairApplyState>=2&&item.DealType!=1}}
-                <!--派工信息-->
-                <p>
-                    <span>{{item.ResponseDate}}</span>
-                    <span>{{item.IntegratorName}}派工</span>
-                    <span>{{item.ServiceHeaderName}}</span>
-                    <span>{{item.ServiceHeaderContactNumber}}</span>
-                    <span>预计{{item.PlanStartDate}}到达</span>
-                </p>
+            <span>{{item.ResponserName}}</span>
+            <span>响应</span>
+        </p>
+        {{/if}}
+        {{if item.RepairApplyState>=0}}
+        <!--创建信息-->
+        <p>
+            <span>{{item.ApplyDate}}</span>
+            {{if item.roleType!=4}}
+            <span>{{item.OrgName}}</span>
             {{/if}}
-                {{if item.RepairApplyState==1||item.DealType==1}}
-                <!--建议措施-->
-                <p>
-                    <span>{{item.ResponseDate}}</span>
-                    <span>{{item.IntegratorName}}</span>
-                    <span>{{item.ResponserName}}给出建议措施</span>
-                </p>
-                {{/if}}
-            {{if item.RepairApplyState>=1}}
-                <!--响应信息-->
-                <p>
-                    <span>{{item.ResponseDate}}</span>
-                    {{if item.roleType!=1}}
-                    <span>{{item.IntegratorName}}</span>
-                    {{/if}}
-                    <span>{{item.ResponserName}}</span>
-                    <span>响应</span>
-                </p>
-            {{/if}}
-            {{if item.RepairApplyState>=0}}
-                <!--创建信息-->
-                <p>
-                    <span>{{item.ApplyDate}}</span>
-                    {{if item.roleType!=4}}
-                     <span>{{item.OrgName}}</span>
-                    {{/if}}
-                    <span>{{item.ApplyerName}}创建报修单</span>
-                </p>
-            {{/if}}
+            <span>{{item.ApplyerName}}创建报修单</span>
+        </p>
+        {{/if}}
         {{/if}}
     </div>
 </script>

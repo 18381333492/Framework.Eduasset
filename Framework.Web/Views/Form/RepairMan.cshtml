@@ -143,7 +143,7 @@
 </body>
 <script id="formList" type="text/html">
     {{each list item index}}
-    <div class="card" data-ID="{{item.RecordID}}">
+    <div class="card" data-ID="{{item.RecordID}}" data-ArriveDate="{{item.ArriveDate}}">
         <div class="card-footer"><span>{{item.FaultDate}}</span></div>
         <div class="card-footer">
             <span>{{item.OrgName}}{{item.HouseNo}}</span>
@@ -257,8 +257,14 @@
             //创建工单
             $('.create').off("click").on("click", function (event) {
                 event.stopPropagation();
-                var RecordID = $(this).parents(".card").attr("data-ID");
-                location.href =client.baseUrl+"/WorkOrder/Insert?ID=" + RecordID;
+                var ArriveDate = $(this).parents(".card").attr("data-ArriveDate");
+                if (ArriveDate) {
+                    var RecordID = $(this).parents(".card").attr("data-ID");
+                    location.href = client.baseUrl + "/WorkOrder/Insert?ID=" + RecordID;
+                }
+                else {
+                    $.toast("到场确认后才能创建工单", "text");
+                }
             });
 
             //差看工单

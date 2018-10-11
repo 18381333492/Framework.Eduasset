@@ -637,13 +637,14 @@
             </div>
         </form>
         @if ((roleType == RoleType.RepairMan && Convert.ToInt32(Model.WorkOrderState) ==2)||
-            (roleType == RoleType.RepairUnit && Convert.ToInt32(Model.WorkOrderState) == 2))
+            (roleType == RoleType.RepairUnit && Convert.ToInt32(Model.WorkOrderState) == 2&& Model.ServiceHeaderId== ViewBag.UserID))
         {
             <div class="footter over" data-RoleType="@((int)RoleType.RepairMan)">
                 <a><img src="~/Content/img/tijiao_icon.png" />结束</a>
             </div>
         }
-        @if (roleType == RoleType.RepairMan&& Convert.ToInt32(Model.WorkOrderState)==0)
+        @if ((roleType == RoleType.RepairMan&& Convert.ToInt32(Model.WorkOrderState)==0)||
+              (roleType == RoleType.RepairUnit && Convert.ToInt32(Model.WorkOrderState) == 0&&Model.ServiceHeaderId == ViewBag.UserID))
         {
             <div class="footter" data-RoleType="@((int)RoleType.RepairMan)">
                 <a><img src="~/Content/img/tijiao_icon.png" />撤回</a>
@@ -680,12 +681,12 @@
 <script type="text/javascript">
     $(function () {
         $('.list-block').last().find("li").last().addClass("last");
-        var roleType = '@((int)RoleType.RepairMan)';
-        var WorkOrderState = '@Model.WorkOrderState'
-        if (roleType == 2 && WorkOrderState == 2) {
+        //存在结束按钮初始化时间控件
+        if ($('.footter') && $('.footter').hasClass("over")) {
             $("input[name=FactStartDate]").datetimePicker();//初始化时间控件
             $("input[name=FactEndDate]").datetimePicker();//初始化时间控件
         }
+        var userType = '@((int)roleType)';//获取用户角色
         $('.footter').on("click", function () {
             var ID = $('#RecordID').val();
             var RoleType = $(this).attr("data-RoleType");
@@ -734,15 +735,15 @@
             }
             if (RoleType == 2) {
                 if ($(this).hasClass("over")) {
+                    var FactStartDate = $.trim($('input[name=FactStartDate]').val());
+                    var FactEndDate = $.trim($('input[name=FactEndDate]').val());
+                    if (FactStartDate.length == 0) return $.toast("请填写实际开始时间", "text");
+                    if (FactEndDate.length == 0) return $.toast("请填写实际结束时间", "text");
                     //结束工单
                     $.confirm({
                         title: '提示',
                         text: '确定要结束工单？',
                         onOK: function (input) {
-                            var FactStartDate = $.trim($('input[name=FactStartDate]').val());
-                            var FactEndDate = $.trim($('input[name=FactEndDate]').val());
-                            if (FactStartDate.length == 0) return $.toast("请填写实际开始时间", "text");
-                            if (FactEndDate.length == 0) return $.toast("请填写结束开始时间", "text");
                             var submitDatas = {};
                             submitDatas.ID = ID;
                             submitDatas.FactStartDate = FactStartDate;
@@ -750,7 +751,10 @@
                             client.ajax.postRequest("/WorkOrder/FinishWorkOrder", { submitDatas: JSON.stringify(submitDatas) }, function (r) {
                                 $.toast(r.info);
                                 setTimeout(function () {
-                                    location.href = client.baseUrl + "/Form/RepairMan";
+                                    if (userType == 2)
+                                        location.href = client.baseUrl + "/Form/RepairMan";
+                                    else
+                                        location.href = client.baseUrl + "/Form/RepairTask";
                                 }, 1000);
                             }, function (r) {
                                 $.toast(r.info, "text");
@@ -769,7 +773,10 @@
                             client.ajax.postRequest("/WorkOrder/CancelWorkOrder", { submitDatas: JSON.stringify(submitDatas) }, function (r) {
                                 $.toast("撤回成功");
                                 setTimeout(function () {
-                                    location.href = client.baseUrl + "/Form/RepairMan";
+                                    if (userType == 2)
+                                        location.href = client.baseUrl + "/Form/RepairMan";
+                                    else
+                                        location.href = client.baseUrl + "/Form/RepairTask";
                                 }, 1000);
                             }, function (r) {
                                 $.toast(r.info, "text");

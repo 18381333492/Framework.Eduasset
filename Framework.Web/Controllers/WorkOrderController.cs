@@ -151,6 +151,7 @@ namespace Framework.Web.Controllers
                 {
                     ViewBag.ImageUrl = ImageUrl;
                     ViewBag.RealName = LoginStatus.RealName;
+                    ViewBag.RoleType = (int)LoginStatus.RoleType;
                     dynamic FormInfo = (dynamic)respone.Data;
                     return View(FormInfo);
                 }
@@ -349,6 +350,7 @@ namespace Framework.Web.Controllers
             {
                 ViewBag.ImageUrl = ImageUrl;
                 ViewBag.RoleType = LoginStatus.RoleType;
+                ViewBag.UserID = LoginStatus.UserID;
                 dynamic FormInfo = (dynamic)respone.Data;
                 return View(FormInfo);
             }

@@ -812,7 +812,7 @@
             });
 
             //切换设备名称事件绑定
-            $('select[name=DeviceName]', divId).change(function () {
+            $('select[name=DeviceCode]', divId).change(function () {
                 initDeviceDetail(divId);
             });
             //时间控件的绑定
@@ -895,7 +895,7 @@
 
             //直接创建工单
             $('.footter').on("click", function () {
-                $.showLoading("正在提交");
+               
                 var submitDatas = {};
                 var Devices = [];
                 submitDatas.HouseNo = $('select[name=HouseNo]').val();
@@ -922,6 +922,18 @@
                     FaultReason: $('input[name=FaultReason]').val(),
                     DealWay: $('textarea[name=DealWay]').val(),
                 }
+                $.toast.prototype.defaults.duration = 1000;
+                if (submitDatas.FaultDate.length == 0)
+                    return $.toast("请输入报修时间", "text");
+                if (submitDatas.Linkman.length == 0)
+                    return $.toast("请输入联系人", "text");
+                if (submitDatas.ContactNumber.length == 0)
+                    return $.toast("请输入联系电话", "text");
+                if (obj.DeviceCode.length == 0)
+                    return $.toast("请选择设置名称", "text");
+                if (obj.FaultName.length == 0)
+                    return $.toast("请输入故障现象", "text");
+                $.showLoading("正在提交");
                 var questionImages = $('div[data-Type=addImage_question]');
                 var handleImages = $('div[data-Type=addImage_handle]');
                 for (var i = 1; i < questionImages.length; i++) {
@@ -980,7 +992,7 @@
             });
 
             //切换设备名称事件绑定
-            $('select[name=DeviceName]').change(function () {
+            $('select[name=DeviceCode]').change(function () {
                 initDeviceDetail();
             });
         }

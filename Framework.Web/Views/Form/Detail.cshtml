@@ -443,7 +443,7 @@
             </p>
             <p>
                 <span>预计到达时间:</span>
-                <input type="text" name="PlanStartDate" style="width:150px;border:1px solid #cacaca" />
+                <input type="text" name="PlanArriveDate" style="width:150px;border:1px solid #cacaca" />
             </p>
         </div>
     </form>
@@ -467,7 +467,7 @@
                     ]
                 });
                 //时间插件的绑定
-                $("input[name=PlanStartDate]").datetimePicker();
+                $("input[name=PlanArriveDate]").datetimePicker();
                 //$("input[name=PlanEndDate]").datetimePicker();
                 //数据绑定
                 var html = [];
@@ -532,8 +532,7 @@
             submitDatas.ServiceHeaderId = param.ServiceHeaderId;
             submitDatas.ServiceHeaderName = GetContactNumber(param.ServiceHeaderId).RealName;
             submitDatas.ServiceHeaderContactNumber = param.ServiceHeaderContactNumber;
-            submitDatas.PlanStartDate = param.PlanStartDate;
-            //submitDatas.PlanEndDate = param.PlanEndDate;
+            submitDatas.PlanArriveDate = param.PlanArriveDate;
         }
         else {
             submitDatas.ResponseOpinion = param.ResponseOpinion;//建议

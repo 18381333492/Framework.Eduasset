@@ -695,6 +695,7 @@
 
             //提交报修单
             $('.footter').on("click", function () {
+                $.toast.prototype.defaults.duration = 1000;
                 var submitDatas = {};
                 var Devices = [];
                 submitDatas.HouseNo =$('select[name=HouseNo]').val();

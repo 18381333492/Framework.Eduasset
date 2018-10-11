@@ -213,37 +213,84 @@
 </script>
 <script id="FormProgress" type="text/html">
     <div style="text-align:left;font-size:12px;">
-        {{if item.WorkOrderState>=2&&item.WorkOrderState!=5}}
-        <!--通过审批-->
-        <p>
-            <span>{{item.ApproveDate}}</span>
-            <span>{{item.OrgName}}</span>
-            <span>{{item.ApproveName}}审批通过</span>
-        </p>
+        {{if item.WorkOrderState>1&&item.WorkOrderState<5 }}
+            <!--评价工单-->
+            {{if item.WorkOrderState>=4}}
+                <p>
+                    <span>{{item.SureDate}}</span>
+                    {{if item.SurerName}}
+                    {{if item.roleType!=4}}
+                    <span>{{item.OrgName}}</span>
+                    {{/if}}
+                    <span>{{item.SurerName}}</span>
+                    <span>进行了评价</span>
+                    {{else}}
+                    <span>{{item.SureOpinion}}</span>
+                    {{/if}}
+                </p>
+            {{/if}}
+            <!--结束工单-->
+            {{if item.WorkOrderState>=3}}
+            <p>
+                <span>{{item.DealDate}}</span>
+                <span>{{item.IntegratorName}}</span>
+                <span>{{item.ServiceHeaderName}}</span>
+                <span>结束工单</span>
+            </p>
+            {{/if}}
+            {{if item.WorkOrderState>=2}}
+            <!--通过审批-->
+            <p>
+                <span>{{item.ApproveDate}}</span>
+                <span>{{item.OrgName}}</span>
+                <span>{{item.ApproveName}}</span>
+                <span>审批通过</span>
+            </p>
+            {{/if}}
+        {{else}}
+            {{if item.WorkOrderState==1}}
+            <!--不通过审批-->
+            <p>
+                <span>{{item.ApproveDate}}</span>
+                <span>{{item.OrgName}}</span>
+                <span>{{item.ApproveName}}审批不通过</span>
+            </p>
+            {{/if}}
+            {{if item.WorkOrderState==5}}
+            <!--工单撤回-->
+            <p>
+                <span>{{item.CancelDate}}</span>
+                <span>{{item.IntegratorName}}</span>
+                <span>{{item.CancelerName}}</span>
+                <span>撤销工单</span>
+            </p>
+            {{/if}}
         {{/if}}
-        {{if item.WorkOrderState==1}}
-        <!--不通过审批-->
+        <!--创建工单-->
+        {{if item.WorkOrderState>=0}}
         <p>
-            <span>{{item.ApproveDate}}</span>
-            <span>{{item.OrgName}}</span>
-            <span>{{item.ApproveName}}审批不通过</span>
-        </p>
-        {{/if}}
-        {{if item.WorkOrderState==5}}
-        <!--工单撤销-->
-        <p>
-            <span>{{item.CancelDate}}</span>
+            <span>{{item.DealDate}}</span>
             <span>{{item.IntegratorName}}</span>
-            <span>{{item.CancelerName}}撤销</span>
+            <span>{{item.ServiceHeaderName}}</span>
+            <span>创建工单</span>
         </p>
-        {{/if}}    
+        {{/if}}   
+        <!--到场时间-->
+        {{if item.ArriveDate}}
+        <p>
+            <span>{{item.ArriveDate}}</span>
+            <span>{{item.IntegratorName}}</span>
+            <span>{{item.ServiceHeaderName}}</span>
+            <span>到场</span>
+        </p>
+        {{/if}}
         <!--派工信息-->
         <p>
             <span>{{item.DispatchDate}}</span>
             <span>{{item.IntegratorName}}派工</span>
             <span>{{item.ServiceHeaderName}}</span>
             <span>{{item.ServiceHeaderContactNumber}}</span>
-            <span>预计{{item.PlanStartDate}}到达</span>
+            <span>预计{{item.PlanArriveDate}}到达</span>
         </p>
         <!--响应信息-->
         <p>

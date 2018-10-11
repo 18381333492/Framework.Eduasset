@@ -458,7 +458,7 @@
                             <div class="item-inner">
                                 <div class="item-title label">计划开始时间</div>
                                 <div class="item-input">
-                                    <input type="text" name="FactStartDate" class="select_box" />
+                                    <input type="text" name="PlanStartDate" class="select_box" />
                                 </div>
                             </div>
                         </div>
@@ -469,7 +469,7 @@
                             <div class="item-inner">
                                 <div class="item-title label">计划结束时间</div>
                                 <div class="item-input">
-                                    <input type="text" name="FactEndDate" class="select_box" />
+                                    <input type="text" name="PlanEndDate" class="select_box" />
                                 </div>
                             </div>
                         </div>
@@ -509,6 +509,8 @@
             <a><img src="~/Content/img/tijiao_icon.png" />提交</a>
         </div>
     </div>
+   
+    <input id="RoleType" type="hidden" value="@ViewBag.RoleType" />
     <input type="hidden" name="RepairApplyCode" value="@Model.RepairApplyCode" />
     <input type="hidden" name="DealerName" value="@ViewBag.RealName"/>
     <input id="IntegratorCode" type="hidden" value="@Model.IntegratorCode"/>
@@ -597,8 +599,8 @@
 
         //初始化时间控件
         function initControl() {
-            $("input[name=FactStartDate]").datetimePicker();
-            $("input[name=FactEndDate]").datetimePicker();
+            $("input[name=PlanStartDate]").datetimePicker();
+            $("input[name=PlanEndDate]").datetimePicker();
         }
 
         //注入微信配置
@@ -698,8 +700,8 @@
                 var submitDatas = {};
                 var Parts = [];
                 submitDatas.RepairApplyCode = $('input[name=RepairApplyCode]').val();
-                submitDatas.FactStartDate = $('input[name=FactStartDate]').val();
-                submitDatas.FactEndDate = $('input[name=FactEndDate]').val();
+                submitDatas.PlanStartDate = $('input[name=PlanStartDate]').val();
+                submitDatas.PlanEndDate = $('input[name=PlanEndDate]').val();
                 submitDatas.FaultReason = $('input[name=FaultReason]').val();
                 submitDatas.DealWay = $('textarea[name=DealWay]').val();
                 submitDatas.DealerName = $('input[name=DealerName]').val();//处理人姓名
@@ -731,8 +733,11 @@
                     $.hideLoading();
                     $.toast("创建成功");
                     setTimeout(function () {
-                        history.back();
-                        //location.href =client.baseUrl+"/Form/RepairMan";
+                        var userType = $('#RoleType').val();
+                        if (userType == 2)
+                            location.href = client.baseUrl + "/Form/RepairMan";
+                        else
+                            location.href = client.baseUrl + "/Form/RepairTask";
                     },500)
                 }, function (r) {
                     $.hideLoading();
