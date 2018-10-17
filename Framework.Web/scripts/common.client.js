@@ -12,7 +12,7 @@
     //check window.client
     if (!window.client) {
         window.client = {
-            baseUrl:'/eduasset_chat',
+            baseUrl:'',//'/eduasset_chat',
             ajax: new ajax(),
             form: new form(),
             string: new string(),

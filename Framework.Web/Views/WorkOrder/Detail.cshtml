@@ -1,7 +1,12 @@
 ﻿@{
+
     ViewBag.Title = "查看工单";
     Layout = "~/Views/Shared/_Layout.cshtml";
     RoleType roleType = (RoleType)ViewBag.RoleType;
+    if(roleType == RoleType.Manager && Convert.ToInt32(Model.WorkOrderState) == 0)
+    {
+        ViewBag.Title = "审批工单";
+    }
 }
 @model dynamic
 <style>
@@ -200,7 +205,7 @@
 <body>
     <header class="bar bar-nav heard">
         <a class="icon icon-left pull-left back"></a>
-        <h1 class="title">查看工单</h1>
+        <h1 class="title">@ViewBag.Title</h1>
     </header>
     <div class="content">
         <form id="commit_form">
