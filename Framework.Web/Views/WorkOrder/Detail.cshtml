@@ -564,7 +564,14 @@
                             <div class="item-inner">
                                 <div class="item-title label">审批人</div>
                                 <div class="item-input">
-                                    <input type="text" name="ToApprovNames" class="select_box" value="@Model.ToApprovNames" />
+                                    @if (Model.WorkOrderState == 0)
+                                    {
+                                        <input type="text" name="ToApprovNames" class="select_box" value="@Model.ToApprovNames" />
+                                    }
+                                    else
+                                    {
+                                        <input type="text" name="ApproveName" class="select_box" value="@Model.ApproveName" />
+                                    }
                                 </div>
                             </div>
                         </div>
